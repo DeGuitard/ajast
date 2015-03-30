@@ -1,0 +1,14 @@
+<md-whiteframe class="md-whiteframe-z1" layout="column" layout-margin>
+    <md-content class="time-bar">
+        <div class="time-blocks" ng-style="{left: offset.left}">
+            <div class="time-block" ng-repeat="action in actions track by $index" ng-class="{current: (actions.length - $index) == current.index}" ng-click="rollback($index)">
+        <span ng-class="{'past-name': action.roll, 'incoming-name': !action.roll}">
+          {{action.source.trigram}}
+        </span>
+        <span ng-if="action.roll" class="past-score">
+          {{action.roll}}
+        </span>
+            </div>
+        </div>
+    </md-content>
+</md-whiteframe>

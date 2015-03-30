@@ -1,0 +1,49 @@
+<md-content ng-init="fights = <%= fights %>; myFights = <%= myFights %>; page = {title: 'Liste des combats'}" flex>
+
+    <div layout="column" layout-margin >
+        <% if (req.isAuthenticated()) { %>
+        <md-whiteframe class="md-whiteframe-z1" flex>
+            <md-toolbar class="md-accent">
+            <span class="md-toolbar-tools">
+                <span>Mes combats non démarrés</span>
+            </span>
+            </md-toolbar>
+            <md-content layout="row" layout-wrap>
+                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in myFights">
+                    <md-button class="md-primary md-raised" ng-href="/fight/{{fight.shortid}}">#{{fight.shortid}}</md-button>
+                </md-card>
+                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20">
+                    <md-button class="md-primary md-raised" ng-href="/fight/new">Nouveau</md-button>
+                </md-card>
+            </md-content>
+        </md-whiteframe>
+        <% } %>
+
+        <md-whiteframe class="md-whiteframe-z1" flex>
+            <md-toolbar class="md-accent">
+            <span class="md-toolbar-tools">
+                <span>Combats en cours</span>
+            </span>
+            </md-toolbar>
+            <md-content layout="row" layout-wrap>
+                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in fights | filter:{time: {hasStarted: true, isFinished: false}}">
+                    <md-button class="md-primary md-raised" ng-href="/fight/{{fight.shortid}}">#{{fight.shortid}}</md-button>
+                </md-card>
+            </md-content>
+        </md-whiteframe>
+
+        <md-whiteframe class="md-whiteframe-z1" flex>
+            <md-toolbar class="md-accent">
+            <span class="md-toolbar-tools">
+                <span>Historique des combats</span>
+            </span>
+            </md-toolbar>
+            <md-content layout="row" layout-wrap>
+                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in fights | filter:{time: {isFinished: true}}">
+                    <md-button class="md-primary md-hue-1" ng-href="/fight/{{fight.shortid}}">#{{fight.shortid}}</md-button>
+                </md-card>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+</md-content>

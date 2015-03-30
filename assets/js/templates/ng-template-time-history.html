@@ -1,0 +1,34 @@
+<md-whiteframe class="md-whiteframe-z1" layout="column" layout-margin>
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <span class="md-flex">Historique</span>
+        </div>
+    </md-toolbar>
+    <md-content md-theme="fight">
+        <md-list>
+            <md-item ng-repeat="action in actions()" ng-if="action.roll" layout="row" layout-margin layout-wrap layout-align="center center">
+                <div class="history-roll">
+                    <md-button class="md-fab md-hue-2" ng-class="{'md-primary': action.source.group == 'A', 'md-accent': action.source.group == 'B'}">
+                        {{action.source.trigram}}
+                        <md-tooltip>
+                            {{action.source.fullName}}
+                        </md-tooltip>
+                    </md-button>
+                    <div class="arrow-block">
+                        <div class="arrow-image"></div>
+                        <span class="arrow-score">{{action.roll}}</span>
+                    </div>
+                    <md-button class="md-fab md-hue-2" ng-class="{'md-primary': action.target.group == 'A', 'md-accent': action.target.group == 'B'}">
+                        {{action.target.trigram}}
+                        <md-tooltip>
+                            {{action.target.fullName}}
+                        </md-tooltip>
+                    </md-button>
+                </div>
+                <md-content class="md-tile-content md-padding history-desc" flex>
+                    <span class="history-archetype">{{action.archetype}}</span> / {{action.desc}}
+                </md-content>
+            </md-item>
+        </md-list>
+    </md-content>
+</md-whiteframe>

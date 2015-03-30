@@ -1,0 +1,38 @@
+<md-toolbar md-theme="fight" class="md-hue-2" ng-class="{'md-primary': group().code == 'A', 'md-accent': group().code == 'B'}">
+    <div class="md-toolbar-tools">
+        <span class="md-flex">{{group().name}}</span>
+    </div>
+</md-toolbar>
+
+<md-content flex>
+    <md-list>
+        <md-item ng-repeat="player in group().players | orderBy:['-active', 'fullName']" ng-class="{'player-inactive': !player.active}" class="player-row">
+            <md-item-content>
+                <div class="md-tile-content" ng-class="{'player-inactive': !player.active}">
+                    {{player.trigram}} / {{player.fullName}}
+                </div>
+                <div class="md-tile-right">
+                    <md-button ng-click="disablePlayer(player)" ng-show="player.active && !isFinished()" aria-label="Supprimer">
+                        <img src="/images/icons/remove.svg"/>
+                    </md-button>
+                    <md-button ng-click="enablePlayer(player)" ng-hide="player.active || isFinished()" aria-label="Ajouter">
+                        <img src="/images/icons/add.svg"/>
+                    </md-button>
+                </div>
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-item>
+    </md-list>
+</md-content>
+
+<md-autocomplete
+        ng-hide="isFinished()"
+        placeholder="Ajouter un personnage"
+        md-search-text="searchString"
+        md-items="player in findPlayers(searchString)"
+        md-item-text="player.fullName"
+        md-selected-item="newPlayer"
+        md-selected-item-change ="addPlayer()">
+    <span md-highlight-text="searchString">{{player.fullName}}</span>
+</md-autocomplete>
+

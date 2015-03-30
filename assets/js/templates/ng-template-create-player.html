@@ -1,0 +1,34 @@
+<md-dialog aria-label="Créer un personnage" flex="75">
+    <md-toolbar>
+        <h2 class="md-toolbar-tools">
+            <span>Créer un personnage</span>
+        </h2>
+    </md-toolbar>
+    <md-content class="md-primary">
+        <form name="newPlayerForm">
+            <div layout layout-sm="column">
+                <md-input-container flex="66">
+                    <label>Prénom</label>
+                    <input type="text" ng-model="player.firstName" ng-maxlength="10" required />
+                </md-input-container>
+                <md-input-container flex="33">
+                    <label>Trigramme</label>
+                    <input type="text" ng-model="player.trigram" minlength="3" maxlength="3" required />
+                </md-input-container>
+            </div>
+            <div layout>
+                <md-input-container flex>
+                    <label>Nom de famille</label>
+                    <input type="text" ng-model="player.lastName" ng-maxlength="10" required />
+                </md-input-container>
+            </div>
+            <archetypes character="player" archetypes="archetypes"></archetypes>
+        </form>
+    </md-content>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="create()" ng-disabled="isOP() || newPlayerForm.$invalid" class="md-primary">
+            Valider
+        </md-button>
+    </div>
+</md-dialog>

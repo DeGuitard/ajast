@@ -1,0 +1,20 @@
+<main ng-controller="MjCtrl" ng-init="init(<%= archetypes %>, <%= fight %>);" layout="row" flex>
+
+    <div flex>
+        <div layout="row" layout-margin layout-wrap>
+            <md-whiteframe class="md-whiteframe-z1 player-group" layout="column" flex flex-order-gt-md="1" player-group group-code="A"></md-whiteframe>
+            <md-whiteframe class="md-whiteframe-z1 player-group" layout="column" flex flex-order-gt-md="3" player-group group-code="B"></md-whiteframe>
+            <md-whiteframe class="md-whiteframe-z2 action-form height-transition" flex flex-order-gt-md="2" action-form ng-if="hasStarted && !isFinished()"></md-whiteframe>
+        </div>
+        <div layout="column" class="height-transition" layout-margin ng-if="!hasStarted">
+            <md-content layout="column">
+                <md-button class="md-raised md-primary" ng-click="start()" ng-disabled="!canStart()">Démarrer</md-button>
+            </md-content>
+        </div>
+        <div class="gap"></div>
+        <time-bar class="height-transition" ng-if="hasStarted"></time-bar>
+        <div class="gap"></div>
+        <time-history class="height-transition" ng-if="hasStarted" ng-model="actions"></time-history>
+    </div>
+
+</main>

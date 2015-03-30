@@ -1,0 +1,29 @@
+<div class="home-title-block">
+    <h1 class="home-title-text">XIV<span class="home-title-text-accent">RP</span></h1>
+</div>
+<md-content layout="row" layout-sm="column" layout-align="center center">
+    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/characters')">
+        <span class="perk-icon"><img src="/images/icons/book.png" alt="Livre" /></span>
+        <span class="perk-title">Registre des personnages RP</span>
+        <span class="perk-desc">Qui joue, où, et quoi comme personnage ?</span>
+    </div>
+    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/rolls')">
+        <span class="perk-icon"><img src="/images/icons/dice-simple.png" alt="Dé 10" /></span>
+        <span class="perk-title">Système de dé public</span>
+        <span class="perk-desc">Bienvenue à la transparence, et au revoir à la suspiscion.</span>
+    </div>
+    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/fights')">
+        <span class="perk-icon"><img src="/images/icons/fight.png" alt="Bouclier" /></span>
+        <span class="perk-title">Combats avec garantie Fair Play</span>
+        <span class="perk-desc">Fini l'enfant de 6 ans qui manie mieux l'épée que le vétéran…</span>
+    </div>
+</md-content>
+
+<% if (!req.isAuthenticated()) { %>
+<md-content layout="column" layout-align="center center">
+    <div flex-gt-sm="50" flex-sm class="home-login">
+        <div class="home-login-title">Pour avoir accès à toutes les fonctionnalités, connectez-vous !</div>
+        <md-button class="md-primary home-login-button" ng-href="/login">Connexion</md-button>
+    </div>
+</md-content>
+<% } %>

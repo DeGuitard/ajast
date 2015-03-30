@@ -1,0 +1,26 @@
+<md-content layout="row" layout-align="center" flex>
+    <md-whiteframe class="md-whiteframe-z3" flex>
+        <md-toolbar class="md-accent">
+            <span class="md-toolbar-tools">
+                <span>Se connecter</span>
+            </span>
+        </md-toolbar>
+        <md-content>
+            <md-list layout-md="column" layout-gt-md="row" layout-margin layout-align="center center">
+                <% Object.keys(providers).forEach(function (key) { %>
+                <md-item>
+                    <md-item-content style="min-width: 180px;">
+                        <md-button ng-href="/auth/<%= providers[key].slug %>" flex-sm layout="row" layout-align="center center">
+                            <img src="/images/icons/oauth-<%= key.substring(key.length - 3) %>-icn.svg" style="width: 50px; height: 50px; margin: 10px;"/>
+                            Avec <%= providers[key].name %>
+                        </md-button>
+                    </md-item-content>
+                </md-item>
+                <% }) %>
+            </md-list>
+            <div layout layout-align="center">
+                Votre pseudonyme, adresse email et noms ne seront jamais affichés, quelque soit le compte que vous choisissez.
+            </div>
+        </md-content>
+    </md-whiteframe>
+</md-content>

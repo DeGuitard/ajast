@@ -1,0 +1,171 @@
+<div ng-controller="CharacterCtrl" ng-init="initEditMode(<%= character %>); archetypes = <%= archetypes %>; gods = <%= gods %>; towns = <%= towns %>; initRaces(<%= races %>); regions = <%= regions %>;"  flow-init="{target: '/upload', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+
+    <form name="form">
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Nom et physique</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" style="font-size:1.2em;">
+                    <div layout="row" layout-sm="column">
+                        <md-input-container>
+                            <label>Prénom</label>
+                            <input ng-model="character.firstName" name="firstName" required minlength="3" md-maxlength="24" ng-pattern="/^[A-Za-z']*$/">
+                            <div ng-messages="form.firstName.$error">
+                                <div ng-message="required">Champ requis.</div>
+                                <div ng-message="md-maxlength">Trop long !</div>
+                                <div ng-message="minlength">Trop court !</div>
+                                <div ng-message="pattern">Mauvais format !</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Nom de famille</label>
+                            <input ng-model="character.lastName" name="lastName" required minlength="3" md-maxlength="24" ng-pattern="/^[A-Za-z']*$/">
+                            <div ng-messages="form.lastName.$error">
+                                <div ng-message="required">Champ requis.</div>
+                                <div ng-message="md-maxlength">Trop long !</div>
+                                <div ng-message="minlength">Trop court !</div>
+                                <div ng-message="pattern">Mauvais format !</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm="25">
+                            <label>Trigramme</label>
+                            <input ng-model="character.trigram" name="trigram" required minlength="3" maxlength="3" class="trigram">
+                            <div ng-messages="form.trigram.$error">
+                                <div ng-message="required">Champ requis.</div>
+                                <div ng-message="minlength">Doit contenir 3 caractères !</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-sm="column">
+                        <md-select ng-model="character.race" ng-change="checkAge()" placeholder="Race" flex required>
+                            <md-option ng-value="race" ng-repeat="race in races | orderBy:'name' track by race.id">{{race.name}}</md-option>
+                        </md-select>
+                        <md-select ng-model="character.tribe" placeholder="Ethnie" flex required>
+                            <md-option ng-value="tribe" ng-repeat="tribe in character.race.tribes">{{tribe}}</md-option>
+                        </md-select>
+                        <md-select ng-model="character.sex" name="sex" placeholder="Sexe" flex-gt-sm="25" required>
+                            <md-option value="F">Femme</md-option>
+                            <md-option value="H">Homme</md-option>
+                        </md-select>
+                    </div>
+                    <div layout="row" style="margin-top: 20px;">
+                        <div flex="10" layout layout-align="center center">
+                            <span>Âge</span>
+                        </div>
+                        <md-slider flex md-discrete ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" aria-label="Âge"></md-slider>
+                        <div flex-sm flex-gt-sm="25" layout="row" layout-align="center center">
+                            {{character.age}} ans —&nbsp;
+                            <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">Enfant</span>
+                            <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">Jeune</span>
+                            <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">Adulte</span>
+                            <span ng-if="character.age > character.race.lifespan/6*3 && character.age <= character.race.lifespan/6*4">Mature</span>
+                            <span ng-if="character.age > character.race.lifespan/6*4 && character.age <= character.race.lifespan/6*5">Vieillissant</span>
+                            <span ng-if="character.age > character.race.lifespan/6*5 && character.age <= character.race.lifespan/6*6">Vieux</span>
+                        </div>
+                    </div>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Culture</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" style="font-size:1.2em;">
+                    <div layout="row" layout-sm="column">
+                        <md-select ng-model="character.god" placeholder="Divinité vénérée" flex style="margin-top: 0px;">
+                            <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name}}, {{god.desc}}</md-option>
+                        </md-select>
+                    </div>
+                    <div layout="row" layout-sm="column">
+                        <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
+                            <md-optgroup label="{{region}}" ng-repeat="region in regions | orderBy:'toString()'">
+                                <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:'name'">{{town.name}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </div>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Compétences</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" style="font-size:1.2em;" layout="column">
+                    <archetypes character="character" archetypes="archetypes"></archetypes>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Chronologie</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" style="font-size:1.2em;" layout="column">
+                    <timeline character="character" editable="true"></timeline>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Descriptions supplémentaires</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
+                    <md-input-container flex>
+                        <label>Apparence physique</label>
+                        <textarea ng-model="character.physDesc" columns="1" md-maxlength="4000" placeholder="Facultatif"></textarea>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Profil psychologique</label>
+                        <textarea ng-model="character.mentDesc" columns="1" md-maxlength="4000" placeholder="Facultatif"></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Apparence en jeu</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" layout-sm="column" layout-gt-sm="column" layout-margin flex>
+                    <div flex>
+                        <md-button flow-btn flow-attrs="{accept:'image/*'}">Choisir un visage</md-button>
+                        <div ng-show="uploadError" class="error-msg">{{uploadError}}</div>
+                    </div>
+
+                    <div flex>
+                        <md-grid-list md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="7" md-row-height="1:1" md-gutter="8px" md-gutter-gt-sm="4px">
+                            <md-grid-tile avatar="avatar" class="character-tile">
+                                <div class="effect-lily">
+                                    <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
+                                    <p>
+                                        <span ng-repeat="(key, value) in character.archetypes" ng-if="value > 0">{{key}} {{value}} / </span>
+                                        <span>{{character.trigram}}</span>
+                                    </p>
+                                </div>
+                            </md-grid-tile>
+                        </md-grid-list>
+                    </div>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-button flex="100" flex-gt-lg="90" ng-click="save()" ng-disabled="form.$invalid" class="md-accent md-raised">Sauvegarder</md-button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,131 @@
+<% if (req.isAuthenticated()) { %>
+<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= character %>, <%= JSON.stringify(req.user.id) %>); archetypes = <%= archetypes %>;" flex>
+<% } else { %>
+<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= character %>); archetypes = <%= archetypes %>;" flex>
+<% } %>
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Nom et physique</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark" class="md-padding" style="font-size:1.2em;color: rgba(255,255,255,0.87)">
+                <div layout="row" layout-sm="column">
+                    <md-input-container>
+                        <label>Prénom</label>
+                        <input ng-model="character.firstName" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Nom de famille</label>
+                        <input ng-model="character.lastName" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Trigramme</label>
+                        <input ng-model="character.trigram" ng-readonly="true">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-sm="column">
+                    <md-input-container>
+                        <label>Race</label>
+                        <input ng-model="character.race.name" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Ethnie</label>
+                        <input ng-model="character.tribe" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Sexe</label>
+                        <input ng-model="character.sex == 'F' ? 'Femme' : 'Homme'" ng-readonly="true" />
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <div flex="10" layout layout-align="center center">
+                        <span>Âge</span>
+                    </div>
+                    <md-slider flex md-discrete ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" ng-disabled="true" aria-label="Âge"></md-slider>
+                    <div flex="20" layout="row" layout-align="center center">
+                        {{character.age}} ans —&nbsp;
+                        <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">Enfant</span>
+                        <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">Jeune</span>
+                        <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">Adulte</span>
+                        <span ng-if="character.age > character.race.lifespan/6*3 && character.age <= character.race.lifespan/6*4">Mature</span>
+                        <span ng-if="character.age > character.race.lifespan/6*4 && character.age <= character.race.lifespan/6*5">Vieillissant</span>
+                        <span ng-if="character.age > character.race.lifespan/6*5 && character.age <= character.race.lifespan/6*6">Vieux</span>
+                    </div>
+                </div>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex-sm="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Culture</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark"  class="md-padding" style="font-size:1.2em;">
+                <div layout="row" layout-sm="column">
+                    <md-input-container flex>
+                        <label>Dieu</label>
+                        <input ng-model="character.god.name + ', ' + character.god.desc" ng-readonly="true">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-sm="column">
+                    <md-input-container flex>
+                        <label>Région Natale</label>
+                        <input ng-model="character.birthPlace.name + ', ' + character.birthPlace.region" ng-readonly="true">
+                    </md-input-container>
+                </div>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex-sm="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Compétences</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark"  class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
+                <archetypes character="character" archetypes="archetypes" ng-readonly="true"></archetypes>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex-sm="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Chronologie</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark" class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
+                <timeline character="character" editable="false" class="dark"></timeline>
+            </md-content>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex-sm="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Descriptions supplémentaires</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark" class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
+                <md-input-container flex>
+                    <label>Apparence physique</label>
+                    <textarea ng-model="character.physDesc" columns="1" ng-readonly="true"></textarea>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Profil psychologique</label>
+                    <textarea ng-model="character.mentDesc" columns="1" ng-readonly="true"></textarea>
+                </md-input-container>
+            </md-content>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-button flex="100" flex-gt-lg="90" ng-href="/character/edit/{{character.id}}" class="md-accent md-raised" ng-show="isOwner">Modifier</md-button>
+    </div>
+</div>

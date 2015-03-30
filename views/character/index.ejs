@@ -1,0 +1,40 @@
+<% if (req.isAuthenticated()) { %>
+<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>, <%= JSON.stringify(req.user.id) %>)" layout="column" layout-margin flex>
+<% } else { %>
+<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>)" layout="column" layout-margin flex>
+<% } %>
+
+    <md-whiteframe class="md-whiteframe-z1" flex>
+        <md-toolbar class="md-accent">
+            <span class="md-toolbar-tools">Rechercher</span>
+        </md-toolbar>
+        <md-content class="md-padding">
+            <md-input-container class="md-accent">
+                <label>Recherche par nom</label>
+                <input ng-model="searchString" />
+            </md-input-container>
+        </md-content>
+    </md-whiteframe>
+    <md-whiteframe class="md-whiteframe-z1" flex>
+        <md-toolbar class="md-accent">
+            <span class="md-toolbar-tools">Liste des personnages</span>
+        </md-toolbar>
+        <md-content>
+            <md-grid-list
+                    md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="7"
+                    md-row-height="1:1" md-gutter="8px" md-gutter-gt-sm="4px" >
+                <md-grid-tile ng-repeat="character in characters | orderBy:'fullName' | filter:searchString" ng-style="{'background-image': 'url(/images/avatars/{{character.avatar}})'}" class="character-tile">
+                    <a ng-href="/character/show/{{character._id}}">
+                    <div class="effect-lily">
+                        <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
+                        <p>
+                            <span ng-repeat="(key, value) in character.archetypes" ng-if="value > 0">{{key}} {{value}} / </span>
+                            <span>{{character.trigram}}</span>
+                        </p>
+                    </div>
+                    </a>
+                </md-grid-tile>
+            </md-grid-list>
+        </md-content>
+    </md-whiteframe>
+</main>

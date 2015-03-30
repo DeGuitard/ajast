@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+
+
+555555555555555555      000000000          000000000
+5::::::::::::::::5    00:::::::::00      00:::::::::00
+5::::::::::::::::5  00:::::::::::::00  00:::::::::::::00
+5:::::555555555555 0:::::::000:::::::00:::::::000:::::::0
+5:::::5            0::::::0   0::::::00::::::0   0::::::0
+5:::::5            0:::::0     0:::::00:::::0     0:::::0
+5:::::5555555555   0:::::0     0:::::00:::::0     0:::::0
+5:::::::::::::::5  0:::::0 000 0:::::00:::::0 000 0:::::0
+555555555555:::::5 0:::::0 000 0:::::00:::::0 000 0:::::0
+            5:::::50:::::0     0:::::00:::::0     0:::::0
+            5:::::50:::::0     0:::::00:::::0     0:::::0
+5555555     5:::::50::::::0   0::::::00::::::0   0::::::0
+5::::::55555::::::50:::::::000:::::::00:::::::000:::::::0
+ 55:::::::::::::55  00:::::::::::::00  00:::::::::::::00
+   55:::::::::55      00:::::::::00      00:::::::::00
+     555555555          000000000          000000000
+
+
+
+  This is the default "500: Server Error" page.
+  User agents that don't "Accept" HTML will see a JSON version instead.
+  You can customize the control logic for your needs in `config/500.js`
+
+  Sails considers a request in a "500: Server Error" state when
+  your app throws a catchable error (not inside of an asynchronous callback).
+
+  You can also trigger this response from one of your controllers or policies with:
+  `return res.serverError( e );`
+  (where `e` is an optional message, error, or array of errors to include in the response)
+
+-->
+<div class="home-title-block">
+    <h1 class="home-title-text">Erreur <span class="home-title-text-accent">500</span></h1>
+</div>
+<md-content layout="column" layout-align="center center">
+    <div class="server-error">
+        <% if (typeof error!== 'undefined') { %>
+            <%= error %>
+        <% } else { %>
+            <div>« Vous remarquez que quelque chose ne tourne pas rond. Il doit y avoir une erreur… Peut-être une perturbation éthérique ! »</div>
+            <div>Les meilleurs techniciens de Sharlayan sont sur le coup.</div>
+        <% } %>
+    </div>
+</md-content>
