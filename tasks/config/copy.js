@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 			files: [{
 				expand: true,
 				cwd: '.tmp/public',
-				src: ['**/*'],
+				src: ['images/**', '!**/avatars/**', 'min/*', 'favicon.ico', 'robots.txt'],
 				dest: 'www'
 			}]
 		}

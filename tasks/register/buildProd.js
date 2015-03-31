@@ -8,6 +8,7 @@ module.exports = function (grunt) {
 		'newer:cssmin',
 		'linkAssetsBuildProd',
 		'clean:build',
-		'copy:build'
+		'copy:build',
+        'compress:dist'
 	]);
 };
