@@ -15,6 +15,7 @@
 .error-msg { color: #D50000; }
 .trigram { text-transform: uppercase; }
 textarea { text-align: justify }
+md-input-container .md-input { flex: none !important; }
 
 /** HOME PAGE STRUCTURE **/
 .home-title-block { min-height: 30%; }
