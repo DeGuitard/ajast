@@ -49,6 +49,9 @@ md-input-container .md-input { flex: none !important; }
 .arrow-score { position: absolute; top: 10px; left: 30px; }
 .arrow-image { background-size: 100px 40px; width: 100px; height: 40px; background-image: url('/images/arrow.png'); }
 
+/** PLAYER TIMELINE STRUCTURE **/
+.vis.timeline .item .delete { background: url('/images/icons/delete.svg') no-repeat top center; position: absolute; top: 4px; }
+
 /** CHARACTER LIST STRUCTURE **/
 img.avatar { max-height: 200px; }
 .character-tile { cursor: pointer; background-size: cover; }
