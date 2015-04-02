@@ -9,7 +9,7 @@
         <md-item ng-repeat="player in group().players | orderBy:['-active', 'fullName']" ng-class="{'player-inactive': !player.active}" class="player-row">
             <md-item-content>
                 <div class="md-tile-content" ng-class="{'player-inactive': !player.active}">
-                    {{player.trigram}} / {{player.fullName}}
+                    <span class="trigram">{{player.trigram}}</span> / {{player.fullName}}
                 </div>
                 <div class="md-tile-right">
                     <md-button ng-click="disablePlayer(player)" ng-show="player.active && !isFinished()" aria-label="Supprimer">
