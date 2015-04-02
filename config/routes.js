@@ -75,5 +75,14 @@ module.exports.routes = {
     /** Rolls routes **/
     'get /rolls': 'RollController.index',
     'get /api/roll': 'RollController.apiList',
-    'post /api/roll': 'RollController.apiNew'
+    'post /api/roll': 'RollController.apiNew',
+
+    /** Free companies routes **/
+    'get /free-company/find/:term': 'FreeCompanyController.search',
+    'get /free-companies': 'FreeCompanyController.list',
+    'get /free-company/new': 'FreeCompanyController.new',
+    'get /free-company/show/:id': 'FreeCompanyController.show',
+    'get /free-company/edit/:id': 'FreeCompanyController.edit',
+    'post /free-company/save': 'FreeCompanyController.save',
+    'delete /free-company/remove/:id': 'FreeCompanyController.remove'
 };

@@ -23,7 +23,9 @@ module.exports = {
         race: { model: 'race', required: true },
         god: { model: 'god', required: true },
         birthPlace: { model: 'town', required: true },
-        user: { model: 'user', required: true }
+        user: { model: 'user', required: true },
+        membership: { model: 'freeCompany' },
+        leadership: { model: 'freeCompany' }
     },
 
     afterValidate: function (values, next) {

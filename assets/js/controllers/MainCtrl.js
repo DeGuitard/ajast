@@ -2,7 +2,8 @@ app.controller('MainCtrl', ["$scope", "$mdSidenav", "$mdMedia", function($scope,
     $scope.links = [
         {url: '/fights', text: 'Combats'},
         {url: '/rolls', text: 'Dés'},
-        {url: '/characters', text: 'Personnages'}
+        {url: '/characters', text: 'Personnages'},
+        {url: '/free-companies', text: 'Compagnies libres'}
     ];
     $scope.contextualLinks = {};
     $scope.openMenu = function() { if (!$scope.noMenu) $mdSidenav('menu').open(); };
