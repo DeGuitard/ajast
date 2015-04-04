@@ -7,6 +7,7 @@ app.directive('playerGroup', function() {
         templateUrl: '/js/templates/ng-template-player-group.html',
         controller: ['$scope', '$element', '$attrs', '$timeout', 'playersService', 'timeService', function($scope, $element, $attrs, $timeout, playersService, timeService) {
             $scope.groupCode = $attrs.groupCode;
+
             $scope.group = function() {
                 return $scope.groupCode == 'A' ? playersService.groupA() : playersService.groupB();
             };
@@ -21,7 +22,7 @@ app.directive('playerGroup', function() {
                 playersService.disablePlayer(player);
             };
             $scope.findPlayers = function(term) { return playersService.find(term); };
-            $scope.isFinished = function() { return timeService.isFinished(); }
+            $scope.readOnly = function() { return $attrs.readOnly || timeService.isFinished(); }
         }]
     };
 });

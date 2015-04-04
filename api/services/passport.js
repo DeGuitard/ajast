@@ -307,7 +307,7 @@ passport.loadStrategies = function () {
 
             Strategy = strategies[key].strategy;
 
-            var baseUrl = "http://localhost:1337";
+            var baseUrl = sails.config.local.hostname;
 
             switch (protocol) {
                 case 'oauth':

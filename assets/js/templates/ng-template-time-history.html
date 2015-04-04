@@ -6,7 +6,7 @@
     </md-toolbar>
     <md-content md-theme="fight">
         <md-list>
-            <md-item ng-repeat="action in actions()" ng-if="action.roll" layout="row" layout-margin layout-wrap layout-align="center center">
+            <md-item ng-repeat="action in actions()" layout="row" layout-margin layout-wrap layout-align="center center">
                 <div class="history-roll">
                     <md-button class="md-fab md-hue-2" ng-class="{'md-primary': action.source.group == 'A', 'md-accent': action.source.group == 'B'}">
                         {{action.source.trigram}}
@@ -29,6 +29,9 @@
                     <span class="history-archetype">{{action.archetype}}</span> / {{action.desc}}
                 </md-content>
             </md-item>
+            <md-content class="md-padding" ng-hide="actions().length">
+                L'historique est vide.
+            </md-content>
         </md-list>
     </md-content>
 </md-whiteframe>

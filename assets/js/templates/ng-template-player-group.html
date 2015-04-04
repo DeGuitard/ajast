@@ -9,13 +9,13 @@
         <md-item ng-repeat="player in group().players | orderBy:['-active', 'fullName']" ng-class="{'player-inactive': !player.active}" class="player-row">
             <md-item-content>
                 <div class="md-tile-content" ng-class="{'player-inactive': !player.active}">
-                    {{player.trigram}} / {{player.fullName}}
+                    <span class="trigram">{{player.trigram}}</span> / {{player.fullName}}
                 </div>
                 <div class="md-tile-right">
-                    <md-button ng-click="disablePlayer(player)" ng-show="player.active && !isFinished()" aria-label="Supprimer">
+                    <md-button ng-click="disablePlayer(player)" ng-show="player.active && !readOnly()" aria-label="Supprimer">
                         <img src="/images/icons/remove.svg"/>
                     </md-button>
-                    <md-button ng-click="enablePlayer(player)" ng-hide="player.active || isFinished()" aria-label="Ajouter">
+                    <md-button ng-click="enablePlayer(player)" ng-hide="player.active || readOnly()" aria-label="Ajouter">
                         <img src="/images/icons/add.svg"/>
                     </md-button>
                 </div>
@@ -26,7 +26,7 @@
 </md-content>
 
 <md-autocomplete
-        ng-hide="isFinished()"
+        ng-hide="readOnly()"
         placeholder="Ajouter un personnage"
         md-search-text="searchString"
         md-items="player in findPlayers(searchString)"
