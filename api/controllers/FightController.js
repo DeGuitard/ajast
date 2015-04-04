@@ -14,7 +14,7 @@ module.exports = {
             {
                 fights: function(callback) {
                     Fight.native(function(err, Collection) {
-                        Collection.find({}, {shortid: 1, "time.hasStarted": 1, "time.isFinished": 1}).toArray(function(err, result) {
+                        Collection.find({}, {shortid: 1, "time.hasStarted": 1, "time.isFinished": 1}).limit(30).toArray(function(err, result) {
                             callback(null, result);
                         });
                     });
