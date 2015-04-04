@@ -13,14 +13,19 @@ module.exports = {
     },
 
     list: function(req, res) {
-        // TODO : list and render all the companies.
-        return res.status(501).send();
+        FreeCompany.native(function(err, Collection) {
+            Collection.find({}, {name: 1, tag: 1, isRecruiting: 1, trigram: 1, website: 1, icon: 1, users: 1, _id: 1}).toArray(function(err, result) {
+                return res.view('freeCompany/index', {freeCompanies: JSON.stringify(result)});
+            });
+        });
     },
 
     show: function(req, res) {
-        // TODO : show one free company.
-        var id = req.param('id');
-        return res.status(501).send();
+        FreeCompany.findOne({id: req.param("id")}).populate('founders').populate('members').exec(function(err, result) {
+            if (err) return res.serverError(err);
+            if (!result) return res.notFound("Cette compagnie libre n'existe pas / plus.");
+            res.view('freeCompany/show', { freeCompany: JSON.stringify(result) });
+        });
     },
 
     new: function(req, res) {

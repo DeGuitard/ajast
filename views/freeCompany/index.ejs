@@ -1,3 +1,35 @@
-<div>
+<div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>)" flex>
 
+    <div layout="row" layout-margin>
+        <md-whiteframe class="md-whiteframe-z1" flex>
+            <md-toolbar class="md-accent">
+                <span class="md-toolbar-tools">Rechercher</span>
+            </md-toolbar>
+            <md-content class="md-padding">
+                <md-input-container class="md-accent">
+                    <label>Recherche par nom</label>
+                    <input ng-model="searchString" />
+                </md-input-container>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin>
+        <md-whiteframe class="md-whiteframe-z1" flex>
+            <md-toolbar class="md-accent">
+                <span class="md-toolbar-tools">Liste des compagnies</span>
+            </md-toolbar>
+            <md-content>
+                <md-list layout="column">
+                    <md-item ng-repeat="fc in results = (freeCompanies | filter:searchString)">
+                        <div layout="row" flex>
+                            <md-button class="row-button" ng-href="/free-company/show/{{fc._id}}" flex>{{fc.name}}</md-button>
+                        </div>
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-item>
+                </md-list>
+                <p ng-hide="results.length">Aucune compagnie n'a été trouvée.</p>
+            </md-content>
+        </md-whiteframe>
+    </div>
 </div>

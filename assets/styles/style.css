@@ -19,6 +19,8 @@ body { -moz-osx-font-smoothing: grayscale; }
 textarea { text-align: justify }
 md-input-container .md-input { flex: none !important; }
 .no-animation, .no-animation * { transition: none !important; }
+.input-block { font-size:1.2em;color: rgba(255,255,255,0.87) }
+.row-button { text-align: left; font-weight: 400; padding: 20px;}
 
 /** HOME PAGE STRUCTURE **/
 .home-title-block { min-height: 30%; }
