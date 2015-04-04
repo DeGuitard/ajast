@@ -80,6 +80,13 @@ app.directive('timeline', function() {
                     }
                 };
             $scope.timeline = new vis.Timeline(document.getElementById('timeline'), $scope.timelineItems, options);
+            $scope.character.getTimeline = function() {
+                return $scope.timelineItems.get({
+                    filter: function(item) {
+                        return (item.group == 1);
+                    }
+                });
+            }
         }]
     };
 });

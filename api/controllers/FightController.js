@@ -219,7 +219,7 @@ module.exports = {
     _getRoll: function(archetype, player, type) {
         if (!archetype || !player || !player.archetypes[archetype]) return 0;
 
-        var min = 0, max = 0, skill = player.archetypes[archetype];
+        var min = 1, max = 0, skill = player.archetypes[archetype];
 
         // 1: 0-25; 2: 0-50; 3:0-75; 4:50-100.
         if (skill == 1) {
@@ -237,7 +237,7 @@ module.exports = {
         }
 
         if (type == 'other') {
-            min = 0;
+            min = 1;
             max = 100;
         } else if (type == player.fightType) {
             min += 10;
@@ -247,7 +247,7 @@ module.exports = {
             max -= 10;
         }
 
-        if (min < 0) min = 0;
+        if (min < 1) min = 1;
         if (max > 100) max = 100;
 
         return Math.floor(Math.random() * (max - min)) + min;

@@ -85,17 +85,19 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
     });
 
     $scope.save = function() {
-        var race = $scope.character.race;
-        $scope.character.race = $scope.character.race.id;
-        $http.post("/character/save", {character: $scope.character}).success(function(data) {
+        var charToSave = {};
+        for (var key in $scope.character) {
+            charToSave[key] = $scope.character[key];
+        }
+        charToSave.timeline = $scope.character.getTimeline();
+        charToSave.race = $scope.character.race.id;
+        $http.post("/character/save", {character: charToSave}).success(function(data) {
             $scope.character.id = (data.id) ? data.id : data[0].id;
-            $scope.character.race = race;
             $mdToast.show(
                 $mdToast.simple().content("Sauvegarde réussie !").position('top right').hideDelay(5000)
             );
         }).error(function(err) {
             err = err == 'Conflict' ? 'Nom ou trigramme déjà utilisé par un autre personnage.' : err;
-            $scope.character.race = race;
             $mdToast.show(
                 $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
             );
@@ -111,7 +113,7 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
             .cancel('Annuler')
             .targetEvent(ev);
         $mdDialog.show(confirm).then(function() {
-            $http.delete('/character/' + $scope.character.id).success(function() {
+            $http.delete('/character/remove/' + $scope.character.id).success(function() {
                 window.location.href = '/characters';
             }).error(function(err) {
                 $mdToast.show(
