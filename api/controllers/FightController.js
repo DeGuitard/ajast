@@ -287,19 +287,20 @@ module.exports = {
     },
 
     _addActions: function(actions, players, currentIndex, reset) {
-        // Computes the initiative score.
-        for (var i = 0; i < players.length; i++) {
-            players[i].initiative = this._getScore(players[i].archetypes);
-        }
-        players.sort(function(a, b) { return a.initiative > b.initiative ? -1 : +1; });
+        var self = this,
+            activePlayers = players.filter(function(player) {
+            player.initiative = self._getScore(player.archetypes);
+            return player.active;
+        });
+        activePlayers.sort(function(a, b) { return a.initiative - b.initiative; });
 
         // Iterates the list of players to fill .
         var newActions = [];
         while (newActions.length < 10) {
-            for (var i = 0; i < players.length; i++) {
+            for (var i = 0; i < activePlayers.length; i++) {
                 var random = Math.random() * (100 - 1) + 1;
-                if (players[i].initiative > random && players[i].active) {
-                    newActions.push({source: players[i]});
+                if (activePlayers[i].initiative > random) {
+                    newActions.push({source: activePlayers[i]});
                 }
             }
         }
@@ -308,8 +309,17 @@ module.exports = {
         if (currentIndex == 1) return newActions;
         else {
             if (reset) {
-                var firstRollIndex = actions.length - currentIndex + 1;
-                actions.splice(0, firstRollIndex);
+                var trigrams = [], actionsClean = [], firstRollIndex = actions.length - currentIndex + 1;
+                for (var i = 0; i < activePlayers.length; i++) {
+                    trigrams.push(activePlayers[i].trigram);
+                }
+                actions.splice(0, firstRollIndex - trigrams.length);
+                for (var i = 0; i < actions.length; i++) {
+                    if (actions[i].roll || trigrams.indexOf(actions[i].source.trigram) != -1) {
+                        actionsClean.push(actions[i]);
+                    }
+                }
+                actions = actionsClean;
             }
             return newActions.concat(actions);
         }
