@@ -46,7 +46,7 @@ function PlayersService($http, $q, archetypes, groups, timeService) {
         $http.get('/character/find/' + term).success(function(data) {
             // We add the NPCs.
             var tmpPlayers = groups.tmp.filter(function(item) {
-                return item.fullName.indexOf(term) != -1;
+                return item.fullName.toUpperCase().indexOf(term.toUpperCase()) != -1;
             });
             var result = data.concat(tmpPlayers);
 
@@ -71,12 +71,13 @@ function PlayersService($http, $q, archetypes, groups, timeService) {
     this.create = function(player) {
         player.fullName = player.firstName + ' ' + player.lastName;
         groups.tmp.push(player);
-        this._save();
+        this._save(false);
     };
 
-    this._save = function() {
+    this._save = function(withRefresh) {
+        withRefresh = withRefresh === undefined ? true : withRefresh;
         $http.put('/fight/save/', {id: timeService.id(), data: {groups: groups}}).success(function() {
-            timeService.refreshActions();
+            if (withRefresh) timeService.refreshActions();
         });
     }
 }

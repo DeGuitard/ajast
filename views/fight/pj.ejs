@@ -1,4 +1,8 @@
 <div ng-controller="PjCtrl" ng-init="init(<%= archetypes %>, <%= fight %>);">
+    <div layout="row" layout-margin layout-wrap>
+        <md-whiteframe class="md-whiteframe-z1 player-group no-animation" layout="column" flex flex-order-gt-md="1" player-group group-code="A" read-only="true"></md-whiteframe>
+        <md-whiteframe class="md-whiteframe-z1 player-group no-animation" layout="column" flex flex-order-gt-md="3" player-group group-code="B" read-only="true"></md-whiteframe>
+    </div>
     <div class="gap"></div>
     <time-bar class="height-transition"></time-bar>
     <div class="gap"></div>

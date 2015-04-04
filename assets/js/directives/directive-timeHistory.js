@@ -4,7 +4,7 @@ app.directive('timeHistory', function() {
         templateUrl: '/js/templates/ng-template-time-history.html',
         scope: { },
         controller: ['$scope', '$element', 'timeService', function($scope, $element, timeService) {
-            $scope.actions = function() { return timeService.actions() };
+            $scope.actions = function() { return timeService.actions().filter(function(item) { return item.roll; }) };
         }]
     };
 });

@@ -26,9 +26,12 @@
             </span>
             </md-toolbar>
             <md-content layout="row" layout-wrap>
-                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in fights | filter:{time: {hasStarted: true, isFinished: false}}">
+                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in currentFights = (fights | filter:{time: {hasStarted: true, isFinished: false}})">
                     <md-button class="md-primary md-raised" ng-href="/fight/{{fight.shortid}}">#{{fight.shortid}}</md-button>
                 </md-card>
+                <md-content ng-hide="currentFights.length" class="md-padding">
+                    Il n'y a pas de combats en cours.
+                </md-content>
             </md-content>
         </md-whiteframe>
 
