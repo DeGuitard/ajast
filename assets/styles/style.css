@@ -20,6 +20,10 @@ textarea { text-align: justify }
 md-input-container .md-input { flex: none !important; }
 .no-animation, .no-animation * { transition: none !important; }
 
+/** TABS STRUCTURE **/
+.md-header { min-height: 64px; }
+md-tab md-tab-label { font-size: 1.3em; text-transform: none; }
+
 /** HOME PAGE STRUCTURE **/
 .home-title-block { min-height: 30%; }
 .home-title-text { font-size: 6em; font-weight: 100; text-align: center; }

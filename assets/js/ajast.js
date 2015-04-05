@@ -4,7 +4,8 @@ var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flo
         .accentPalette('blue')
         .warnPalette('red');
     $mdThemingProvider.theme('dark')
-        .primaryPalette('grey').dark();
+        .primaryPalette('deep-purple').dark()
+        .accentPalette('blue').dark();
     $mdThemingProvider.theme('fight')
         .primaryPalette('blue', { 'hue-2': '700' })
         .accentPalette('indigo', { 'hue-2': '700' })

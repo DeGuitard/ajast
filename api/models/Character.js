@@ -14,6 +14,8 @@ module.exports = {
         trigram: { type: 'string', required: true, size: 3 },
         sex: { type: 'string', required: true, size: 1 },
         archetypes: { type: 'json', required: true },
+        crafts: { type: 'json', required: true },
+        harvesters: { type: 'json', required: true },
         fightType: { type: 'string', required: true},
         avatar: { type: 'string', required: true },
         initiative: { type: 'integer' },

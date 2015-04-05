@@ -89,7 +89,7 @@ module.exports = {
         }, function(err, data) {
             if (err) return res.serverError(err);
 
-            var regions  = [], character = {'timeline': [], 'archetypes': {}};
+            var regions  = [], character = {'timeline': [], 'archetypes': {}, 'crafts': {}, 'harvesters': {}};
             for (var i = 0; i < data.towns.length; i++) {
                 if (regions.indexOf(data.towns[i].region) == -1) {
                     regions.push(data.towns[i].region);

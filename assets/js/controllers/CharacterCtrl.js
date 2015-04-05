@@ -7,6 +7,8 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
                 break;
             }
         }
+        if (!$scope.character.race) $scope.character.race = $scope.races[0];
+        else console.log($scope.character.race);
     };
 
     $scope.initListMode = function(characters, userId) {
@@ -123,10 +125,11 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
         });
     };
 
-    $scope.checkAge = function() {
+    $scope.raceChange = function() {
         if ($scope.character.race.lifespan < $scope.character.age) {
             $scope.character.age = $scope.character.race.lifespan;
         }
+        $scope.character.tribe = undefined;
     };
 }]);
 
