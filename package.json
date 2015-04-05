@@ -1,7 +1,7 @@
 {
   "name": "ajast",
   "private": true,
-  "version": "0.0.1c",
+  "version": "0.0.1d",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
