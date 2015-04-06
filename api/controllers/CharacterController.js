@@ -15,7 +15,7 @@ module.exports = {
                     {firstName: {$regex: term, $options: 'i'}},
                     {lastName: {$regex: term, $options: 'i'}}
                 ]
-            }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 0}).toArray(function(err, result) {
+            }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 1}).toArray(function(err, result) {
                 res.send(result);
             });
         });

@@ -1,4 +1,4 @@
-app.controller('FreeCompanyCtrl', ['$scope', function($scope) {
+app.controller('FreeCompanyCtrl', ['$scope', '$timeout', 'charactersService', function($scope, $timeout, charactersService) {
     $scope.initListMode = function(freeCompanies, userId) {
         $scope.freeCompanies = freeCompanies;
         $scope.contextualLinks.title = 'Mes compagnies';
@@ -23,8 +23,6 @@ app.controller('FreeCompanyCtrl', ['$scope', function($scope) {
 
     $scope.initShowMode = function(freeCompany, userId) {
         $scope.freeCompany = freeCompany;
-        console.log(userId);
-        console.log($scope.freeCompany.users[0]);
 
         if ($scope.freeCompany.users.indexOf(userId) != -1) {
             $scope.contextualLinks.title = 'Ma compagnie';
@@ -36,7 +34,7 @@ app.controller('FreeCompanyCtrl', ['$scope', function($scope) {
     };
 
     $scope.initEditMode = function(freeCompany) {
-        $scope.character = freeCompany;
+        $scope.freeCompany = freeCompany;
         $scope.icon = '/images/free-companies/' + $scope.freeCompany.icon;
 
         if ($scope.freeCompany.id) {
@@ -50,4 +48,31 @@ app.controller('FreeCompanyCtrl', ['$scope', function($scope) {
             $scope.page.title = "Créer sa compagnie libre";
         }
     };
+
+    $scope.findCharacter = function(term) {
+        var excludeIds = [], allMembers = $scope.freeCompany.founders.concat($scope.freeCompany.members);
+        for (var i = 0; i < allMembers.length; i++) {
+            if (allMembers[i].id) excludeIds.push(allMembers[i].id);
+        }
+        return charactersService.find(term, excludeIds);
+    };
+
+    $scope.addMember = function() {
+        if (!$scope.newMember || !$scope.newMember.id) return;
+        var isFounder = $scope.membersTab.selectedIndex == 0;
+        if (isFounder) $scope.freeCompany.founders.push($scope.newMember);
+        else $scope.freeCompany.members.push($scope.newMember);
+        $timeout(function() { $scope.searchString = ''; $scope.newMember = undefined; },100);
+    };
+
+    $scope.removeMember = function(member) {
+        var isFounder = $scope.membersTab.selectedIndex == 0;
+        if (isFounder) {
+            var index = $scope.freeCompany.founders.indexOf(member.id);
+            $scope.freeCompany.founders.splice(index, 1);
+        } else {
+            var index = $scope.freeCompany.members.indexOf(member.id);
+            $scope.freeCompany.members.splice(index, 1);
+        }
+    }
 }]);

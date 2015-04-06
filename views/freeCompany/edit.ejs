@@ -1,0 +1,117 @@
+<div ng-controller="FreeCompanyCtrl" ng-init="initEditMode(<%= freeCompany %>); servers = <%= servers %>" flex>
+    <form name="form">
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Informations générales</span>
+                </md-toolbar>
+
+                <md-content class="md-padding">
+                    <div layout="row" layout-sm="column">
+                        <md-input-container flex>
+                            <label>Nom de la compagnie</label>
+                            <input ng-model="freeCompany.name">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Tag</label>
+                            <input ng-model="freeCompany.tag">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-sm="column">
+                        <md-select ng-model="freeCompany.server" placeholder="Serveur" style="margin-top: 1.3em;" flex required>
+                            <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                        </md-select>
+                        <md-input-container flex>
+                            <label>Site / Forum</label>
+                            <input ng-model="freeCompany.url">
+                        </md-input-container>
+                        <md-switch ng-model="freeCompany.isRecruiting" aria-label="Recrutement" flex-gt-md="25">
+                            <span ng-show="freeCompany.isRecruiting">Recrutement ouvert</span>
+                            <span ng-hide="freeCompany.isRecruiting">Recrutement fermé</span>
+                        </md-switch>
+                    </div>
+                    <div layout="row" layout-sm="column">
+                        <md-input-container>
+                            <label>N°</label>
+                            <input ng-model="freeCompany.address.plot">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Secteur</label>
+                            <input ng-model="freeCompany.address.ward">
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Quartier</label>
+                            <input ng-model="freeCompany.address.district">
+                        </md-input-container>
+                    </div>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-tabs class="md-primary" md-selected="membersTab.selectedIndex" flex>
+                    <md-tab id="founders">
+                        <md-tab-label>Fondateurs</md-tab-label>
+                        <md-tab-template>
+                            <md-content>
+                                <md-list>
+                                    <md-item ng-repeat="founder in freeCompany.founders | orderBy:'fullName'">
+                                        <div layout="row" class="row-element height-transition" flex layout-align="center center">
+                                            <span flex>{{founder.fullName}}</span>
+                                            <md-button ng-click="removeMember(founder)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
+                                        </div>
+                                        <md-divider ng-if="!$last"></md-divider>
+                                    </md-item>
+                                </md-list>
+                            </md-content>
+                        </md-tab-template>
+                    </md-tab>
+                    <md-tab id="members">
+                        <md-tab-label>Joueurs</md-tab-label>
+                        <md-tab-template>
+                            <md-content><md-list>
+                                    <md-item ng-repeat="member in freeCompany.members | orderBy:'fullName'">
+                                        <div layout="row" class="row-element height-transition" flex layout-align="center center">
+                                            <span flex>{{member.fullName}}</span>
+                                            <md-button ng-click="removeMember(member)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
+                                        </div>
+                                        <md-divider ng-if="!$last"></md-divider>
+                                    </md-item>
+                                </md-list></md-content>
+                        </md-tab-template>
+                    </md-tab>
+                </md-tabs>
+                <md-autocomplete
+                        placeholder="Ajouter un personnage"
+                        md-search-text="searchString"
+                        md-items="character in findCharacter(searchString)"
+                        md-item-text="character.fullName"
+                        md-selected-item="newMember"
+                        md-selected-item-change="addMember()"
+                        md-no-cache="true">
+                    <span md-highlight-text="searchString">{{character.fullName}}</span>
+                </md-autocomplete>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Présentation</span>
+                </md-toolbar>
+
+                <md-content class="md-padding input-block" layout="column">
+                    <md-input-container flex>
+                        <label>Présentation</label>
+                        <textarea ng-model="freeCompany.desc" columns="1"></textarea>
+                    </md-input-container>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-button flex="100" flex-gt-lg="90" ng-click="save()" ng-disabled="form.$invalid" class="md-accent md-raised">Sauvegarder</md-button>
+        </div>
+    </form>
+</div>

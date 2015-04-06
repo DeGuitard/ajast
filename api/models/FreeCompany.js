@@ -18,6 +18,7 @@ module.exports = {
         address: { type: 'json' },
         icon: { type: 'string', required: true, size: 128 },
 
+        users: { type: 'array' },
         founders: { collection: 'character', via: 'leadership' },
         members: { collection: 'character', via: 'membership' }
     }

@@ -55,14 +55,14 @@
 
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
-            <md-tabs md-theme="dark" class="md-primary" style="color: rgba(255,255,255,0.87);" md-selected="data.selectedIndex" flex>
+            <md-tabs md-theme="dark" class="md-primary" style="color: rgba(255,255,255,0.87);" md-selected="membersTab.selectedIndex" flex>
                 <md-tab id="founders">
                     <md-tab-label>Fondateurs</md-tab-label>
                     <md-tab-template>
                         <md-content><md-list>
-                            <md-item ng-repeat="founder in freeCompany.founders">
+                            <md-item ng-repeat="founder in freeCompany.founders | orderBy:'fullName'">
                                 <div layout="row" flex>
-                                    <md-button ng-href="/character/show/{{founder.id}}" class="row-button" flex>{{founder.fullName}}</md-button>
+                                    <md-button ng-href="/character/show/{{founder.id}}" class="row-element" flex>{{founder.fullName}}</md-button>
                                 </div>
                                 <md-divider ng-if="!$last"></md-divider>
                             </md-item>
@@ -73,9 +73,9 @@
                     <md-tab-label>Joueurs</md-tab-label>
                     <md-tab-template>
                         <md-content><md-list>
-                            <md-item ng-repeat="member in freeCompany.members">
+                            <md-item ng-repeat="member in freeCompany.members | orderBy:'fullName'">
                                 <div layout="row" flex>
-                                    <md-button ng-href="/character/show/{{member.id}}" class="row-button" flex>{{member.fullName}}</md-button>
+                                    <md-button ng-href="/character/show/{{member.id}}" class="row-element" flex>{{member.fullName}}</md-button>
                                 </div>
                                 <md-divider ng-if="!$last"></md-divider>
                             </md-item>
