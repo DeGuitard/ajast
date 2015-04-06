@@ -32,7 +32,8 @@
         md-items="player in findPlayers(searchString)"
         md-item-text="player.fullName"
         md-selected-item="newPlayer"
-        md-selected-item-change ="addPlayer()">
+        md-selected-item-change="addPlayer()"
+        md-no-cache="true">
     <span md-highlight-text="searchString">{{player.fullName}}</span>
 </md-autocomplete>
 

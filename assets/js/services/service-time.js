@@ -37,7 +37,6 @@ function TimeService(time, $http) {
         if (canRoll) canRoll = this.currentAction().archetype !== undefined;
         if (canRoll) canRoll = this.currentAction().target !== undefined;
         if (canRoll) canRoll = this.currentAction().desc !== undefined;
-        if (canRoll) canRoll = this.currentAction().roll === undefined;
         if (canRoll) canRoll = !time.isFinished;
         return canRoll;
     };

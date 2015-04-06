@@ -1,26 +1,82 @@
-<div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isOP()">
-    Ce personnage est surcompétent.
-</div>
-<div ng-repeat="archetype in archetypes | orderBy:'trigram'" layout="row">
-    <div flex="15" layout layout-align="center center">{{archetype.trigram}}</div>
-    <md-slider flex md-discrete ng-model="character.archetypes[archetype.trigram]" step="1" min="0" max="5" ng-disabled="disabled" aria-label="Compétence d'archétype {{archetype.trigram}}"></md-slider>
-    <div flex="20" layout layout-align="center center">
-        <span ng-if="character.archetypes[archetype.trigram] == 0 || !character.archetypes[archetype.trigram]">—</span>
-        <span ng-if="character.archetypes[archetype.trigram] == 1">Apprenti</span>
-        <span ng-if="character.archetypes[archetype.trigram] == 2">Amateur</span>
-        <span ng-if="character.archetypes[archetype.trigram] == 3">Spécialiste</span>
-        <span ng-if="character.archetypes[archetype.trigram] == 4">Expert</span>
-        <span ng-if="character.archetypes[archetype.trigram] == 5">Surdoué</span>
-    </div>
-</div>
-<div layout="row" class="md-padding" layout-align="center center">
-    <md-select ng-model="character.fightType" placeholder="Type de combat" flex="85" style="margin-top: 0.3em;" ng-hide="disabled" required>
-        <md-option value="offense">Offensif</md-option>
-        <md-option value="defense">Défensif</md-option>
-        <md-option value="hybrid">Hybride</md-option>
-    </md-select>
-    <md-input-container ng-show="disabled" flex="85">
-        <label>Type de combat</label>
-        <input ng-model="fightType" ng-readonly="true" />
-    </md-input-container>
-</div>
+<md-tabs class="md-primary with-animation" md-selected="data.selectedIndex">
+    <md-tab id="fight">
+        <md-tab-label>Combat</md-tab-label>
+        <md-tab-template>
+            <md-content class="md-padding" style="min-height: 220px !important;">
+                <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isOP()">
+                    Ce personnage est surcompétent.
+                </div>
+                <div ng-repeat="archetype in archetypes | orderBy:'trigram'" layout="row" ng-hide="disabled && character.archetypes[archetype.trigram] == 0">
+                    <div flex="15" layout layout-align="center center"><img ng-src="/images/icons/archetypes/{{archetype.trigram}}.png" alt="{{archetype.trigram}}" /></div>
+                    <md-slider flex md-discrete ng-model="character.archetypes[archetype.trigram]" step="1" min="0" max="5" ng-disabled="disabled" aria-label="Compétence d'archétype {{archetype.trigram}}"></md-slider>
+                    <div flex="20" layout layout-align="center center">
+                        <span ng-if="character.archetypes[archetype.trigram] == 0 || !character.archetypes[archetype.trigram]">—</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 1">Apprenti</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 2">Amateur</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 3">Spécialiste</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 4">Expert</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 5">Surdoué</span>
+                    </div>
+                </div>
+                <div class="gap"></div>
+                <div layout="row" class="md-padding" layout-align="center center">
+                    <md-select ng-model="character.fightType" placeholder="Type de combat" flex="85" style="margin-top: 0.3em;" ng-hide="disabled" required>
+                        <md-option value="offense">Offensif</md-option>
+                        <md-option value="defense">Défensif</md-option>
+                        <md-option value="hybrid">Hybride</md-option>
+                    </md-select>
+                    <md-input-container ng-show="disabled" flex="85">
+                        <label>Type de combat</label>
+                        <input ng-model="fightType" ng-readonly="true" />
+                    </md-input-container>
+                </div>
+            </md-content>
+        </md-tab-template>
+    </md-tab>
+    <md-tab id="craft" ng-hide="fightOnly">
+        <md-tab-label>Artisanat</md-tab-label>
+        <md-tab-template>
+            <md-content class="md-padding" style="min-height: 220px !important;">
+                <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isCraftOrHarvestOP()">
+                    Ce personnage est surcompétent.
+                </div>
+                <div ng-show="!isCrafter() && disabled"  layout="row" layout-align="center center">
+                    Ce personnage n'a aucune compétence en artisanat.
+                </div>
+                <div ng-repeat="craft in crafts | orderBy:'trigram'" layout="row" ng-hide="disabled && character.crafts[craft.trigram] == 0">
+                    <div flex="15" layout layout-align="center center"><img ng-src="/images/icons/crafts/{{craft.trigram}}.png" alt="{{craft.trigram}}" /></div>
+                    <md-slider flex md-discrete ng-model="character.crafts[craft.trigram]" step="1" min="0" max="3" ng-disabled="disabled" aria-label="Compétence de craft {{craft.trigram}}"></md-slider>
+                    <div flex="20" layout layout-align="center center">
+                        <span ng-if="character.crafts[craft.trigram] == 0 || !character.crafts[craft.trigram]">—</span>
+                        <span ng-if="character.crafts[craft.trigram] == 1">Apprenti</span>
+                        <span ng-if="character.crafts[craft.trigram] == 2">Amateur</span>
+                        <span ng-if="character.crafts[craft.trigram] == 3">Expert</span>
+                    </div>
+                </div>
+            </md-content>
+        </md-tab-template>
+    </md-tab>
+    <md-tab id="harvest" ng-hide="fightOnly">
+        <md-tab-label>Récolte</md-tab-label>
+        <md-tab-template>
+            <md-content class="md-padding" style="min-height: 220px !important;">
+                <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isCraftOrHarvestOP()">
+                    Ce personnage est surcompétent.
+                </div>
+                <div ng-show="!isHarvester() && disabled" layout="row" layout-align="center center">
+                    Ce personnage n'a aucune compétence en récolte.
+                </div>
+                <div ng-repeat="harvester in harvesters | orderBy:'trigram'" layout="row" ng-hide="disabled && character.harvesters[harvester.trigram] == 0">
+                    <div flex="15" layout layout-align="center center"><img ng-src="/images/icons/crafts/{{harvester.trigram}}.png" alt="{{harvester.trigram}}" /></div>
+                    <md-slider flex md-discrete ng-model="character.harvesters[harvester.trigram]" step="1" min="0" max="3" ng-disabled="disabled" aria-label="Compétence de récolte {{harvester.trigram}}"></md-slider>
+                    <div flex="20" layout layout-align="center center">
+                        <span ng-if="character.harvesters[harvester.trigram] == 0 || !character.harvesters[harvester.trigram]">—</span>
+                        <span ng-if="character.harvesters[harvester.trigram] == 1">Apprenti</span>
+                        <span ng-if="character.harvesters[harvester.trigram] == 2">Amateur</span>
+                        <span ng-if="character.harvesters[harvester.trigram] == 3">Expert</span>
+                    </div>
+                </div>
+            </md-content>
+        </md-tab-template>
+    </md-tab>
+</md-tabs>

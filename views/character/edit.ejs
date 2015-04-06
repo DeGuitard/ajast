@@ -39,7 +39,7 @@
                         </md-input-container>
                     </div>
                     <div layout="row" layout-sm="column">
-                        <md-select ng-model="character.race" ng-change="checkAge()" placeholder="Race" flex required>
+                        <md-select ng-model="character.race" ng-change="raceChange()" placeholder="Race" flex required>
                             <md-option ng-value="race" ng-repeat="race in races | orderBy:'name' track by race.id">{{race.name}}</md-option>
                         </md-select>
                         <md-select ng-model="character.tribe" placeholder="Ethnie" flex required>
@@ -94,13 +94,7 @@
 
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
-                <md-toolbar>
-                    <span class="md-toolbar-tools">Compétences</span>
-                </md-toolbar>
-
-                <md-content class="md-padding" style="font-size:1.2em;" layout="column">
-                    <archetypes character="character" archetypes="archetypes"></archetypes>
-                </md-content>
+                <archetypes character="character" archetypes="archetypes"></archetypes>
             </md-whiteframe>
         </div>
 

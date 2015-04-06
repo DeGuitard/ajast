@@ -22,6 +22,10 @@ md-input-container .md-input { flex: none !important; }
 .input-block { font-size:1.2em;color: rgba(255,255,255,0.87) }
 .row-button { text-align: left; font-weight: 400; padding: 20px;}
 
+/** TABS STRUCTURE **/
+.md-header { min-height: 64px; }
+md-tab md-tab-label { font-size: 1.3em; text-transform: none; }
+
 /** HOME PAGE STRUCTURE **/
 .home-title-block { min-height: 30%; }
 .home-title-text { font-size: 6em; font-weight: 100; text-align: center; }
