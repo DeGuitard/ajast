@@ -42,7 +42,7 @@
             </span>
             </md-toolbar>
             <md-content layout="row" layout-wrap>
-                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in fights | filter:{time: {isFinished: true}}">
+                <md-card flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in fights | orderBy:'-updatedAt' | filter:{time: {isFinished: true}}">
                     <md-button class="md-primary md-hue-1" ng-href="/fight/{{fight.shortid}}">#{{fight.shortid}}</md-button>
                 </md-card>
             </md-content>

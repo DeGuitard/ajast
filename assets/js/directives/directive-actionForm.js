@@ -28,15 +28,22 @@ app.directive('actionForm', function() {
                 return $scope.currentAction().source.archetypes[archetype.trigram] > 0;
             };
             $scope.setDefaultOptions = function() {
-                var defaultArchetype;
+                var defaultArchetype, defaultTarget;
                 for (var i = 0; i < $scope.archetypes.length; i++) {
                     if ($scope.isArchetypeAvailable($scope.archetypes[i])) {
                         defaultArchetype = $scope.archetypes[i];
                         break;
                     }
                 }
+                for (var i = 0; i < $scope.players().length; i++) {
+                    if ($scope.players()[i].trigram == timeService.lastAction().target.trigram) {
+                        defaultTarget = $scope.players()[i];
+                        break;
+                    }
+                }
                 $scope.currentAction().archetype = defaultArchetype.trigram;
                 $scope.currentAction().type = timeService.lastAction().type;
+                $scope.currentAction().target = defaultTarget;
             }
         }]
     };
