@@ -14,7 +14,7 @@ module.exports = {
             {
                 fights: function(callback) {
                     Fight.native(function(err, Collection) {
-                        Collection.find({}, {shortid: 1, "time.hasStarted": 1, "time.isFinished": 1}).limit(30).toArray(function(err, result) {
+                        Collection.find({}, {shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}).limit(30).toArray(function(err, result) {
                             callback(null, result);
                         });
                     });
@@ -256,23 +256,32 @@ module.exports = {
     _getScore: function(archetype) {
         if (!archetype) return 0;
 
-        var score = 0;
         // SCH = SMN > NIN = MNK > DRG = BRD > PLD = WAR > WHM = BLM
-        if (archetype['SCH']) score += archetype['SCH'] * 19; // ex 5*18 = 95%
-        if (archetype['SMN']) score += archetype['SMN'] * 19;
-        if (archetype['NIN']) score += archetype['NIN'] * 18.5;
-        if (archetype['MNK']) score += archetype['MNK'] * 18.5;
-        if (archetype['DRG']) score += archetype['DRG'] * 18;
-        if (archetype['BRD']) score += archetype['BRD'] * 18;
-        if (archetype['PLD']) score += archetype['PLD'] * 17.5;
-        if (archetype['WAR']) score += archetype['WAR'] * 17.5;
-        if (archetype['WHM']) score += archetype['WHM'] * 17;
-        if (archetype['BLM']) score += archetype['BLM'] * 17; // ex: 5*15 = 85%
+        var y = { SCH: -2.5, SMN: -2.5, NIN: -2, MNK: -2, DRG: -1, BRD: -1, PLD: -0.25, WAR: -0.25, WHM: 0, BLM: 0, PNJ: -1};
 
-        if (archetype['PNJ']) score += archetype['PNJ'] * 17;
+        var x = 0;
+        for (var key in archetype) {
+            x += archetype[key];
+        }
 
-        // For instance, SCH3 and SMN2 = 3*10 + 2*10 = 50.
-        return score;
+        var mainArchetype = 'SCH';
+        if (archetype['SMN'] > archetype[mainArchetype]) mainArchetype = 'SMN';
+        if (archetype['NIN'] > archetype[mainArchetype]) mainArchetype = 'NIN';
+        if (archetype['MNK'] > archetype[mainArchetype]) mainArchetype = 'MNK';
+        if (archetype['DRG'] > archetype[mainArchetype]) mainArchetype = 'DRG';
+        if (archetype['BRD'] > archetype[mainArchetype]) mainArchetype = 'BRD';
+        if (archetype['PLD'] > archetype[mainArchetype]) mainArchetype = 'PLD';
+        if (archetype['WAR'] > archetype[mainArchetype]) mainArchetype = 'WAR';
+        if (archetype['WHM'] > archetype[mainArchetype]) mainArchetype = 'WHM';
+        if (archetype['BLM'] > archetype[mainArchetype]) mainArchetype = 'BLM';
+        if (archetype['PNJ'] > archetype[mainArchetype]) mainArchetype = 'PNJ';
+
+        Math.log10 = Math.log10 || function(x) {
+            return Math.log(x) / Math.LN10;
+        };
+
+        if (x == 0) return 0;
+        return Math.log10(4*x)/-x + 68/(56 + y[mainArchetype]);
     },
 
     _needsMoreActions: function(actions) {
@@ -289,17 +298,16 @@ module.exports = {
     _addActions: function(actions, players, currentIndex, reset) {
         var self = this,
             activePlayers = players.filter(function(player) {
-            player.initiative = self._getScore(player.archetypes);
-            return player.active;
-        });
+                player.initiative = self._getScore(player.archetypes);
+                return player.active;
+            });
         activePlayers.sort(function(a, b) { return a.initiative - b.initiative; });
 
         // Iterates the list of players to fill .
         var newActions = [];
         while (newActions.length < 10) {
             for (var i = 0; i < activePlayers.length; i++) {
-                var random = Math.random() * (100 - 1) + 1;
-                if (activePlayers[i].initiative > random) {
+                if (activePlayers[i].initiative > Math.random()) {
                     newActions.push({source: activePlayers[i]});
                 }
             }
