@@ -13,18 +13,14 @@ module.exports = {
         async.parallel(
             {
                 fights: function(callback) {
-                    Fight.native(function(err, Collection) {
-                        Collection.find({}, {shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}).limit(30).toArray(function(err, result) {
-                            callback(null, result);
-                        });
+                    Fight.find({}, {fields: { shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}}).sort('updatedAt DESC').limit(30).exec(function(err, result) {
+                        callback(null, result);
                     });
                 },
                 myFights: function(callback) {
                     if (req.user) {
-                        Fight.native(function (err, Collection) {
-                            Collection.find({mj: req.user.id, "time.hasStarted": false}, {shortid: 1}).toArray(function (err, result) {
-                                callback(null, result);
-                            });
+                        Fight.find({mj: req.user.id, "time.hasStarted": false}, {fields: {shortid: 1}}).exec(function (err, result) {
+                            callback(null, result);
                         });
                     } else {
                         callback(null, []);
