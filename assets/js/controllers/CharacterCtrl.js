@@ -60,6 +60,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
             ];
         } else {
             $scope.page.title = 'Créer son personnage';
+            $scope.avatar = '/images/avatars/default.png';
         }
     };
 
@@ -131,6 +132,12 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
         }
         $scope.character.tribe = undefined;
     };
+
+    $scope.getAvatar = function(character) {
+        console.log(character.avatar)
+        if (character.avatar) return character.avatar;
+        else return 'default.png';
+    }
 }]);
 
 // Just a small directive to be able to update the avatar with the preview of the new image.
