@@ -9,7 +9,7 @@ body { -moz-osx-font-smoothing: grayscale; }
 .logo-link img { transition: all 250ms ease-in-out; }
 .logo-link:hover img { transform:rotate(90deg); }
 .logo-title { font-weight: 300; font-size: 1.5em; }
-.main-menu .md-button { padding: 10px; text-align: left; font-weight: 400; }
+.main-menu .md-button { text-align: left; font-weight: 400; }
 .main-menu md-list { padding: 0; margin: 0; }
 .main-content { padding-bottom: 50px; }
 .main-menu h3 { text-align: center; margin: 30px 0 10px 0; font-weight: 400; text-transform: uppercase; color: #777; }
@@ -19,6 +19,8 @@ body { -moz-osx-font-smoothing: grayscale; }
 textarea { text-align: justify }
 md-input-container .md-input { flex: none !important; }
 .no-animation, .no-animation * { transition: none !important; }
+md-tooltip.md-dark-theme .md-background { background-color: rgba(0,0,0,0.8) !important; }
+md-select .md-select-value { width: 100% !important; }
 
 /** TABS STRUCTURE **/
 .md-header { min-height: 64px; }

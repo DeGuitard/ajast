@@ -1,4 +1,4 @@
-app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", function($scope, $http, $mdToast, $mdDialog) {
+app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', function($scope, $http, $mdToast, $mdDialog) {
     $scope.initRaces = function(races) {
         $scope.races = races;
         for (var i = 0; i < $scope.races.length; i++) {
@@ -12,7 +12,7 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
     };
 
     $scope.initListMode = function(characters, userId) {
-        $scope.page.title = "Liste des personnages";
+        $scope.page.title = 'Liste des personnages';
         $scope.characters = characters;
         var userCharacters = [];
 
@@ -23,15 +23,15 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
                 }
             }
 
-            $scope.contextualLinks.title = "Mes personnages";
+            $scope.contextualLinks.title = 'Mes personnages';
             $scope.contextualLinks.links = [];
             for (var i = 0; i < userCharacters.length; i++) {
                 $scope.contextualLinks.links.push({
-                    url: "/character/show/" + userCharacters[i]._id,
+                    url: '/character/show/' + userCharacters[i]._id,
                     text: userCharacters[i].fullName
                 });
             }
-            $scope.contextualLinks.links.push({url: '/character/new', text: "Créer un nouveau"});
+            $scope.contextualLinks.links.push({url: '/character/new', text: 'Créer un nouveau'});
         }
     };
 
@@ -40,7 +40,7 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
         $scope.character = character;
         if (userId && ($scope.character.user == userId || $scope.character.user == undefined)) {
             $scope.isOwner = true;
-            $scope.contextualLinks.title = "Mon personnage";
+            $scope.contextualLinks.title = 'Mon personnage';
             $scope.contextualLinks.links = [
                 {url: '/character/edit/' + $scope.character.id, text: 'Modifier'},
                 {text: 'Supprimer', action: function() { $scope.delete(); }}
@@ -52,14 +52,14 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
         $scope.character = character;
         $scope.avatar = '/images/avatars/' + $scope.character.avatar;
         if ($scope.character.id) {
-            $scope.page.title = "Mettre à jour mon personnage";
-            $scope.contextualLinks.title = "Mon personnage";
+            $scope.page.title = 'Mettre à jour mon personnage';
+            $scope.contextualLinks.title = 'Mon personnage';
             $scope.contextualLinks.links = [
                 {url: '/character/show/' + $scope.character.id, text: 'Consulter'},
                 {text: 'Supprimer', action: function () { $scope.delete(); }}
             ];
         } else {
-            $scope.page.title = "Créer son personnage";
+            $scope.page.title = 'Créer son personnage';
         }
     };
 
@@ -74,7 +74,7 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
     });
     $scope.$on('flow::fileAdded', function (event, flow, file) {
         if (file.size > 1024000) {
-            $scope.uploadError = "Fichier trop volumineux (1mo max).";
+            $scope.uploadError = 'Fichier trop volumineux (1mo max).';
             event.preventDefault();
         } else {
             var fileReader = new FileReader();
@@ -93,15 +93,15 @@ app.controller('CharacterCtrl', ["$scope", "$http", "$mdToast", "$mdDialog", fun
         }
         charToSave.timeline = $scope.character.getTimeline();
         charToSave.race = $scope.character.race.id;
-        $http.post("/character/save", {character: charToSave}).success(function(data) {
+        $http.post('/character/save', {character: charToSave}).success(function(data) {
             $scope.character.id = (data.id) ? data.id : data[0].id;
             $mdToast.show(
-                $mdToast.simple().content("Sauvegarde réussie !").position('top right').hideDelay(5000)
+                $mdToast.simple().content('Sauvegarde réussie !').position('top right').hideDelay(5000)
             );
         }).error(function(err) {
             err = err == 'Conflict' ? 'Nom ou trigramme déjà utilisé par un autre personnage.' : err;
             $mdToast.show(
-                $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                $mdToast.simple().content('Erreur ! ' + err).position('top right').hideDelay(5000)
             );
         })
     };
