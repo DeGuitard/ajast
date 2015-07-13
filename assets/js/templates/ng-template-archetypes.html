@@ -6,6 +6,20 @@
                 <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isOP()">
                     Ce personnage est surcompétent.
                 </div>
+                <div layout="row" class="md-padding" layout-align="center center">
+                    <md-input-container  flex="85">
+                        <label>Style de combat</label>
+                        <md-select ng-model="character.fightType" placeholder="Style de combat" ng-hide="disabled" required>
+                            <md-option value="offense">Offensif</md-option>
+                            <md-option value="defense">Défensif</md-option>
+                            <md-option value="hybrid">Hybride</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container ng-show="disabled" flex="85">
+                        <label>Type de combat</label>
+                        <input ng-model="fightType" ng-readonly="true" />
+                    </md-input-container>
+                </div>
                 <div ng-repeat="archetype in archetypes | orderBy:'trigram'" layout="row" ng-hide="disabled && character.archetypes[archetype.trigram] == 0">
                     <div flex="15" layout layout-align="center center">
                         <img ng-src="/images/icons/archetypes/{{archetype.trigram}}.png" alt="{{archetype.trigram}}" />
@@ -22,17 +36,6 @@
                     </div>
                 </div>
                 <div class="gap"></div>
-                <div layout="row" class="md-padding" layout-align="center center">
-                    <md-select ng-model="character.fightType" placeholder="Type de combat" flex="85" style="margin-top: 0.3em;" ng-hide="disabled" required>
-                        <md-option value="offense">Offensif</md-option>
-                        <md-option value="defense">Défensif</md-option>
-                        <md-option value="hybrid">Hybride</md-option>
-                    </md-select>
-                    <md-input-container ng-show="disabled" flex="85">
-                        <label>Type de combat</label>
-                        <input ng-model="fightType" ng-readonly="true" />
-                    </md-input-container>
-                </div>
             </md-content>
         </md-tab-template>
     </md-tab>
