@@ -7,9 +7,9 @@
                     Ce personnage est surcompétent.
                 </div>
                 <div layout="row" class="md-padding" layout-align="center center">
-                    <md-input-container  flex="85">
+                    <md-input-container  flex="85" ng-hide="disabled">
                         <label>Style de combat</label>
-                        <md-select ng-model="character.fightType" placeholder="Style de combat" ng-hide="disabled" required>
+                        <md-select ng-model="character.fightType" placeholder="Style de combat" required>
                             <md-option value="offense">Offensif</md-option>
                             <md-option value="defense">Défensif</md-option>
                             <md-option value="hybrid">Hybride</md-option>
