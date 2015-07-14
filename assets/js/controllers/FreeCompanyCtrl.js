@@ -66,7 +66,8 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', 'c
                 $scope.newMember.isInvited = true;
                 if (isFounder) $scope.freeCompany.founders.push($scope.newMember);
                 else $scope.freeCompany.members.push($scope.newMember);
-                $timeout(function() { $scope.searchString = ''; $scope.newMember = undefined; },100);
+                $scope.searchString = '';
+                $scope.newMember = undefined;
             })
             .error(function(err) {
                 $mdToast.show(

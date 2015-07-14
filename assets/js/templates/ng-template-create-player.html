@@ -1,11 +1,11 @@
 <md-dialog aria-label="Créer un personnage" flex="75">
-    <md-toolbar>
-        <h2 class="md-toolbar-tools">
-            <span>Créer un personnage</span>
-        </h2>
-    </md-toolbar>
-    <md-content class="md-primary">
-        <form name="newPlayerForm">
+    <form name="newPlayerForm">
+        <md-toolbar>
+            <h2 class="md-toolbar-tools">
+                <span>Créer un personnage</span>
+            </h2>
+        </md-toolbar>
+        <md-dialog-content class="md-primary">
             <div layout layout-sm="column">
                 <md-input-container flex="66">
                     <label>Prénom</label>
@@ -23,12 +23,16 @@
                 </md-input-container>
             </div>
             <archetypes character="player" archetypes="archetypes" fight-only="true"></archetypes>
-        </form>
-    </md-content>
-    <div class="md-actions" layout="row">
-        <span flex></span>
-        <md-button ng-click="create()" ng-disabled="isOP() || newPlayerForm.$invalid" class="md-primary">
-            Valider
-        </md-button>
-    </div>
+
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary">
+                Annuler
+            </md-button>
+            <md-button ng-click="create()" ng-disabled="isOP() || newPlayerForm.$invalid" class="md-primary">
+                Valider
+            </md-button>
+        </div>
+    </form>
 </md-dialog>

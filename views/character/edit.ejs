@@ -39,16 +39,25 @@
                         </md-input-container>
                     </div>
                     <div layout="row" layout-sm="column">
-                        <md-select ng-model="character.race" ng-change="raceChange()" placeholder="Race" flex required>
-                            <md-option ng-value="race" ng-repeat="race in races | orderBy:'name' track by race.id">{{race.name}}</md-option>
-                        </md-select>
-                        <md-select ng-model="character.tribe" placeholder="Ethnie" flex required>
-                            <md-option ng-value="tribe" ng-repeat="tribe in character.race.tribes">{{tribe}}</md-option>
-                        </md-select>
-                        <md-select ng-model="character.sex" name="sex" placeholder="Sexe" flex-gt-sm="25" required>
-                            <md-option value="F">Femme</md-option>
-                            <md-option value="H">Homme</md-option>
-                        </md-select>
+                        <md-input-container flex>
+                            <label>Race</label>
+                            <md-select ng-model="character.race" ng-change="raceChange()" placeholder="Race" flex required>
+                                <md-option ng-value="race" ng-repeat="race in races | orderBy:'name' track by race.id">{{race.name}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Ethnie</label>
+                            <md-select ng-model="character.tribe" placeholder="Ethnie" flex required>
+                                <md-option ng-value="tribe" ng-repeat="tribe in character.race.tribes">{{tribe}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm="25">
+                            <label>Sexe</label>
+                            <md-select ng-model="character.sex" name="sex" placeholder="Sexe" flex required>
+                                <md-option value="F">Femme</md-option>
+                                <md-option value="H">Homme</md-option>
+                            </md-select>
+                        </md-input-container>
                     </div>
                     <div layout="row" style="margin-top: 20px;">
                         <div flex="10" layout layout-align="center center">
@@ -77,16 +86,22 @@
 
                 <md-content class="md-padding" style="font-size:1.2em;">
                     <div layout="row" layout-sm="column">
-                        <md-select ng-model="character.god" placeholder="Divinité vénérée" flex style="margin-top: 0px;">
-                            <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name}}, {{god.desc}}</md-option>
-                        </md-select>
+                        <md-input-container flex>
+                            <label>Divinité vénérée</label>
+                            <md-select ng-model="character.god" placeholder="Divinité vénérée" flex style="margin-top: 0px;" required>
+                                <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name}}, {{god.desc}}</md-option>
+                            </md-select>
+                        </md-input-container>
                     </div>
                     <div layout="row" layout-sm="column">
-                        <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
-                            <md-optgroup label="{{region}}" ng-repeat="region in regions | orderBy:'toString()'">
-                                <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:'name'">{{town.name}}</md-option>
-                            </md-optgroup>
-                        </md-select>
+                        <md-input-container flex>
+                            <label>Lieu de naissance</label>
+                            <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
+                                <md-optgroup label="{{region}}" ng-repeat="region in regions | orderBy:'toString()'">
+                                    <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:'name'">{{town.name}}</md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
                     </div>
                 </md-content>
             </md-whiteframe>

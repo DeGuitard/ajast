@@ -14,7 +14,7 @@
         "tests"
     ],
     "dependencies": {
-        "angular-material": "~0.8.3",
+        "angular-material": "~0.10.1-rc1",
         "angular-messages": "~1.3.15",
         "ng-flow": "~2",
         "vis": "~3.11.0"

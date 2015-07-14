@@ -9,7 +9,7 @@ body { -moz-osx-font-smoothing: grayscale; }
 .logo-link img { transition: all 250ms ease-in-out; }
 .logo-link:hover img { transform:rotate(90deg); }
 .logo-title { font-weight: 300; font-size: 1.5em; }
-.main-menu .md-button { padding: 10px; text-align: left; font-weight: 400; }
+.main-menu .md-button { text-align: left; font-weight: 400; }
 .main-menu md-list { padding: 0; margin: 0; }
 .main-content { padding-bottom: 50px; }
 .main-menu h3 { text-align: center; margin: 30px 0 10px 0; font-weight: 400; text-transform: uppercase; color: #777; }
@@ -21,6 +21,8 @@ md-input-container .md-input { flex: none !important; }
 .no-animation, .no-animation * { transition: none !important; }
 .input-block { font-size:1.2em;color: rgba(255,255,255,0.87) }
 .row-element { text-align: left; font-weight: 400; padding: 20px; }
+md-tooltip.md-dark-theme .md-background { background-color: rgba(0,0,0,0.8) !important; }
+md-select .md-select-value { width: 100% !important; }
 
 /** TABS STRUCTURE **/
 .md-header { min-height: 64px; }
@@ -86,7 +88,6 @@ div.effect-lily > div { position: absolute; bottom: 0; left: 0; width: 100%; hei
 
 /** COMPANY STRUCTURE **/
 .member-pending-invitation { color: rgba(128,128,128,0.87); text-transform: uppercase; font-size: 0.9em; }
-
 
 /* STATES
 /********************************/

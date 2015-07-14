@@ -45,7 +45,8 @@ module.exports = {
     },
 
     _acceptFcInvite: function(notification, res) {
-        var character = notification.data.character;
+        var character = notification.data.character,
+            freeCompany = notification.data.freeCompany;
 
         async.parallel({
             character: function(callback) {
@@ -56,6 +57,12 @@ module.exports = {
             },
             notification: function(callback) {
                 Notification.destroy({id: notification.id}).exec(function(err, result) {
+                    if (err) return callback(err);
+                    else return callback(null, result);
+                });
+            },
+            company: function(callback) {
+                FreeCompany.updatePlayersCount(freeCompany.id, function(err, result) {
                     if (err) return callback(err);
                     else return callback(null, result);
                 });

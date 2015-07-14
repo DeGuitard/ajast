@@ -29,16 +29,7 @@ function PlayersService($http, $q, archetypes, groups, timeService) {
         newPlayer.active = true;
         newPlayer.group = group.code;
         group.players.push(newPlayer);
-        this._save();
-    };
-
-    this.disablePlayer = function(player) {
-        player.active = false;
-        this._save();
-    };
-    this.enablePlayer = function(player) {
-        player.active = true;
-        this._save();
+        this.save();
     };
 
     this.find = function(term) {
@@ -71,10 +62,10 @@ function PlayersService($http, $q, archetypes, groups, timeService) {
     this.create = function(player) {
         player.fullName = player.firstName + ' ' + player.lastName;
         groups.tmp.push(player);
-        this._save(false);
+        this.save(false);
     };
 
-    this._save = function(withRefresh) {
+    this.save = function(withRefresh) {
         withRefresh = withRefresh === undefined ? true : withRefresh;
         $http.put('/fight/save/', {id: timeService.id(), data: {groups: groups}}).success(function() {
             if (withRefresh) timeService.refreshActions();

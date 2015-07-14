@@ -37,7 +37,6 @@ module.exports = {
                     users.push(characters[i].user);
                 }
             }
-            console.log('2');
             callback(null, users.length);
         } else {
             // We only have IDs, so we need to query the database to get the whole objects.
@@ -80,25 +79,24 @@ module.exports = {
         }
     },
 
-    beforeUpdate: function(valuesToUpdate, next) {
-        async.parallel({
-            // We update the *real* players count. i.e. rerolls are ignored.
-            playersCount: function(callback) {
-                if (valuesToUpdate.founders && valuesToUpdate.members) {
-                    FreeCompany.getPlayersCount(valuesToUpdate.founders, valuesToUpdate.members, callback);
-                } else callback(null, null);
-            },
+    updatePlayersCount: function(id, cb) {
+        FreeCompany.findOne({id: id}).exec(function(err, result) {
+            async.parallel({
+                // We update the *real* players count. i.e. rerolls are ignored.
+                playersCount: function(callback) {
+                    FreeCompany.getPlayersCount(result.founders, result.members, callback);
+                },
 
-            // Updates the 'users' list. It consists of the users that are authorized to edit the free company.
-            users: function(callback) {
-                if (valuesToUpdate.founders) {
-                    FreeCompany.getUsers(valuesToUpdate.founders, callback);
-                } else callback(null, null);
-            }
-        }, function(err, data) {
-            if (valuesToUpdate.founders) valuesToUpdate.users = data.users;
-            if (valuesToUpdate.founders && valuesToUpdate.members) valuesToUpdate.realPlayersCount = data.playersCount;
-            next();
+                // Updates the 'users' list. It consists of the users that are authorized to edit the free company.
+                users: function(callback) {
+                    FreeCompany.getUsers(result.founders, callback);
+                }
+            }, function(err, data) {
+                FreeCompany.update({id: id}, {users: data.users, realPlayersCount: data.playersCount}).exec(function(err, result) {
+                    if (err) return cb(err);
+                    else return cb(null, data.playersCount);
+                });
+            });
         });
     }
 };
