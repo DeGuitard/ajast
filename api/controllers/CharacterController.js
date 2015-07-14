@@ -11,10 +11,7 @@ module.exports = {
         // Native request to limit the fields... because Sails can't handle projection...
         Character.native(function(err, Collection) {
             Collection.find({
-                $or: [
-                    {firstName: {$regex: term, $options: 'i'}},
-                    {lastName: {$regex: term, $options: 'i'}}
-                ]
+                fullName: {$regex: term, $options: 'i'}
             }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 1}).toArray(function(err, result) {
                 res.send(result);
             });

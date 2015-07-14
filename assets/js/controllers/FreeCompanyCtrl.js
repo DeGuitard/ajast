@@ -1,4 +1,4 @@
-app.controller('FreeCompanyCtrl', ['$scope', '$timeout', 'charactersService', function($scope, $timeout, charactersService) {
+app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', 'charactersService', function($scope, $timeout, $http, $mdToast, charactersService) {
     $scope.initListMode = function(freeCompanies, userId) {
         $scope.freeCompanies = freeCompanies;
         $scope.contextualLinks.title = 'Mes compagnies';
@@ -39,7 +39,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', 'charactersService', fu
 
         if ($scope.freeCompany.id) {
             $scope.page.title = "Mettre à jour ma compagnie libre";
-            $scope.contextualLinks.title = "Mon compagnie libre";
+            $scope.contextualLinks.title = "Ma compagnie libre";
             $scope.contextualLinks.links = [
                 {url: '/free-company/show/' + $scope.freeCompany.id, text: 'Consulter'},
                 {text: 'Supprimer', action: function () { $scope.delete(); }}
@@ -60,9 +60,19 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', 'charactersService', fu
     $scope.addMember = function() {
         if (!$scope.newMember || !$scope.newMember.id) return;
         var isFounder = $scope.membersTab.selectedIndex == 0;
-        if (isFounder) $scope.freeCompany.founders.push($scope.newMember);
-        else $scope.freeCompany.members.push($scope.newMember);
-        $timeout(function() { $scope.searchString = ''; $scope.newMember = undefined; },100);
+
+        $http.post('/free-company/invite', {member: $scope.newMember.id, freeCompany: $scope.freeCompany.id, isFounder: isFounder})
+            .success(function() {
+                $scope.newMember.isInvited = true;
+                if (isFounder) $scope.freeCompany.founders.push($scope.newMember);
+                else $scope.freeCompany.members.push($scope.newMember);
+                $timeout(function() { $scope.searchString = ''; $scope.newMember = undefined; },100);
+            })
+            .error(function(err) {
+                $mdToast.show(
+                    $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                );
+            });
     };
 
     $scope.removeMember = function(member) {
@@ -74,5 +84,19 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', 'charactersService', fu
             var index = $scope.freeCompany.members.indexOf(member.id);
             $scope.freeCompany.members.splice(index, 1);
         }
-    }
+    };
+
+    $scope.save = function() {
+        $http.post("/free-company/save", {freeCompany: $scope.freeCompany}).success(function(data) {
+            $scope.freeCompany.id = (data.id) ? data.id : data[0].id;
+            $mdToast.show(
+                $mdToast.simple().content("Sauvegarde réussie !").position('top right').hideDelay(5000)
+            );
+        }).error(function(err) {
+            err = err == 'Conflict' ? 'Nom déjà utilisé par une autre compagnie.' : err;
+            $mdToast.show(
+                $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+            );
+        })
+    };
 }]);

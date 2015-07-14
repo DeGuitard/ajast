@@ -23,7 +23,11 @@
                 <md-list layout="column">
                     <md-item ng-repeat="fc in results = (freeCompanies | filter:searchString)">
                         <div layout="row" flex>
-                            <md-button class="row-element" ng-href="/free-company/show/{{fc._id}}" flex>{{fc.name}}</md-button>
+                            <md-button class="row-element" ng-href="/free-company/show/{{fc._id}}" flex layout="row">
+                                <span class="company-tag">[{{fc.tag}}]</span>
+                                <span class="company-name" flex>{{fc.name}}</span>
+                                <span class="company-size">{{fc.realPlayersCount}} joueur(s)</span>
+                            </md-button>
                         </div>
                         <md-divider ng-if="!$last"></md-divider>
                     </md-item>

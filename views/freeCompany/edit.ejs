@@ -59,7 +59,8 @@
                                     <md-item ng-repeat="founder in freeCompany.founders | orderBy:'fullName'">
                                         <div layout="row" class="row-element height-transition" flex layout-align="center center">
                                             <span flex>{{founder.fullName}}</span>
-                                            <md-button ng-click="removeMember(founder)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
+                                            <span ng-show="founder.isInvited" class="member-pending-invitation">Invitation en cours</span>
+                                            <md-button ng-hide="founder.isInvited" ng-click="removeMember(founder)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
                                         </div>
                                         <md-divider ng-if="!$last"></md-divider>
                                     </md-item>
@@ -74,7 +75,8 @@
                                     <md-item ng-repeat="member in freeCompany.members | orderBy:'fullName'">
                                         <div layout="row" class="row-element height-transition" flex layout-align="center center">
                                             <span flex>{{member.fullName}}</span>
-                                            <md-button ng-click="removeMember(member)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
+                                            <span ng-show="member.isInvited" class="member-pending-invitation">Invitation en cours</span>
+                                            <md-button ng-hide="member.isInvited" ng-click="removeMember(member)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
                                         </div>
                                         <md-divider ng-if="!$last"></md-divider>
                                     </md-item>

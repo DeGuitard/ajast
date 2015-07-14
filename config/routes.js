@@ -84,5 +84,11 @@ module.exports.routes = {
     'get /free-company/show/:id': 'FreeCompanyController.show',
     'get /free-company/edit/:id': 'FreeCompanyController.edit',
     'post /free-company/save': 'FreeCompanyController.save',
-    'delete /free-company/remove/:id': 'FreeCompanyController.remove'
+    'post /free-company/invite': 'FreeCompanyController.invite',
+    'delete /free-company/remove/:id': 'FreeCompanyController.remove',
+
+    /** Notifications routes **/
+    'get /notifications': 'NotificationController.list',
+    'get /notification/:id/accept': 'NotificationController.accept',
+    'get /notification/:id/decline': 'NotificationController.decline'
 };
