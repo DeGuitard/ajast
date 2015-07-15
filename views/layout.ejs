@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html ng-app="ajast" ng-controller="MainCtrl" ng-cloak>
+<html ng-app="ajast" ng-cloak>
 <head>
-    <title ng-bind="'XIVRP ' + page.title">XIVRP</title>
+    <title><%= title %> - XIVRP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!--STYLES-->
     <link rel="stylesheet" href="/styles/angular-material.css">
@@ -43,7 +43,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
 </head>
 
-<body layout='row' md-swipe-left="closeMenu()" md-swipe-right="openMenu()">
+<body layout='row' md-swipe-left="closeMenu()" md-swipe-right="openMenu()" ng-controller="MainCtrl">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 main-menu" md-component-id="menu" md-is-locked-open="$mdMedia('gt-lg')">
         <md-toolbar class="md-primary">
             <a href="/" class="logo-link">

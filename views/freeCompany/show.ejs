@@ -1,7 +1,7 @@
 <% if (req.isAuthenticated()) { %>
-<div ng-controller="FreeCompanyCtrl" ng-init="initShowMode(<%= freeCompany %>, <%= JSON.stringify(req.user.id) %>);" flex>
+<div ng-controller="FreeCompanyCtrl" ng-init="initShowMode(<%= JSON.stringify(freeCompany) %>, <%= JSON.stringify(req.user.id) %>);" flex>
     <% } else { %>
-<div ng-controller="FreeCompanyCtrl" ng-init="initShowMode(<%= freeCompany %>);" flex>
+<div ng-controller="FreeCompanyCtrl" ng-init="initShowMode(<%= JSON.stringify(freeCompany) %>);" flex>
     <% } %>
 
     <div layout="row" layout-margin layout-align="center center">
@@ -97,3 +97,31 @@
         </md-whiteframe>
     </div>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement":
+  [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item":
+      {
+        "@id": "http://xivrp.com/compagnies-libres/",
+        "name": "Compagnies Libres"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item":
+      {
+        "@id": "http://xivrp.com/free-company/show/<%= freeCompany.id %>",
+        "name": "<%= freeCompany.name %>"
+      }
+    }
+  ]
+}
+</script>

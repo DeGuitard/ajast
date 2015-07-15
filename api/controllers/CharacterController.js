@@ -21,7 +21,7 @@ module.exports = {
     list: function(req, res) {
         Character.native(function(err, Collection) {
             Collection.find({}, {fullName: 1, firstName: 1, lastName: 1, trigram: 1, avatar: 1, archetypes: 1, user: 1, _id: 1}).toArray(function(err, result) {
-                res.view('character/index', {characters: JSON.stringify(result)});
+                res.view('character/index', {title: 'Liste des personnages RP', characters: JSON.stringify(result)});
             });
         });
     },
@@ -48,7 +48,8 @@ module.exports = {
             if (err) return res.serverError(err);
             if (!data.character) return res.notFound("Ce personnage n'existe pas / plus.");
             res.view('character/show', {
-                character: JSON.stringify(data.character),
+                title: data.character.fullName,
+                character: data.character,
                 archetypes: JSON.stringify(data.archetypes)
             });
         });
@@ -93,6 +94,7 @@ module.exports = {
                 }
             }
             res.view('character/edit', {
+                title: 'Créer un nouveau personnage',
                 character: JSON.stringify(character),
                 archetypes: JSON.stringify(data.archetypes),
                 gods: JSON.stringify(data.gods),
@@ -151,6 +153,7 @@ module.exports = {
                 }
             }
             res.view('character/edit', {
+                title: 'Édition de ' + data.character.fullName,
                 character: JSON.stringify(data.character),
                 archetypes: JSON.stringify(data.archetypes),
                 gods: JSON.stringify(data.gods),

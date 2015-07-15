@@ -10,7 +10,7 @@ var async = require('async');
 module.exports = {
 
     index: function(req, res) {
-        res.view();
+        res.view({title: 'La plateforme RP de référence pour Final Fantasy XIV'});
     }
 };
 

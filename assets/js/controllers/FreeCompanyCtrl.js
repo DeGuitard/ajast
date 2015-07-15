@@ -1,11 +1,10 @@
 app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$mdDialog', 'charactersService', function($scope, $timeout, $http, $mdToast, $mdDialog, charactersService) {
-    $scope.initListMode = function(freeCompanies, userId) {
+    $scope.initListMode = function(freeCompanies, servers, userId) {
         $scope.freeCompanies = freeCompanies;
+        $scope.servers = servers;
+        $scope.search = {};
         $scope.contextualLinks.title = 'Mes compagnies';
-        $scope.contextualLinks.links = [{
-            url: '/free-company/new',
-            text: 'Nouvelle compagnie'
-        }];
+        $scope.contextualLinks.links = [];
 
         var ownCompanies = $scope.freeCompanies.filter(function(fc) {
             return fc.users.indexOf(userId) != -1;
@@ -19,6 +18,10 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
                 });
             }
         }
+        $scope.contextualLinks.links.push({
+            url: '/free-company/new',
+            text: 'Créer une nouvelle'
+        });
     };
 
     $scope.initShowMode = function(freeCompany, userId) {

@@ -29,6 +29,7 @@ module.exports = {
             },
             function(err, data) {
                 res.view({
+                    title: 'Liste des combats RP',
                     fights: JSON.stringify(data.fights),
                     myFights: JSON.stringify(data.myFights)
                 });
@@ -89,11 +90,13 @@ module.exports = {
             if (!data.fight || !data.archetypes) return res.notFound();
             if (!req.user || data.fight.mj != req.user.id) {
                 res.view('fight/pj', {
+                    title: 'Suivi du combat #' + data.fight.shortid,
                     archetypes: JSON.stringify(data.archetypes),
                     fight: JSON.stringify(data.fight)
                 });
             } else {
                 res.view('fight/mj', {
+                    title: 'Gestion du combat #' + data.fight.shortid,
                     archetypes: JSON.stringify(data.archetypes),
                     fight: JSON.stringify(data.fight)
                 });

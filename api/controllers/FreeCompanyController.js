@@ -35,6 +35,7 @@ module.exports = {
             }
 
             res.view('freeCompany/index', {
+                title: 'Liste des compagnies libres RP',
                 freeCompanies: JSON.stringify(data.freeCompanies),
                 servers: JSON.stringify(data.servers)
             });
@@ -49,7 +50,7 @@ module.exports = {
                 return res.serverError(err);
             }
             if (!result) return res.notFound("Cette compagnie libre n'existe pas / plus.");
-            res.view('freeCompany/show', { freeCompany: JSON.stringify(result) });
+            res.view('freeCompany/show', { title: result.name, freeCompany: result });
         });
     },
 
@@ -68,6 +69,7 @@ module.exports = {
             }
 
             res.view('freeCompany/edit', {
+                title: 'Créer une nouvelle compagnie libre',
                 freeCompany: JSON.stringify({members: [], founders: [], users: [req.user.id], isRecruiting: true, icon: 'default.png'}),
                 servers: JSON.stringify(data.servers)
             });
@@ -98,6 +100,7 @@ module.exports = {
             else if (data.freeCompany.users.indexOf(req.user.id) == -1 && data.freeCompany.users.length > 0) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
             res.view('freeCompany/edit', {
+                title: 'Éditer "' + data.freeCompany.name + '"',
                 freeCompany: JSON.stringify(data.freeCompany),
                 servers: JSON.stringify(data.servers)
             });
