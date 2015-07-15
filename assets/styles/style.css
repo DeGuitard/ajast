@@ -20,7 +20,7 @@ textarea { text-align: justify }
 md-input-container .md-input { flex: none !important; }
 .no-animation, .no-animation * { transition: none !important; }
 .input-block { font-size:1.2em;color: rgba(255,255,255,0.87) }
-.row-element { text-align: left; font-weight: 400; padding: 20px; }
+.row-element { text-align: left; font-weight: 400; padding-left: 20px; }
 md-tooltip.md-dark-theme .md-background { background-color: rgba(0,0,0,0.8) !important; }
 md-select .md-select-value { width: 100% !important; }
 
@@ -85,6 +85,8 @@ div.effect-lily > div { position: absolute; bottom: 0; left: 0; width: 100%; hei
 /** COMPANY LIST STRUCTURE **/
 .company-tag { color: #4a148c; min-width: 50px; }
 .company-size { color: rgba(128,128,128,0.87); text-transform: uppercase; font-size: 0.9em; }
+.company-server { color: rgba(128,128,128,0.87); font-size: 0.9em; }
+.company-logo { width: 32px; height: 32px; margin-right: 20px; }
 
 /** COMPANY STRUCTURE **/
 .member-pending-invitation { color: rgba(128,128,128,0.87); text-transform: uppercase; font-size: 0.9em; }

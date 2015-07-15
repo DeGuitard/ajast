@@ -1,4 +1,4 @@
-<div ng-controller="FreeCompanyCtrl" ng-init="initEditMode(<%= freeCompany %>); servers = <%= servers %>" flex>
+<div ng-controller="FreeCompanyCtrl" ng-init="initEditMode(<%= freeCompany %>); servers = <%= servers %>" flex flow-init="{target: '/upload/fcicon', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
     <form name="form">
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
@@ -10,22 +10,25 @@
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
                             <label>Nom de la compagnie</label>
-                            <input ng-model="freeCompany.name">
+                            <input ng-model="freeCompany.name" required>
                         </md-input-container>
                         <md-input-container>
                             <label>Tag</label>
-                            <input ng-model="freeCompany.tag">
+                            <input ng-model="freeCompany.tag" required>
                         </md-input-container>
                     </div>
                     <div layout="row" layout-sm="column">
-                        <md-select ng-model="freeCompany.server" placeholder="Serveur" style="margin-top: 1.3em;" flex required>
-                            <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
-                        </md-select>
+                        <md-input-container flex-gt-sm="25">
+                            <label>Serveur</label>
+                            <md-select ng-model="freeCompany.server" placeholder="Serveur" style="margin-top: 1.3em;" flex required>
+                                <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                            </md-select>
+                        </md-input-container>
                         <md-input-container flex>
                             <label>Site / Forum</label>
-                            <input ng-model="freeCompany.url">
+                            <input ng-model="freeCompany.url" required>
                         </md-input-container>
-                        <md-switch ng-model="freeCompany.isRecruiting" aria-label="Recrutement" flex-gt-md="25">
+                        <md-switch ng-model="freeCompany.isRecruiting" aria-label="Recrutement" flex-gt-sm="25">
                             <span ng-show="freeCompany.isRecruiting">Recrutement ouvert</span>
                             <span ng-hide="freeCompany.isRecruiting">Recrutement fermé</span>
                         </md-switch>
@@ -56,12 +59,10 @@
                         <md-tab-template>
                             <md-content>
                                 <md-list>
-                                    <md-list-item ng-repeat="founder in freeCompany.founders | orderBy:'fullName'">
-                                        <div layout="row" class="row-element height-transition" flex layout-align="center center">
-                                            <span flex>{{founder.fullName}}</span>
-                                            <span ng-show="founder.isInvited" class="member-pending-invitation">Invitation en cours</span>
-                                            <md-button ng-hide="founder.isInvited" ng-click="removeMember(founder)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
-                                        </div>
+                                    <md-list-item ng-repeat="founder in freeCompany.founders | orderBy:'fullName'" layout="row" class="row-element height-transition" flex layout-align="center center">
+                                        <span flex>{{founder.fullName}}</span>
+                                        <span ng-show="founder.isInvited" class="member-pending-invitation">Invitation en cours</span>
+                                        <md-button ng-hide="founder.isInvited" ng-click="removeMember(founder)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
                                         <md-divider ng-if="!$last"></md-divider>
                                     </md-list-item>
                                 </md-list>
@@ -72,12 +73,10 @@
                         <md-tab-label>Joueurs</md-tab-label>
                         <md-tab-template>
                             <md-content><md-list>
-                                    <md-list-item ng-repeat="member in freeCompany.members | orderBy:'fullName'">
-                                        <div layout="row" class="row-element height-transition" flex layout-align="center center">
-                                            <span flex>{{member.fullName}}</span>
-                                            <span ng-show="member.isInvited" class="member-pending-invitation">Invitation en cours</span>
-                                            <md-button ng-hide="member.isInvited" ng-click="removeMember(member)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
-                                        </div>
+                                    <md-list-item ng-repeat="member in freeCompany.members | orderBy:'fullName'" layout="row" class="row-element height-transition" flex layout-align="center center">
+                                        <span flex>{{member.fullName}}</span>
+                                        <span ng-show="member.isInvited" class="member-pending-invitation">Invitation en cours</span>
+                                        <md-button ng-hide="member.isInvited" ng-click="removeMember(member)" aria-label="Supprimer"><img src="/images/icons/remove.svg" alt="Supprimer" /></md-button>
                                         <md-divider ng-if="!$last"></md-divider>
                                     </md-list-item>
                                 </md-list></md-content>
@@ -106,8 +105,23 @@
                 <md-content class="md-padding input-block" layout="column">
                     <md-input-container flex>
                         <label>Présentation</label>
-                        <textarea ng-model="freeCompany.desc" columns="1"></textarea>
+                        <textarea ng-model="freeCompany.desc" columns="1" required></textarea>
                     </md-input-container>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">Icône</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" layout-sm="column" layout-gt-sm="row" layout-margin layout-align="left center" flex>
+                    <md-button flow-btn flow-attrs="{accept:'image/*'}">Changer l'icône</md-button>
+                    <div ng-show="uploadError" class="error-msg">{{uploadError}}</div>
+                    <img class="company-logo" ng-hide="newImage" ng-src="/images/fcicons/{{freeCompany.icon}}" />
+                    <img class="company-logo" ng-show="newImage" flow-img="$flow.files[0]" />
                 </md-content>
             </md-whiteframe>
         </div>

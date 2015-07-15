@@ -21,16 +21,13 @@
             </md-toolbar>
             <md-content>
                 <md-list layout="column">
-                    <md-item ng-repeat="fc in results = (freeCompanies | filter:searchString)">
-                        <div layout="row" flex>
-                            <md-button class="row-element" ng-href="/free-company/show/{{fc._id}}" flex layout="row">
-                                <span class="company-tag">[{{fc.tag}}]</span>
-                                <span class="company-name" flex>{{fc.name}}</span>
-                                <span class="company-size">{{fc.realPlayersCount}} joueur(s)</span>
-                            </md-button>
-                        </div>
+                    <md-list-item ng-click="to('/free-company/show/' + fc._id)" ng-repeat="fc in results = (freeCompanies | filter:searchString)" layout="row">
+                        <img class="company-logo" src="/images/fcicons/{{fc.icon}}" />
+                        <span class="company-tag">[{{fc.tag}}]</span>
+                        <span class="company-name" flex>{{fc.name}} <span class="company-server">(sur {{fc.server}})</span></span>
+                        <span class="company-size">{{fc.realPlayersCount}} joueur<span ng-show="fc.realPlayersCount > 1">s</span></span>
                         <md-divider ng-if="!$last"></md-divider>
-                    </md-item>
+                    </md-list-item>
                 </md-list>
                 <p ng-hide="results.length">Aucune compagnie n'a été trouvée.</p>
             </md-content>

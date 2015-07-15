@@ -13,24 +13,65 @@ module.exports = {
     },
 
     list: function(req, res) {
-        FreeCompany.native(function(err, Collection) {
-            Collection.find({}, {name: 1, tag: 1, isRecruiting: 1, trigram: 1, website: 1, icon: 1, users: 1, realPlayersCount: 1, _id: 1}).toArray(function(err, result) {
-                return res.view('freeCompany/index', {freeCompanies: JSON.stringify(result)});
+        async.parallel({
+            freeCompanies: function(callback) {
+                FreeCompany.native(function(err, Collection) {
+                    Collection.find({}, {name: 1, tag: 1, isRecruiting: 1, trigram: 1, website: 1, icon: 1, users: 1, realPlayersCount: 1, server: 1, _id: 1}).toArray(function(err, result) {
+                        if (err) callback(err);
+                        callback(null, result);
+                    });
+                });
+            },
+            servers: function(callback) {
+                Server.find().exec(function(err, result) {
+                    if (err) callback(err);
+                    callback(null, result);
+                });
+            }
+        }, function(err, data) {
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
+
+            res.view('freeCompany/index', {
+                freeCompanies: JSON.stringify(data.freeCompanies),
+                servers: JSON.stringify(data.servers)
             });
         });
+
     },
 
     show: function(req, res) {
         FreeCompany.findOne({id: req.param("id")}).populate('founders').populate('members').exec(function(err, result) {
-            if (err) return res.serverError(err);
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
             if (!result) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             res.view('freeCompany/show', { freeCompany: JSON.stringify(result) });
         });
     },
 
     new: function(req, res) {
-        // TODO : sends a form to create a free company.
-        return res.status(501).send();
+        async.parallel({
+            servers: function(callback) {
+                Server.find().exec(function(err, result) {
+                    if (err) callback(err);
+                    callback(null, result);
+                });
+            }
+        }, function(err, data) {
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
+
+            res.view('freeCompany/edit', {
+                freeCompany: JSON.stringify({members: [], founders: [], users: [req.user.id], isRecruiting: true, icon: 'default.png'}),
+                servers: JSON.stringify(data.servers)
+            });
+        });
     },
 
     edit: function(req, res) {
@@ -49,9 +90,12 @@ module.exports = {
                 });
             }
         }, function(err, data) {
-            if (err) return res.serverError(err);
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
             if (!data.freeCompany) return res.notFound("Cette compagnie libre n'existe pas / plus.");
-            else if (data.freeCompany.users.indexOf(req.user.id) == -1 && data.freeCompany.users.size > 0) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
+            else if (data.freeCompany.users.indexOf(req.user.id) == -1 && data.freeCompany.users.length > 0) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
             res.view('freeCompany/edit', {
                 freeCompany: JSON.stringify(data.freeCompany),
@@ -65,9 +109,11 @@ module.exports = {
         if (!freeCompany) return res.serverError('Données corrompues.');
 
         FreeCompany.findOne({id: freeCompany.id}).exec(function(err, result) {
-            if (err) return res.serverError(err);
-            if (!result) return res.notFound("Cette compagnie libre n'existe pas / plus.");
-            else if (result.users.length > 0 && result.users.indexOf(req.user.id) == -1) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
+            else if (result && result.users.length > 0 && result.users.indexOf(req.user.id) == -1) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
             FreeCompany.findOne({
                 name : freeCompany.name,
@@ -83,7 +129,9 @@ module.exports = {
                 } else {
                     FreeCompany.update({id: freeCompany.id}, freeCompany).exec(function(err, result) {
                         if (err) return res.serverError(err.originalError.message);
-                        return res.send(result);
+                        FreeCompany.updatePlayersCount(freeCompany.id);
+                        res.send(result);
+
                     });
                 }
             });
@@ -95,15 +143,22 @@ module.exports = {
             memberId = req.param('member'),
             isFounder = req.param('isFounder');
 
+        if (!fcId) return res.serverError("Merci de sauvegarder la CL une première fois avant d'inviter des membres.");
         if (!fcId || !memberId) return res.serverError('Données corrompues.');
 
         FreeCompany.findOne({id: fcId}).exec(function(err, freeCompany) {
-            if (err) return res.serverError(err);
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
             if (!freeCompany) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             else if (freeCompany.users.length > 0 && freeCompany.users.indexOf(req.user.id) == -1) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
             Character.findOne({id: memberId}).exec(function(err, character) {
-                if (err) return res.serverError(err);
+                if (err) {
+                    sails.log.error(err);
+                    return res.serverError(err);
+                }
                 else if (!character) return res.notFound("Ce personnage n'existe pas / plus.");
                 else if (character.isInvited) return res.serverError('Ce personnage a déjà une invitation en cours.');
                 else if (character.leadership || character.membership) return res.serverError('Ce personnage est déjà dans une compagnie libre.');
@@ -139,7 +194,10 @@ module.exports = {
                         });
                     }
                 }, function(err, data) {
-                    if (err) return res.serverError(err);
+                    if (err) {
+                        sails.log.error(err);
+                        return res.serverError(err);
+                    }
                     else return res.send(data.freeCompany);
                 });
             });
@@ -147,8 +205,39 @@ module.exports = {
     },
 
     remove: function(req, res) {
-        // TODO : removes a free company under strict conditions.
-        return res.status(501).send();
+        FreeCompany.findOne({id: req.param('id')}).exec(function(err, freeCompany) {
+            if (err) {
+                sails.log.error(err);
+                return res.serverError(err);
+            }
+            if (!freeCompany) {
+                sails.log.warn('Tried to remove inexistent free company.');
+                return res.notFound("Cette compagnie libre n'existe pas / plus.");
+            }
+            if (freeCompany.users.length > 0 && freeCompany.users.indexOf(req.user.id) == -1) {
+                sails.log.warn('Tried to remove free company without according rights! user: ' + JSON.stringify(req.user));
+                return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
+            }
+
+            async.series({
+                characters: function(callback) {
+                    var members = freeCompany.founders.concat(freeCompany.members);
+                    Character.update({id: members}, {leadership: undefined, membership: undefined, isInvited: false}).exec(callback);
+                },
+                notifications: function(callback) {
+                    Notification.destroy({'data.freeCompany.id': freeCompany.id}).exec(callback);
+                },
+                freeCompany: function(callback) {
+                    FreeCompany.destroy({id: freeCompany.id}).exec(callback);
+                }
+            }, function(err, data) {
+                if (err) {
+                    sails.log.error(err);
+                    return res.serverError(err);
+                }
+                return res.ok();
+            });
+        });
     }
 };
 

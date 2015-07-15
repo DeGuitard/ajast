@@ -8,8 +8,17 @@ var fs = require('fs'),
     path = require('path');
 
 module.exports = {
-    upload: function (req, res) {
+    uploadAvatar: function (req, res) {
         var folder = path.resolve('.', 'uploads/avatars');
+        this._upload(req, res, folder);
+    },
+
+    uploadFcIcon: function (req, res) {
+        var folder = path.resolve('.', 'uploads/fcicons');
+        this._upload(req, res, folder);
+    },
+
+    _upload: function (req, res, folder) {
         req.file('file').upload({dirname: folder}, function (err, uploadedFiles) {
             if (err) return res.send(500, err);
             return res.json({

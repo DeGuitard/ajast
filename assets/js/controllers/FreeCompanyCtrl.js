@@ -1,4 +1,4 @@
-app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', 'charactersService', function($scope, $timeout, $http, $mdToast, charactersService) {
+app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$mdDialog', 'charactersService', function($scope, $timeout, $http, $mdToast, $mdDialog, charactersService) {
     $scope.initListMode = function(freeCompanies, userId) {
         $scope.freeCompanies = freeCompanies;
         $scope.contextualLinks.title = 'Mes compagnies';
@@ -77,14 +77,10 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', 'c
     };
 
     $scope.removeMember = function(member) {
-        var isFounder = $scope.membersTab.selectedIndex == 0;
-        if (isFounder) {
-            var index = $scope.freeCompany.founders.indexOf(member.id);
-            $scope.freeCompany.founders.splice(index, 1);
-        } else {
-            var index = $scope.freeCompany.members.indexOf(member.id);
-            $scope.freeCompany.members.splice(index, 1);
-        }
+        var isFounder = $scope.membersTab.selectedIndex == 0,
+            list = isFounder ? $scope.freeCompany.founders : $scope.freeCompany.members,
+            index = list.indexOf(member);
+        if (index != -1) list.splice(index, 1);
     };
 
     $scope.save = function() {
@@ -100,4 +96,34 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', 'c
             );
         })
     };
+
+    $scope.delete = function(ev) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+            .title('Voulez-vous vraiment supprimer cette compagnie libre ?')
+            .content('La suppression d\'une compagnie libre est irréversible.')
+            .ok('Confirmer')
+            .cancel('Annuler')
+            .targetEvent(ev);
+        $mdDialog.show(confirm).then(function() {
+            $http.delete('/free-company/remove/' + $scope.freeCompany.id).success(function() {
+                window.location.href = '/free-companies';
+            }).error(function(err) {
+                $mdToast.show(
+                    $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                );
+            });
+        });
+    };
+
+    $scope.$on('flow::fileSuccess', function (arg0, arg1, arg2, arg3) {
+        $scope.freeCompany.icon = JSON.parse(arg3).flowFilename;
+        $scope.newImage = true;
+    });
+    $scope.$on('flow::fileAdded', function (event, flow, file) {
+        if (file.size > 512000) {
+            $scope.uploadError = 'Fichier trop volumineux (512ko max).';
+            event.preventDefault();
+        }
+    });
 }]);

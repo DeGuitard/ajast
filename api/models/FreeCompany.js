@@ -14,7 +14,7 @@ module.exports = {
         server: { type: 'string', required: true, size: 24 },
         url: { type: 'string', required: true, size: 255 },
         isRecruiting: { type: 'boolean', required: true },
-        startDate: { type: 'date', required: true },
+        startDate: { type: 'date', required: false },
         address: { type: 'json' },
         icon: { type: 'string', required: true, size: 128 },
         realPlayersCount: { type: 'integer', defaultsTo: 0 },
@@ -55,13 +55,13 @@ module.exports = {
     getUsers: function(founders, callback) {
         var users = [];
         if (founders.length == 0) {
-            // We won't unset the users list, to prevent the company to be un-editable.
+            // We won't unset the users list, to prevent the company from being un-editable.
             callback(null, users);
         } else if (founders[0].user) {
             // We have actual objets, so we get the distinct users.
-            for (var i = 0; i < valuesToUpdate.founders.length; i++) {
-                if (users.indexOf(valuesToUpdate.founders[i].user) == -1) {
-                    users.push(valuesToUpdate.founders[i].user);
+            for (var i = 0; i < founders.length; i++) {
+                if (users.indexOf(founders[i].user) == -1) {
+                    users.push(founders[i].user);
                 }
             }
             callback(null, users);
@@ -80,7 +80,7 @@ module.exports = {
     },
 
     updatePlayersCount: function(id, cb) {
-        FreeCompany.findOne({id: id}).exec(function(err, result) {
+        FreeCompany.findOne({id: id}).populate('members').populate('founders').exec(function(err, result) {
             async.parallel({
                 // We update the *real* players count. i.e. rerolls are ignored.
                 playersCount: function(callback) {
@@ -93,8 +93,8 @@ module.exports = {
                 }
             }, function(err, data) {
                 FreeCompany.update({id: id}, {users: data.users, realPlayersCount: data.playersCount}).exec(function(err, result) {
-                    if (err) return cb(err);
-                    else return cb(null, data.playersCount);
+                    if (err && cb) return cb(err);
+                    else if (cb) return cb(null, data.playersCount);
                 });
             });
         });

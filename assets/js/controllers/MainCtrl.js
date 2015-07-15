@@ -1,9 +1,9 @@
 app.controller('MainCtrl', ['$scope', '$mdSidenav', 'notificationsService', function($scope, $mdSidenav, notificationsService) {
     $scope.links = [
-        {url: '/fights', text: 'Combats'},
-        {url: '/rolls', text: 'Dés'},
-        {url: '/characters', text: 'Personnages'},
-        {url: '/free-companies', text: 'Compagnies libres'}
+        {url: '/combats', text: 'Combats'},
+        {url: '/des', text: 'Dés'},
+        {url: '/personnages', text: 'Personnages'},
+        {url: '/compagnies-libres', text: 'Compagnies libres'}
     ];
     $scope.contextualLinks = {};
     $scope.openMenu = function() { if (!$scope.noMenu) $mdSidenav('menu').open(); };

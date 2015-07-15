@@ -48,7 +48,7 @@ module.exports = {
         var character = notification.data.character,
             freeCompany = notification.data.freeCompany;
 
-        async.parallel({
+        async.series({
             character: function(callback) {
                 Character.update({id: character.id}, {isInvited: false}).exec(function (err, result) {
                     if (err) res.serverError(err);
