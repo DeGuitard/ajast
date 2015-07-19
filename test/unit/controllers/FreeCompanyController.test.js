@@ -54,9 +54,12 @@ describe('FreeCompanyController', function() {
         });
     });
 
-    describe('#new()', function() {
+    describe('#delete()', function() {
         it("should be successful", function(done) {
-            request(sails.hooks.http.app).get("/free-company/new").expect(200).end(done);
+            FreeCompany.find().limit(1).exec(function(err, result) {
+                if (err) return done(err);
+                request(sails.hooks.http.app).delete("/free-company/remove/" + result[0].id).expect(200).end(done);
+            });
         });
     });
 });
