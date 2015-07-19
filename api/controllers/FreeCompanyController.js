@@ -104,7 +104,7 @@ module.exports = {
 
     save: function(req, res) {
         var freeCompany = req.param('freeCompany');
-        if (!freeCompany) return res.serverError('Données corrompues.');
+        if (!freeCompany) return res.userError('Données corrompues.');
 
         FreeCompany.findOne({id: freeCompany.id}).exec(function(err, result) {
             if (err) return res.serverError(err);
@@ -138,8 +138,8 @@ module.exports = {
             memberId = req.param('member'),
             isFounder = req.param('isFounder');
 
-        if (!fcId) return res.serverError("Merci de sauvegarder la CL une première fois avant d'inviter des membres.");
-        if (!fcId || !memberId) return res.serverError('Données corrompues.');
+        if (!fcId) return res.userError("Merci de sauvegarder la CL une première fois avant d'inviter des membres.");
+        if (!fcId || !memberId) return res.userError('Données corrompues.');
 
         FreeCompany.findOne({id: fcId}).exec(function(err, freeCompany) {
             if (err) return res.serverError(err);
@@ -149,8 +149,8 @@ module.exports = {
             Character.findOne({id: memberId}).exec(function(err, character) {
                 if (err) return res.serverError(err);
                 else if (!character) return res.notFound("Ce personnage n'existe pas / plus.");
-                else if (character.isInvited) return res.serverError('Ce personnage a déjà une invitation en cours.');
-                else if (character.leadership || character.membership) return res.serverError('Ce personnage est déjà dans une compagnie libre.');
+                else if (character.isInvited) return res.userError('Ce personnage a déjà une invitation en cours.');
+                else if (character.leadership || character.membership) return res.userError('Ce personnage est déjà dans une compagnie libre.');
 
                 if (isFounder) freeCompany.founders.push(character.id);
                 else freeCompany.members.push(character.id);
