@@ -1,0 +1,16 @@
+[
+    { "trigram" : "BLM", "name" : "Mage Noir" },
+    { "trigram" : "BRD", "name" : "Barde" },
+    { "trigram" : "DRG", "name" : "Chevalier Dragon" },
+    { "trigram" : "MNK", "name" : "Moine" },
+    { "trigram" : "NIN", "name" : "Ninja" },
+    { "trigram" : "PLD", "name" : "Paladin" },
+    { "trigram" : "SCH", "name" : "Érudit" },
+    { "trigram" : "SMN", "name" : "Invocateur" },
+    { "trigram" : "PNJ", "name" : "PNJ" },
+    { "trigram" : "WAR", "name" : "Guerrier" },
+    { "trigram" : "WHM", "name" : "Mage Blanc" },
+    { "trigram" : "DRK", "name" : "Chevalier Noir" },
+    { "trigram" : "AST", "name" : "Astromancien" },
+    { "trigram" : "MCN", "name" : "Machiniste" }
+]
