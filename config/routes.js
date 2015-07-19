@@ -60,7 +60,7 @@ module.exports.routes = {
     'get /character/edit/:id': 'CharacterController.edit',
     'post /character/save': 'CharacterController.save',
     'delete /character/remove/:id': 'CharacterController.remove',
-    'post /upload': 'UploadController.upload',
+    'post /upload/avatar': 'UploadController.uploadAvatar',
 
     /** Fights routes **/
     'get /fights': 'FightController.index',
@@ -75,5 +75,27 @@ module.exports.routes = {
     /** Rolls routes **/
     'get /rolls': 'RollController.index',
     'get /api/roll': 'RollController.apiList',
-    'post /api/roll': 'RollController.apiNew'
+    'post /api/roll': 'RollController.apiNew',
+
+    /** Free companies routes **/
+    'get /free-company/find/:term': 'FreeCompanyController.search',
+    'get /free-companies': 'FreeCompanyController.list',
+    'get /free-company/new': 'FreeCompanyController.new',
+    'get /free-company/show/:id': 'FreeCompanyController.show',
+    'get /free-company/edit/:id': 'FreeCompanyController.edit',
+    'post /free-company/save': 'FreeCompanyController.save',
+    'post /free-company/invite': 'FreeCompanyController.invite',
+    'delete /free-company/remove/:id': 'FreeCompanyController.remove',
+    'post /upload/fcicon': 'UploadController.uploadFcIcon',
+
+    /** Notifications routes **/
+    'get /notifications': 'NotificationController.list',
+    'get /notification/:id/accept': 'NotificationController.accept',
+    'get /notification/:id/decline': 'NotificationController.decline',
+
+    /** French SEO **/
+    'get /personnages': 'CharacterController.list',
+    'get /compagnies-libres': 'FreeCompanyController.list',
+    'get /combats': 'FightController.index',
+    'get /des': 'RollController.index'
 };

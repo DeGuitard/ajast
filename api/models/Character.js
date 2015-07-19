@@ -21,11 +21,14 @@ module.exports = {
         initiative: { type: 'integer' },
         timeline: {type: 'array' },
         tribe: {type: 'string', required: true, size: 24 },
+        isInvited: { type: 'boolean' },
 
         race: { model: 'race', required: true },
         god: { model: 'god', required: true },
         birthPlace: { model: 'town', required: true },
-        user: { model: 'user', required: true }
+        user: { model: 'user', required: true },
+        membership: { model: 'freeCompany' },
+        leadership: { model: 'freeCompany' }
     },
 
     afterValidate: function (values, next) {

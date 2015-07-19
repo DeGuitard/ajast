@@ -1,0 +1,10 @@
+[
+    { "datacenter" : "Chaos", "name" : "Cerberus" },
+    { "datacenter" : "Chaos", "name" : "Lich" },
+    { "datacenter" : "Chaos", "name" : "Moogle" },
+    { "datacenter" : "Chaos", "name" : "Odin" },
+    { "datacenter" : "Chaos", "name" : "Phoenix" },
+    { "datacenter" : "Chaos", "name" : "Ragnarok" },
+    { "datacenter" : "Chaos", "name" : "Shiva" },
+    { "datacenter" : "Chaos", "name" : "Zodiark" }
+]

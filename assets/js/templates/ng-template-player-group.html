@@ -8,7 +8,7 @@
     <md-list>
         <md-list-item ng-repeat="player in group().players | orderBy:['-active', 'fullName']" ng-class="{'player-inactive': !player.active}" class="player-row">
             <p><span class="trigram">{{player.trigram}}</span> / {{player.fullName}}</p>
-            <md-switch class="md-secondary" ng-change="save()" ng-model="player.active"></md-switch>
+            <md-switch class="md-secondary" ng-disabled="readOnly()" ng-change="save()" ng-model="player.active"></md-switch>
         </md-list-item>
     </md-list>
 </md-content>

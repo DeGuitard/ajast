@@ -1,4 +1,5 @@
 body { -moz-osx-font-smoothing: grayscale; }
+md-list-item a { color: inherit; text-decoration: inherit; }
 
 /* STRUCTURE
 /********************************/
@@ -19,6 +20,8 @@ body { -moz-osx-font-smoothing: grayscale; }
 textarea { text-align: justify }
 md-input-container .md-input { flex: none !important; }
 .no-animation, .no-animation * { transition: none !important; }
+.input-block { font-size:1.2em;color: rgba(255,255,255,0.87) }
+.row-element { text-align: left; font-weight: 400; padding-left: 20px; }
 md-tooltip.md-dark-theme .md-background { background-color: rgba(0,0,0,0.8) !important; }
 md-select .md-select-value { width: 100% !important; }
 
@@ -27,9 +30,10 @@ md-select .md-select-value { width: 100% !important; }
 md-tab md-tab-label { font-size: 1.3em; text-transform: none; }
 
 /** HOME PAGE STRUCTURE **/
-.home-title-block { min-height: 30%; }
+.home-title-block { margin-bottom: 10%; }
 .home-title-text { font-size: 6em; font-weight: 100; text-align: center; }
 .home-title-text-accent { color: #673AB7; }
+.home-perk-row { margin-bottom: 50px; }
 .home-perk { text-align: center; margin-bottom: 30px; cursor: pointer; }
 .perk-icon { height: 128px; width: 128px; position: relative; margin: 0 auto; z-index: 1; }
 .perk-icon img { width: 100%; height: 100%; }
@@ -80,6 +84,14 @@ div.effect-lily > div { position: absolute; bottom: 0; left: 0; width: 100%; hei
 .roll-action { margin: 20px; color: rgba(0,0,0,0.87); }
 .roll-date { color: #AAA; }
 
+/** COMPANY LIST STRUCTURE **/
+.company-tag { color: #4a148c; min-width: 50px; }
+.company-size { color: rgba(128,128,128,0.87); text-transform: uppercase; font-size: 0.9em; }
+.company-server { color: rgba(128,128,128,0.87); font-size: 0.9em; }
+.company-logo { width: 32px; height: 32px; margin-right: 20px; }
+
+/** COMPANY STRUCTURE **/
+.member-pending-invitation { color: rgba(128,128,128,0.87); text-transform: uppercase; font-size: 0.9em; }
 
 /* STATES
 /********************************/

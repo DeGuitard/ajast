@@ -1,0 +1,14 @@
+[
+    { "desc" : "dieu du temps", "element" : "Terre", "name" : "Althyk" },
+    { "desc" : "déesse de la justice", "element" : "Feu", "name" : "Azeyma" },
+    { "desc" : "dieu des arts", "element" : "Électricité", "name" : "Byregot" },
+    { "desc" : "déesse de la guerre", "element" : "Glace", "name" : "Halone" },
+    { "desc" : "déesse de la navigation", "element" : "Vent", "name" : "Llymlaen" },
+    { "desc" : "déesse de l'amour", "element" : "Glace", "name" : "Menphina" },
+    { "desc" : "dieu du commerce", "element" : "Feu", "name" : "Nald'thal" },
+    { "desc" : "déesse de l'abondance", "element" : "Terre", "name" : "Nophica" },
+    { "desc" : "déesse du destin", "element" : "Eau", "name" : "Nymeia" },
+    { "desc" : "dieu du voyage", "element" : "Vent", "name" : "Oschon" },
+    { "desc" : "dieu de la destruction", "element" : "Électricité", "name" : "Rhalgr" },
+    { "desc" : "dieu du savoir", "element" : "Eau", "name" : "Thaliak" }
+]

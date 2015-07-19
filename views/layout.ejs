@@ -1,71 +1,102 @@
 <!DOCTYPE html>
 <html ng-app="ajast" ng-cloak>
 <head>
-    <title>XIVRP</title>
+    <title><%= typeof title == 'undefined' ? '' : title + ' - '%>XIVRP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="fragment" content="!">
+    <meta name="description" content="<%= typeof metaDesc == 'undefined' ? '' : '' %>">
     <!--STYLES-->
-    <link rel="stylesheet" href="/min/v0.0.1f.min.css">
+    <link rel="stylesheet" href="/styles/angular-material.css">
+    <link rel="stylesheet" href="/styles/dist/vis.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
     <!--STYLES END-->
     <!--SCRIPTS-->
-    <script src="/min/v0.0.1f.min.js"></script>
+    <script src="/js/dependencies/angular.js"></script>
+    <script src="/js/dependencies/angular-animate.js"></script>
+    <script src="/js/dependencies/angular-aria.js"></script>
+    <script src="/js/dependencies/angular-material.js"></script>
+    <script src="/js/dependencies/angular-messages.js"></script>
+    <script src="/js/dependencies/dist/flow.js"></script>
+    <script src="/js/dependencies/dist/ng-flow.js"></script>
+    <script src="/js/dependencies/dist/vis.min.js"></script>
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/ajast.js"></script>
+    <script src="/js/controllers/CharacterCtrl.js"></script>
+    <script src="/js/controllers/CreatePlayerCtrl.js"></script>
+    <script src="/js/controllers/FreeCompanyCtrl.js"></script>
+    <script src="/js/controllers/MainCtrl.js"></script>
+    <script src="/js/controllers/MenuCtrl.js"></script>
+    <script src="/js/controllers/MjCtrl.js"></script>
+    <script src="/js/controllers/NotificationCtrl.js"></script>
+    <script src="/js/controllers/PjCtrl.js"></script>
+    <script src="/js/controllers/RollCtrl.js"></script>
+    <script src="/js/directives/directive-actionForm.js"></script>
+    <script src="/js/directives/directive-archetypes.js"></script>
+    <script src="/js/directives/directive-playerGroup.js"></script>
+    <script src="/js/directives/directive-timeBar.js"></script>
+    <script src="/js/directives/directive-timeHistory.js"></script>
+    <script src="/js/directives/directive-timeline.js"></script>
+    <script src="/js/services/service-characters.js"></script>
+    <script src="/js/services/service-notifications.js"></script>
+    <script src="/js/services/service-players.js"></script>
+    <script src="/js/services/service-time.js"></script>
     <!--SCRIPTS END-->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
 </head>
 
-<body ng-controller="MainCtrl" layout='row' md-swipe-left="closeMenu()" md-swipe-right="openMenu()">
-
-<md-sidenav class="md-sidenav-left md-whiteframe-z2 main-menu" md-component-id="menu" md-is-locked-open="$mdMedia('gt-lg')">
-    <md-toolbar class="md-primary">
-        <a href="/" class="logo-link">
-                  <span class="md-toolbar-tools" layout-align="left center" flex>
-                    <img alt="logo" class="logo" src="/images/icons/dice.svg" />
-                      <span class="logo-title">XIVRP</span>
-                  </span>
-        </a>
-    </md-toolbar>
-    <md-content role="navigation" flex>
-        <h3>Naviguer</h3>
-        <md-list>
-            <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-hide="link.hide()" ng-repeat="link in links">
-                {{link.text}}
-                <md-divider></md-divider>
-            </md-list-item>
-            <% if (req.isAuthenticated()) { %>
-                <md-list-item ng-click="to('/logout')">Déconnexion</md-list-item>
-            <% } else { %>
-                <md-list-item ng-click="to('/login')">Connexion</md-list-item>
-            <% } %>
-        </md-list>
-        <div class="contextual-links" ng-if="contextualLinks.links">
-            <h3>{{contextualLinks.title}}</h3>
-            <md-list layout="column">
-                <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-repeat="link in contextualLinks.links" ng-hide="link.hide()" flex>
+<body layout='row' md-swipe-left="closeMenu()" md-swipe-right="openMenu()" ng-controller="MainCtrl">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2 main-menu" md-component-id="menu" md-is-locked-open="$mdMedia('gt-lg')">
+        <md-toolbar class="md-primary">
+            <a href="/" class="logo-link">
+                      <span class="md-toolbar-tools" layout-align="left center" flex>
+                        <img alt="logo" class="logo" src="/images/icons/dice.svg" />
+                          <span class="logo-title">XIVRP</span>
+                      </span>
+            </a>
+        </md-toolbar>
+        <md-content role="navigation" flex>
+            <h3>Naviguer</h3>
+            <md-list>
+                <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-hide="link.hide()" ng-repeat="link in links">
                     {{link.text}}
-                    <md-divider ng-if="!$last"></md-divider>
+                    <md-divider></md-divider>
                 </md-list-item>
+                <% if (req.isAuthenticated()) { %>
+                    <md-list-item ng-click="to('/logout')">Déconnexion</md-list-item>
+                <% } else { %>
+                    <md-list-item ng-click="to('/login')">Connexion</md-list-item>
+                <% } %>
             </md-list>
-        </div>
-    </md-content>
-</md-sidenav>
+            <div class="contextual-links" ng-if="contextualLinks.links">
+                <h3>{{contextualLinks.title}}</h3>
+                <md-list layout="column">
+                    <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-repeat="link in contextualLinks.links" ng-hide="link.hide()" flex>
+                        {{link.text}}
+                        <md-divider ng-if="!$last"></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-content>
+    </md-sidenav>
 
-<div layout="column" role="main" flex>
-    <md-toolbar class="md-primary" hide show-gt-lg>
-        <div class="md-toolbar-tools">
-            <span>{{page.title}}</span>
-        </div>
-    </md-toolbar>
-    <md-toolbar class="md-primary" md-scroll-shrink hide-gt-lg>
-        <div class="md-toolbar-tools">
-            <span>{{page.title}}</span>
-            <span flex></span>
-            <md-button ng-click="openMenu()" aria-label="Paramètres"><img src="/images/icons/hamburger.svg"/></md-button>
-        </div>
-    </md-toolbar>
-    <md-content class="main-content" flex>
-        <%- body %>
-    </md-content>
-</div>
+    <div layout="column" role="main" flex>
+        <md-toolbar class="md-primary" hide show-gt-lg>
+            <div class="md-toolbar-tools">
+                <h1>{{page.title}}</h1>
+            </div>
+        </md-toolbar>
+        <md-toolbar class="md-primary" md-scroll-shrink hide-gt-lg>
+            <div class="md-toolbar-tools">
+                <h1>{{page.title}}</h1>
+                <span flex></span>
+                <md-button ng-click="openMenu()" aria-label="Paramètres"><img src="/images/icons/hamburger.svg"/></md-button>
+            </div>
+        </md-toolbar>
+        <md-content class="main-content" flex>
+            <%- body %>
+        </md-content>
+    </div>
 <!--TEMPLATES-->
 
 <!--TEMPLATES END-->

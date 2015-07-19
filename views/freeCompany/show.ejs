@@ -1,0 +1,127 @@
+<% if (req.isAuthenticated()) { %>
+<div ng-controller="FreeCompanyCtrl" ng-init="initShowMode(<%= JSON.stringify(freeCompany) %>, <%= JSON.stringify(req.user.id) %>);" flex>
+    <% } else { %>
+<div ng-controller="FreeCompanyCtrl" ng-init="initShowMode(<%= JSON.stringify(freeCompany) %>);" flex>
+    <% } %>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Informations générales</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark" class="md-padding input-block">
+                <div layout="row" layout-sm="column">
+                    <md-input-container flex>
+                        <label>Nom de la compagnie</label>
+                        <input ng-model="freeCompany.name" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Tag</label>
+                        <input ng-model="freeCompany.tag" ng-readonly="true">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-sm="column">
+                    <md-input-container>
+                        <label>Serveur</label>
+                        <input ng-model="freeCompany.server" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Site / Forum</label>
+                        <input ng-model="freeCompany.url" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Recrutement</label>
+                        <input ng-model="freeCompany.isRecruiting ? 'Ouvert' : 'Fermé'" ng-readonly="true">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-sm="column">
+                    <md-input-container>
+                        <label>N°</label>
+                        <input ng-model="freeCompany.address.plot" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Secteur</label>
+                        <input ng-model="freeCompany.address.ward" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Quartier</label>
+                        <input ng-model="freeCompany.address.district" ng-readonly="true">
+                    </md-input-container>
+                </div>
+            </md-content>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+            <md-tabs md-theme="dark" class="md-primary" style="color: rgba(255,255,255,0.87);" md-dynamic-height md-selected="membersTab.selectedIndex" flex>
+                <md-tab label="founders">
+                    <md-tab-label>Fondateurs</md-tab-label>
+                    <md-tab-template>
+                        <md-content><md-list>
+                            <md-list-item ng-click="to('/character/show/' + founder.id)" ng-repeat="founder in freeCompany.founders | orderBy:'fullName' | filter:{isInvited: false}">
+                                {{founder.fullName}}
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-list-item>
+                        </md-list></md-content>
+                    </md-tab-template>
+                </md-tab>
+                <md-tab label="members">
+                    <md-tab-label>Joueurs</md-tab-label>
+                    <md-tab-template>
+                        <md-content><md-list>
+                                <md-list-item ng-click="to('/character/show/' + member.id)" ng-repeat="member in freeCompany.members | orderBy:'fullName' | filter:{isInvited: false}">
+                                    {{member.fullName}}
+                                    <md-divider ng-if="!$last"></md-divider>
+                                </md-list-item>
+                        </md-list></md-content>
+                    </md-tab-template>
+                </md-tab>
+            </md-tabs>
+        </md-whiteframe>
+    </div>
+
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+            <md-toolbar>
+                <span class="md-toolbar-tools">Présentation</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark" class="md-padding input-block" layout="column">
+                <md-input-container flex>
+                    <label>Présentation</label>
+                    <textarea ng-model="freeCompany.desc" columns="1" ng-readonly="true"></textarea>
+                </md-input-container>
+            </md-content>
+        </md-whiteframe>
+    </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement":
+  [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item":
+      {
+        "@id": "http://xivrp.com/compagnies-libres/",
+        "name": "Compagnies Libres"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item":
+      {
+        "@id": "http://xivrp.com/free-company/show/<%= freeCompany.id %>",
+        "name": "<%= freeCompany.name %>"
+      }
+    }
+  ]
+}
+</script>

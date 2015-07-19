@@ -55,5 +55,14 @@ module.exports.policies = {
 
     PageController: {
         '*': ['passport']
+    },
+
+    FreeCompanyController: {
+        'list': ['passport'],
+        'show': ['passport']
+    },
+
+    NotificationController: {
+        '*': ['passport']
     }
 };

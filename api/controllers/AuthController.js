@@ -52,6 +52,8 @@ var AuthController = {
 
         // Render the `auth/login.ext` view
         res.view({
+            title: 'Connexion',
+            metaDesc: 'Connectez-vous pour accéder à toutes les fonctionnalités et faciliter votre vie de rôliste sur FFXIV !',
             providers : providers
             , errors    : req.flash('error')
         });

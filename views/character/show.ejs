@@ -1,5 +1,5 @@
 <% if (req.isAuthenticated()) { %>
-<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= character %>, <%= JSON.stringify(req.user.id) %>); archetypes = <%= archetypes %>;" flex>
+<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>, <%= JSON.stringify(req.user.id) %>); archetypes = <%= archetypes %>;" flex>
 <% } else { %>
 <div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= character %>); archetypes = <%= archetypes %>;" flex>
 <% } %>
@@ -125,3 +125,31 @@
         <md-button flex="100" flex-gt-lg="90" ng-href="/character/edit/{{character.id}}" class="md-accent md-raised" ng-show="isOwner">Modifier</md-button>
     </div>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement":
+  [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item":
+      {
+        "@id": "http://xivrp.com/personnages/",
+        "name": "Personnages"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item":
+      {
+        "@id": "http://xivrp.com/character/show/<%= character.id %>",
+        "name": "<%= character.fullName %>"
+      }
+    }
+  ]
+}
+</script>

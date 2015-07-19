@@ -1,0 +1,22 @@
+[
+    { "region" : "Forêt de Sombrelinceul", "name" : "Gridania" },
+    { "region" : "Forêt de Sombrelinceul", "name" : "Camp des Sentes tranquilles" },
+    { "region" : "Forêt de Sombrelinceul", "name" : "Hutte des Hawthorne" },
+    { "region" : "Forêt de Sombrelinceul", "name" : "Moulin de la carrière" },
+    { "region" : "Forêt de Sombrelinceul", "name" : "Radeau de la Calebasse" },
+    { "region" : "Forêt de Sombrelinceul", "name" : "Ranch de Brancharquée" },
+    { "region" : "La Noscea", "name" : "Limsa Lominsa" },
+    { "region" : "La Noscea", "name" : "Camp du Lac d'Airain" },
+    { "region" : "La Noscea", "name" : "Chantier naval de Moraby" },
+    { "region" : "La Noscea", "name" : "Costal del Sol" },
+    { "region" : "La Noscea", "name" : "Le Martinet" },
+    { "region" : "La Noscea", "name" : "Port-aux-Ales" },
+    { "region" : "La Noscea", "name" : "Port-aux-Vins" },
+    { "region" : "La Noscea", "name" : "Vergers d'Estival" },
+    { "region" : "Le Thanalan", "name" : "Ul'dah" },
+    { "region" : "Le Thanalan", "name" : "Camp de Brumebleue" },
+    { "region" : "Le Thanalan", "name" : "Camp des Os désséchés" },
+    { "region" : "Le Thanalan", "name" : "Gare de Roncenoire" },
+    { "region" : "Le Thanalan", "name" : "Horizon" },
+    { "region" : "Le Thanalan", "name" : "Oasis oubliée" }
+]

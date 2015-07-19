@@ -1,0 +1,7 @@
+[
+    { "name" : "Elezen", "lifespan" : 110, "tribes" : [ "Sylvestre", "Crépusculaire" ] },
+    { "name" : "Lalafell", "lifespan" : "130", "tribes" : [ "Peuple des Plaines", "Peuple des Dunes" ] },
+    { "name" : "Miqo'te", "lifespan" : 90, "tribes" : [ "Tribu du Soleil", "Tribu de la Lune" ] },
+    { "name" : "Roegadyn", "lifespan" : 90, "tribes" : [ "Clan de la Mer", "Clan du Feu" ] },
+    { "name" : "Hyur", "lifespan" : "90", "tribes" : [ "Hyurois", "Hyurgoth" ] }
+]

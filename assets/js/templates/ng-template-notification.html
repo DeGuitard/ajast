@@ -1,0 +1,5 @@
+<md-toast layout layout-wrap>
+    <div flex>{{notification.data.character.fullName}} a été invité<span ng-show="notification.data.character.sex == 'F'">e</span> dans {{notification.data.freeCompany.name}}</div>
+    <md-button ng-click="accept()">Accepter</md-button>
+    <md-button ng-click="decline()">Refuser</md-button>
+</md-toast>

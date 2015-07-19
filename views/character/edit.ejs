@@ -1,4 +1,4 @@
-<div ng-controller="CharacterCtrl" ng-init="initEditMode(<%= character %>); archetypes = <%= archetypes %>; gods = <%= gods %>; towns = <%= towns %>; initRaces(<%= races %>); regions = <%= regions %>;"  flow-init="{target: '/upload', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+<div ng-controller="CharacterCtrl" ng-init="initEditMode(<%= character %>); archetypes = <%= archetypes %>; gods = <%= gods %>; towns = <%= towns %>; initRaces(<%= races %>); regions = <%= regions %>;"  flow-init="{target: '/upload/avatar', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
 
     <form name="form">
         <div layout="row" layout-margin layout-align="center center">

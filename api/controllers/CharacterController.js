@@ -11,11 +11,8 @@ module.exports = {
         // Native request to limit the fields... because Sails can't handle projection...
         Character.native(function(err, Collection) {
             Collection.find({
-                $or: [
-                    {firstName: {$regex: term, $options: 'i'}},
-                    {lastName: {$regex: term, $options: 'i'}}
-                ]
-            }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 0}).toArray(function(err, result) {
+                fullName: {$regex: term, $options: 'i'}
+            }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 1}).toArray(function(err, result) {
                 res.send(result);
             });
         });
@@ -24,7 +21,11 @@ module.exports = {
     list: function(req, res) {
         Character.native(function(err, Collection) {
             Collection.find({}, {fullName: 1, firstName: 1, lastName: 1, trigram: 1, avatar: 1, archetypes: 1, user: 1, _id: 1}).toArray(function(err, result) {
-                res.view('character/index', {characters: JSON.stringify(result)});
+                res.view('character/index', {
+                    title: 'Liste des personnages RP',
+                    metaDesc: 'Retrouvez tous les personnages RP de Final Fantasy XIV. Vous aussi, créez votre fiche, et connectez-vous avec les autres rôlistes de FFXIV !',
+                    characters: JSON.stringify(result)
+                });
             });
         });
     },
@@ -51,7 +52,9 @@ module.exports = {
             if (err) return res.serverError(err);
             if (!data.character) return res.notFound("Ce personnage n'existe pas / plus.");
             res.view('character/show', {
-                character: JSON.stringify(data.character),
+                title: data.character.fullName,
+                metaDesc: 'Profil de ' + data.character.fullName + ', un joueur qui fait du RP sur FFXIV. Retrouvez tous les détails dans son profil : âge, race, compétences, description physique…',
+                character: data.character,
                 archetypes: JSON.stringify(data.archetypes)
             });
         });
@@ -89,13 +92,15 @@ module.exports = {
         }, function(err, data) {
             if (err) return res.serverError(err);
 
-            var regions  = [], character = {'timeline': [], 'archetypes': {}, 'crafts': {}, 'harvesters': {}};
+            var regions  = [], character = {'timeline': [], 'archetypes': {}, 'crafts': {}, 'harvesters': {}, avatar: 'default.png'};
             for (var i = 0; i < data.towns.length; i++) {
                 if (regions.indexOf(data.towns[i].region) == -1) {
                     regions.push(data.towns[i].region);
                 }
             }
             res.view('character/edit', {
+                title: 'Créer un nouveau personnage',
+                metaDesc: '',
                 character: JSON.stringify(character),
                 archetypes: JSON.stringify(data.archetypes),
                 gods: JSON.stringify(data.gods),
@@ -154,6 +159,8 @@ module.exports = {
                 }
             }
             res.view('character/edit', {
+                title: 'Édition de ' + data.character.fullName,
+                metaDesc: '',
                 character: JSON.stringify(data.character),
                 archetypes: JSON.stringify(data.archetypes),
                 gods: JSON.stringify(data.gods),
