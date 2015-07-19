@@ -117,11 +117,12 @@
                     <span class="md-toolbar-tools">Icône</span>
                 </md-toolbar>
 
-                <md-content class="md-padding" layout-sm="column" layout-gt-sm="row" layout-margin layout-align="left center" flex>
+                <md-content class="md-padding" layout-gt-sm="row" layout-margin layout-align="left center" flex>
                     <md-button flow-btn flow-attrs="{accept:'image/*'}">Changer l'icône</md-button>
                     <div ng-show="uploadError" class="error-msg">{{uploadError}}</div>
-                    <img class="company-logo" ng-hide="newImage" ng-src="/images/fcicons/{{freeCompany.icon}}" />
-                    <img class="company-logo" ng-show="newImage" flow-img="$flow.files[0]" />
+                    <img class="company-logo" ng-hide="newImage || imageLoading" ng-src="/images/fcicons/{{freeCompany.icon}}" />
+                    <img class="company-logo" ng-show="newImage && !imageLoading" flow-img="$flow.files[imageIndex]" />
+                    <md-progress-circular ng-show="imageLoading" md-mode="indeterminate"></md-progress-circular>
                 </md-content>
             </md-whiteframe>
         </div>

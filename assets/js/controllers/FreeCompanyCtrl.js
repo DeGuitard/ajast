@@ -125,11 +125,15 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
     $scope.$on('flow::fileSuccess', function (arg0, arg1, arg2, arg3) {
         $scope.freeCompany.icon = JSON.parse(arg3).flowFilename;
         $scope.newImage = true;
+        $scope.imageLoading = false;
     });
     $scope.$on('flow::fileAdded', function (event, flow, file) {
         if (file.size > 512000) {
             $scope.uploadError = 'Fichier trop volumineux (512ko max).';
             event.preventDefault();
         }
+        $scope.imageLoading = true;
+        $scope.imageIndex = $scope.imageIndex === undefined ? 0 : $scope.imageIndex + 1;
+        console.log($scope.imageIndex);
     });
 }]);
