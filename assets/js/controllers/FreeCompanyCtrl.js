@@ -6,18 +6,21 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         $scope.contextualLinks.title = 'Mes compagnies';
         $scope.contextualLinks.links = [];
 
-        var ownCompanies = $scope.freeCompanies.filter(function(fc) {
-            return fc.users.indexOf(userId) != -1;
-        });
+        if (userId) {
+            var ownCompanies = $scope.freeCompanies.filter(function (fc) {
+                return fc.users.indexOf(userId) != -1;
+            });
 
-        if (ownCompanies.length > 0) {
-            for (var i = 0; i < ownCompanies.length; i++) {
-                $scope.contextualLinks.links.push({
-                    url: "/free-company/show/" + ownCompanies[i]._id,
-                    text: ownCompanies[i].name
-                });
+            if (ownCompanies.length > 0) {
+                for (var i = 0; i < ownCompanies.length; i++) {
+                    $scope.contextualLinks.links.push({
+                        url: "/free-company/show/" + ownCompanies[i].id,
+                        text: ownCompanies[i].name
+                    });
+                }
             }
         }
+
         $scope.contextualLinks.links.push({
             url: '/free-company/new',
             text: 'Créer une nouvelle'
@@ -27,7 +30,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
     $scope.initShowMode = function(freeCompany, userId) {
         $scope.freeCompany = freeCompany;
 
-        if ($scope.freeCompany.users.indexOf(userId) != -1) {
+        if ($scope.freeCompany.users.indexOf(userId) != -1 || $scope.freeCompany.users.length == 0) {
             $scope.contextualLinks.title = 'Ma compagnie';
             $scope.contextualLinks.links = [
                 {url: '/free-company/edit/' + $scope.freeCompany.id, text: 'Modifier'},

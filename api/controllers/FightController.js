@@ -30,6 +30,7 @@ module.exports = {
             function(err, data) {
                 res.view({
                     title: 'Liste des combats RP',
+                    metaDesc: "Gérez vos combats Role Play (RP) avec fair play, simplicité et rapidité ; ou suivez en temps réel la progression d'un combat qui concerne votre personnage !",
                     fights: JSON.stringify(data.fights),
                     myFights: JSON.stringify(data.myFights)
                 });
@@ -91,12 +92,14 @@ module.exports = {
             if (!req.user || data.fight.mj != req.user.id) {
                 res.view('fight/pj', {
                     title: 'Suivi du combat #' + data.fight.shortid,
+                    metaDesc: 'Suivez en direct live le combat RP entre les personnages et PNJs, afin de connaître en temps réel le déroulement du combat !',
                     archetypes: JSON.stringify(data.archetypes),
                     fight: JSON.stringify(data.fight)
                 });
             } else {
                 res.view('fight/mj', {
                     title: 'Gestion du combat #' + data.fight.shortid,
+                    metaDesc: '',
                     archetypes: JSON.stringify(data.archetypes),
                     fight: JSON.stringify(data.fight)
                 });

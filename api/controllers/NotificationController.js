@@ -75,35 +75,40 @@ module.exports = {
 
     _declineFcInvite: function(notification, res) {
         var character = notification.data.character,
-            freeCompany = notification.data.freeCompany,
-            founderIndex = freeCompany.founders.indexOf(character.id.toString()),
-            memberIndex = freeCompany.members.indexOf(character.id.toString());
+            freeCompany = notification.data.freeCompany;
 
-        if (founderIndex != -1) freeCompany.founders.splice(founderIndex, 1);
-        if (memberIndex != -1) freeCompany.members.splice(memberIndex, 1);
-
-        async.parallel({
-            freeCompany: function(callback) {
-                FreeCompany.update({id: freeCompany.id}, freeCompany).exec(function(err, result) {
-                    if (err) return callback(err);
-                    else return callback(null, result);
-                });
-            },
-            character: function(callback) {
-                Character.update({id: character.id}, {isInvited: false}).exec(function(err, result) {
-                    if (err) return callback(err);
-                    else return callback(null, result);
-                });
-            },
-            notification: function(callback) {
-                Notification.destroy({id: notification.id}).exec(function(err, result) {
-                    if (err) return callback(err);
-                    else return callback(null, result);
-                });
-            }
-        }, function(err, data) {
+        FreeCompany.findOne({id: freeCompany.id}).exec(function(err, result) {
             if (err) return res.serverError(err);
-            else return res.ok();
+
+            var founderIndex = result.founders.indexOf(character.id.toString()),
+                memberIndex = result.members.indexOf(character.id.toString());
+
+            if (founderIndex != -1) result.founders.splice(founderIndex, 1);
+            if (memberIndex != -1) result.members.splice(memberIndex, 1);
+
+            async.parallel({
+                freeCompany: function(callback) {
+                    FreeCompany.update({id: freeCompany.id}, {founders: result.founders, members: result.members}).exec(function(err, result) {
+                        if (err) return callback(err);
+                        else return callback(null, result);
+                    });
+                },
+                character: function(callback) {
+                    Character.update({id: character.id}, {isInvited: false}).exec(function(err, result) {
+                        if (err) return callback(err);
+                        else return callback(null, result);
+                    });
+                },
+                notification: function(callback) {
+                    Notification.destroy({id: notification.id}).exec(function(err, result) {
+                        if (err) return callback(err);
+                        else return callback(null, result);
+                    });
+                }
+            }, function(err, data) {
+                if (err) return res.serverError(err);
+                else return res.ok();
+            });
         });
     }
 };

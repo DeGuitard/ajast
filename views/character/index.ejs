@@ -25,13 +25,13 @@
                     md-row-height="1:1" md-gutter="8px" md-gutter-gt-sm="4px" >
                 <md-grid-tile ng-repeat="character in characters | orderBy:'fullName' | filter:searchString" ng-style="{'background-image': 'url(/images/avatars/{{getAvatar(character)}})'}" class="character-tile">
                     <a ng-href="/character/show/{{character._id}}">
-                    <div class="effect-lily">
-                        <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
-                        <p>
-                            <span ng-repeat="(key, value) in character.archetypes" ng-if="value > 0">{{key}} {{value}} / </span>
-                            <span>{{character.trigram}}</span>
-                        </p>
-                    </div>
+                        <div class="effect-lily">
+                            <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
+                            <p>
+                                <span ng-repeat="(key, value) in character.archetypes" ng-if="value > 0">{{key}} {{value}} / </span>
+                                <span>{{character.trigram}}</span>
+                            </p>
+                        </div>
                     </a>
                 </md-grid-tile>
             </md-grid-list>

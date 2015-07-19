@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html ng-app="ajast" ng-cloak>
 <head>
-    <title><%= title %> - XIVRP</title>
+    <title><%= typeof title == 'undefined' ? '' : title + ' - '%>XIVRP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="fragment" content="!">
+    <meta name="description" content="<%= typeof metaDesc == 'undefined' ? '' : '' %>">
     <!--STYLES-->
     <link rel="stylesheet" href="/styles/angular-material.css">
     <link rel="stylesheet" href="/styles/dist/vis.min.css">
@@ -81,12 +83,12 @@
     <div layout="column" role="main" flex>
         <md-toolbar class="md-primary" hide show-gt-lg>
             <div class="md-toolbar-tools">
-                <span>{{page.title}}</span>
+                <h1>{{page.title}}</h1>
             </div>
         </md-toolbar>
         <md-toolbar class="md-primary" md-scroll-shrink hide-gt-lg>
             <div class="md-toolbar-tools">
-                <span>{{page.title}}</span>
+                <h1>{{page.title}}</h1>
                 <span flex></span>
                 <md-button ng-click="openMenu()" aria-label="Paramètres"><img src="/images/icons/hamburger.svg"/></md-button>
             </div>
