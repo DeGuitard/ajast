@@ -27,7 +27,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
             $scope.contextualLinks.links = [];
             for (var i = 0; i < userCharacters.length; i++) {
                 $scope.contextualLinks.links.push({
-                    url: '/character/show/' + userCharacters[i]._id,
+                    url: '/personnage/' + userCharacters[i].fullName,
                     text: userCharacters[i].fullName
                 });
             }
@@ -55,7 +55,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
             $scope.page.title = 'Mettre à jour mon personnage';
             $scope.contextualLinks.title = 'Mon personnage';
             $scope.contextualLinks.links = [
-                {url: '/character/show/' + $scope.character.id, text: 'Consulter'},
+                {url: '/personnage/' + $scope.character.fullName, text: 'Consulter'},
                 {text: 'Supprimer', action: function () { $scope.delete(); }}
             ];
         } else {
@@ -134,9 +134,34 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
     };
 
     $scope.getAvatar = function(character) {
-        console.log(character.avatar)
         if (character.avatar) return character.avatar;
         else return 'default.png';
+    };
+
+    $scope.getAlignment = function(character) {
+        // Specific alignments (extreme cases).
+        if (character.moral == 0 && character.ethics == 0) return 'Démoniaque';
+        if (character.moral == 80 && character.ethics == 0) return 'Béatifique';
+        if (character.moral == 0 && character.ethics == 80) return 'Diabolique';
+        if (character.moral == 80 && character.ethics == 80) return 'Saint';
+        if (character.moral == 40 && character.ethics == 40) return 'Neutre strict';
+
+        // Generic alignments.
+        var alignment = '';
+        if (character.ethics < 40) alignment = 'Chaotique ';
+        if (character.ethics > 40) alignment = 'Loyal ';
+        if (character.ethics == 40) alignment = 'Neutre ';
+        if (character.moral < 40) alignment += 'mauvais';
+        if (character.moral > 40) alignment += 'bon';
+        if (character.moral == 40) alignment += 'neutre';
+
+        return alignment;
+    };
+
+    $scope.getFreeCompanyName = function(character) {
+        if (character.membership) return character.membership.name + ' (membre)';
+        if (character.leadership) return character.leadership.name + ' (fondateur)';
+        return 'Aucune'
     }
 }]);
 

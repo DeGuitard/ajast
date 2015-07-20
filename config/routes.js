@@ -42,6 +42,7 @@ module.exports.routes = {
      *                                                                          *
      ***************************************************************************/
     'get /': 'PageController.index',
+    'get /sitemap.xml': 'PageController.siteMap',
 
     /** Auth routes **/
     'get /login': 'AuthController.login',
@@ -56,7 +57,7 @@ module.exports.routes = {
     'get /character/find/:term': 'CharacterController.search',
     'get /characters': 'CharacterController.list',
     'get /character/new': 'CharacterController.new',
-    'get /character/show/:id': 'CharacterController.show',
+    'get /character/show/:name': 'CharacterController.show',
     'get /character/edit/:id': 'CharacterController.edit',
     'post /character/save': 'CharacterController.save',
     'delete /character/remove/:id': 'CharacterController.remove',
@@ -81,7 +82,7 @@ module.exports.routes = {
     'get /free-company/find/:term': 'FreeCompanyController.search',
     'get /free-companies': 'FreeCompanyController.list',
     'get /free-company/new': 'FreeCompanyController.new',
-    'get /free-company/show/:id': 'FreeCompanyController.show',
+    'get /free-company/show/:name': 'FreeCompanyController.show',
     'get /free-company/edit/:id': 'FreeCompanyController.edit',
     'post /free-company/save': 'FreeCompanyController.save',
     'post /free-company/invite': 'FreeCompanyController.invite',
@@ -95,7 +96,9 @@ module.exports.routes = {
 
     /** French SEO **/
     'get /personnages': 'CharacterController.list',
+    'get /personnage/:name': 'CharacterController.show',
     'get /compagnies-libres': 'FreeCompanyController.list',
+    'get /compagnie-libre/:name': 'FreeCompanyController.show',
     'get /combats': 'FightController.index',
     'get /des': 'RollController.index'
 };

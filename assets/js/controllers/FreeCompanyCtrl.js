@@ -14,7 +14,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
             if (ownCompanies.length > 0) {
                 for (var i = 0; i < ownCompanies.length; i++) {
                     $scope.contextualLinks.links.push({
-                        url: "/free-company/show/" + ownCompanies[i].id,
+                        url: "/compagnie-libre/" + ownCompanies[i].name,
                         text: ownCompanies[i].name
                     });
                 }
@@ -47,7 +47,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
             $scope.page.title = "Mettre à jour ma compagnie libre";
             $scope.contextualLinks.title = "Ma compagnie libre";
             $scope.contextualLinks.links = [
-                {url: '/free-company/show/' + $scope.freeCompany.id, text: 'Consulter'},
+                {url: '/compagnie-libre/' + $scope.freeCompany.name, text: 'Consulter'},
                 {text: 'Supprimer', action: function () { $scope.delete(); }}
             ];
         } else {

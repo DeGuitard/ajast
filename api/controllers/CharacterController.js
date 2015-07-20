@@ -31,6 +31,8 @@ module.exports = {
     },
 
     show: function(req, res) {
+        if (!req.param("name")) return res.notFound();
+
         async.parallel({
             archetypes: function(callback) {
                 // Native request to limit the fields, because Sails can't handle projection...
@@ -42,8 +44,8 @@ module.exports = {
                 });
             },
             character: function(callback) {
-                var query = {id: req.param("id")};
-                Character.findOne(query).populate('god').populate('birthPlace').populate('race').exec(function(err, result) {
+                var query = {fullName: req.param("name")};
+                Character.findOne(query).populate('god').populate('birthPlace').populate('race').populate('membership').populate('leadership').exec(function(err, result) {
                     if (err) callback(err);
                     callback(null, result);
                 });
@@ -92,7 +94,7 @@ module.exports = {
         }, function(err, data) {
             if (err) return res.serverError(err);
 
-            var regions  = [], character = {'timeline': [], 'archetypes': {}, 'crafts': {}, 'harvesters': {}, avatar: 'default.png'};
+            var regions  = [], character = {'timeline': [], 'archetypes': {}, 'crafts': {}, 'harvesters': {}, avatar: 'default.png', moral: 40, ethics: 40};
             for (var i = 0; i < data.towns.length; i++) {
                 if (regions.indexOf(data.towns[i].region) == -1) {
                     regions.push(data.towns[i].region);
