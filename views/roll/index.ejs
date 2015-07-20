@@ -42,7 +42,7 @@
                 <md-list>
                     <md-item ng-repeat="roll in rolls">
                         <md-item-content layout="row" class="roll-row" ng-class-even="'roll-even'">
-                            <span class="roll-score"><md-button class="md-fab">{{roll.score}}</md-button></span>
+                            <span class="roll-score"><md-button class="md-fab"><md-tooltip>Sur {{roll.faces}}</md-tooltip>{{roll.score}}</md-button></span>
                             <span class="roll-action" flex>{{roll.action}}</span>
                             <span class="roll-date">{{dateToStr(roll.createdAt)}}</span>
                         </md-item-content>

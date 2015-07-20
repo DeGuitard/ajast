@@ -67,7 +67,7 @@
                 <div layout="row" layout-sm="column">
                     <md-input-container flex>
                         <label>Compagnie Libre</label>
-                        <input ng-model="getFreeCompanyName(character)" ng-readonly="true">
+                        <input ng-model="getFreeCompanyName(character)" ng-readonly="true" ng-click="to('/compagnie-libre/' + character.membership.name + character.leadership.name)">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
