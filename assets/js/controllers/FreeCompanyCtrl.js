@@ -3,6 +3,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         $scope.freeCompanies = freeCompanies;
         $scope.servers = servers;
         $scope.search = {};
+        $scope.page.title = 'Liste des compagnies RP';
         $scope.contextualLinks.title = 'Mes compagnies';
         $scope.contextualLinks.links = [];
 
@@ -29,6 +30,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
 
     $scope.initShowMode = function(freeCompany, userId) {
         $scope.freeCompany = freeCompany;
+        $scope.page.title = 'Profil de ' + freeCompany.name;
 
         if ($scope.freeCompany.users.indexOf(userId) != -1 || $scope.freeCompany.users.length == 0) {
             $scope.contextualLinks.title = 'Ma compagnie';
@@ -41,6 +43,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
 
     $scope.initEditMode = function(freeCompany) {
         $scope.freeCompany = freeCompany;
+        $scope.page.title = 'Éditer sa compagnie';
         $scope.icon = '/images/free-companies/' + $scope.freeCompany.icon;
 
         if ($scope.freeCompany.id) {
