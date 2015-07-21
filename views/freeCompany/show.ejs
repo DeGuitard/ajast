@@ -60,7 +60,7 @@
                     <md-tab-label>Fondateurs</md-tab-label>
                     <md-tab-template>
                         <md-content><md-list>
-                            <md-list-item ng-click="to('/character/show/' + founder.id)" ng-repeat="founder in freeCompany.founders | orderBy:'fullName' | filter:{isInvited: false}">
+                            <md-list-item ng-click="to('/personnage/' + founder.fullName)" ng-repeat="founder in freeCompany.founders | orderBy:'fullName' | filter:{isInvited: false}">
                                 {{founder.fullName}}
                                 <md-divider ng-if="!$last"></md-divider>
                             </md-list-item>
@@ -71,7 +71,7 @@
                     <md-tab-label>Joueurs</md-tab-label>
                     <md-tab-template>
                         <md-content><md-list>
-                                <md-list-item ng-click="to('/character/show/' + member.id)" ng-repeat="member in freeCompany.members | orderBy:'fullName' | filter:{isInvited: false}">
+                                <md-list-item ng-click="to('/personnage/' + member.fullName)" ng-repeat="member in freeCompany.members | orderBy:'fullName' | filter:{isInvited: false}">
                                     {{member.fullName}}
                                     <md-divider ng-if="!$last"></md-divider>
                                 </md-list-item>

@@ -81,7 +81,7 @@
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
-                    <span class="md-toolbar-tools">Culture</span>
+                    <span class="md-toolbar-tools">Culture et comportement</span>
                 </md-toolbar>
 
                 <md-content class="md-padding" style="font-size:1.2em;">
@@ -102,6 +102,28 @@
                                 </md-optgroup>
                             </md-select>
                         </md-input-container>
+                    </div>
+                    <md-input-container>
+                        <label>Alignement</label>
+                        <input ng-model="getAlignment(character)" ng-readonly="true">
+                    </md-input-container>
+                    <div layout="row" layout-sm="column">
+                        <div flex="10" layout layout-align="center center">
+                            <span><md-tooltip>Place sa propre personne au dessus de tout le reste.</md-tooltip>Mauvais</span>
+                        </div>
+                        <md-slider flex ng-model="character.moral" step="1" min="0" max="80" aria-label="Morale"></md-slider>
+                        <div flex="10" layout layout-align="center center">
+                            <span><md-tooltip>Privilégie le bien collectif, altruiste.</md-tooltip>Bon</span>
+                        </div>
+                    </div>
+                    <div layout="row" layout-sm="column">
+                        <div flex="10" layout layout-align="center center">
+                            <span><md-tooltip>N'obéit qu'à ses propres règles et ne suit aucun ordre.</md-tooltip>Chaotique</span>
+                        </div>
+                        <md-slider flex ng-model="character.ethics" step="1" min="0" max="80" aria-label="Éthique"></md-slider>
+                        <div flex="10" layout layout-align="center center">
+                            <span><md-tooltip>Respecte toutes les règles et la hiérarchie.</md-tooltip>Loyal</span>
+                        </div>
                     </div>
                 </md-content>
             </md-whiteframe>

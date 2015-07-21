@@ -22,6 +22,8 @@ module.exports = {
         timeline: {type: 'array' },
         tribe: {type: 'string', required: true, size: 24 },
         isInvited: { type: 'boolean' },
+        moral: { type: 'integer', required: true },
+        ethics: { type: 'integer', required: true },
 
         race: { model: 'race', required: true },
         god: { model: 'god', required: true },

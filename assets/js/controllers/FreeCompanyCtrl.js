@@ -3,6 +3,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         $scope.freeCompanies = freeCompanies;
         $scope.servers = servers;
         $scope.search = {};
+        $scope.page.title = 'Liste des compagnies RP';
         $scope.contextualLinks.title = 'Mes compagnies';
         $scope.contextualLinks.links = [];
 
@@ -14,7 +15,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
             if (ownCompanies.length > 0) {
                 for (var i = 0; i < ownCompanies.length; i++) {
                     $scope.contextualLinks.links.push({
-                        url: "/free-company/show/" + ownCompanies[i].id,
+                        url: "/compagnie-libre/" + ownCompanies[i].name,
                         text: ownCompanies[i].name
                     });
                 }
@@ -29,6 +30,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
 
     $scope.initShowMode = function(freeCompany, userId) {
         $scope.freeCompany = freeCompany;
+        $scope.page.title = 'Profil de ' + freeCompany.name;
 
         if ($scope.freeCompany.users.indexOf(userId) != -1 || $scope.freeCompany.users.length == 0) {
             $scope.contextualLinks.title = 'Ma compagnie';
@@ -41,13 +43,14 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
 
     $scope.initEditMode = function(freeCompany) {
         $scope.freeCompany = freeCompany;
+        $scope.page.title = 'Éditer sa compagnie';
         $scope.icon = '/images/free-companies/' + $scope.freeCompany.icon;
 
         if ($scope.freeCompany.id) {
             $scope.page.title = "Mettre à jour ma compagnie libre";
             $scope.contextualLinks.title = "Ma compagnie libre";
             $scope.contextualLinks.links = [
-                {url: '/free-company/show/' + $scope.freeCompany.id, text: 'Consulter'},
+                {url: '/compagnie-libre/' + $scope.freeCompany.name, text: 'Consulter'},
                 {text: 'Supprimer', action: function () { $scope.delete(); }}
             ];
         } else {

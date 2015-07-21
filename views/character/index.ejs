@@ -11,7 +11,7 @@
         <md-content class="md-padding">
             <md-input-container class="md-accent">
                 <label>Recherche par nom</label>
-                <input ng-model="searchString" />
+                <input ng-model="searchString" ng-model-options="{ debounce: 200 }" />
             </md-input-container>
         </md-content>
     </md-whiteframe>
@@ -24,7 +24,7 @@
                     md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="7"
                     md-row-height="1:1" md-gutter="8px" md-gutter-gt-sm="4px" >
                 <md-grid-tile ng-repeat="character in characters | orderBy:'fullName' | filter:searchString" ng-style="{'background-image': 'url(/images/avatars/{{getAvatar(character)}})'}" class="character-tile">
-                    <a ng-href="/character/show/{{character._id}}">
+                    <a ng-href="/personnage/{{character.fullName}}">
                         <div class="effect-lily">
                             <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
                             <p>

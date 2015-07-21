@@ -40,9 +40,9 @@ module.exports = {
     },
 
     show: function(req, res) {
-        if (!req.param("id")) return res.notFound();
+        if (!req.param("name")) return res.notFound();
 
-        FreeCompany.findOne({id: req.param("id")}).populate('founders').populate('members').exec(function(err, result) {
+        FreeCompany.findOne({name: req.param("name")}).populate('founders').populate('members').exec(function(err, result) {
             if (err) return res.serverError(err);
             if (!result) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             res.view('freeCompany/show', {
