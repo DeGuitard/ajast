@@ -1,4 +1,4 @@
-var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flow']).config(["$mdThemingProvider", function($mdThemingProvider) {
+var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flow', 'pascalprecht.translate']).config(["$mdThemingProvider", function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('deep-purple')
         .accentPalette('blue')
@@ -9,4 +9,8 @@ var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flo
     $mdThemingProvider.theme('fight')
         .primaryPalette('blue', { 'hue-2': '700' })
         .accentPalette('indigo', { 'hue-2': '700' })
+}]);
+
+app.config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.preferredLanguage('en');
 }]);

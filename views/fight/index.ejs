@@ -1,16 +1,16 @@
-<md-content ng-init="fights = <%= fights %>; myFights = <%= myFights %>; page = {title: 'Liste des combats'}" flex>
+<md-content ng-init="fights = <%= fights %>; myFights = <%= myFights %>; page = {title: 'fights.titles.page'}" flex>
 
     <div layout="column" layout-margin >
         <% if (req.isAuthenticated()) { %>
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
             <span class="md-toolbar-tools">
-                <span>Mes combats non démarrés</span>
+                <span>{{'fights.titles.myFights' | translate}}</span>
             </span>
             </md-toolbar>
             <md-content layout="row" layout-wrap>
                 <md-button class="md-primary md-raised" ng-href="/fight/{{fight.shortid}}" flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in myFights">#{{fight.shortid}}</md-button>
-                <md-button class="md-primary md-raised" ng-href="/fight/new" flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20">Nouveau</md-button>
+                <md-button class="md-primary md-raised" ng-href="/fight/new" flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20">{{'fights.buttons.new' | translate}}</md-button>
             </md-content>
         </md-whiteframe>
         <% } %>
@@ -18,13 +18,13 @@
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
             <span class="md-toolbar-tools">
-                <span>Combats en cours</span>
+                <span>{{'fights.titles.currentFights' | translate}}</span>
             </span>
             </md-toolbar>
             <md-content layout="row" layout-wrap>
                 <md-button class="md-primary md-raised" ng-href="/fight/{{fight.shortid}}" flex-gt-lg="15" flex-sm="40" flex-md="30" flex-lg="20" ng-repeat="fight in currentFights = (fights | filter:{time: {hasStarted: true, isFinished: false}})">#{{fight.shortid}}</md-button>
                 <md-content ng-hide="currentFights.length" class="md-padding">
-                    Il n'y a pas de combats en cours.
+                    {{'fights.notice.noCurrentFights' | translate}}
                 </md-content>
             </md-content>
         </md-whiteframe>
@@ -32,7 +32,7 @@
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
             <span class="md-toolbar-tools">
-                <span>Historique des combats</span>
+                <span>{{'fights.titles.oldFights' | translate}}</span>
             </span>
             </md-toolbar>
             <md-content layout="row" layout-wrap>

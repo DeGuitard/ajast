@@ -1,32 +1,41 @@
 <md-toolbar class="md-primary">
     <div class="md-toolbar-tools">
-        <span class="md-flex">Tour de {{currentAction().source.fullName}}</span>
+        <span class="md-flex">{{currentAction().source.fullName}}</span>
     </div>
 </md-toolbar>
 
 <md-content>
     <form layout="column" layout-padding>
-        <md-select ng-model="currentAction().type" placeholder="Type d'action" flex>
-            <md-option value="offense">Offensive</md-option>
-            <md-option value="defense">Défensive</md-option>
-            <md-option value="other">Autre</md-option>
-        </md-select>
-        <md-select ng-model="currentAction().archetype" placeholder="Archétype exploité" flex>
-            <md-option ng-value="archetype.trigram" ng-repeat="archetype in archetypes | orderBy:'name'" ng-show="isArchetypeAvailable(archetype)">{{archetype.name}}</md-option>
-        </md-select>
-        <md-select ng-model="currentAction().target" placeholder="Cible de l'action" flex>
-            <md-optgroup label="Groupe A">
-                <md-option ng-value="player" ng-repeat="player in players() | filter:{group:'A', active: true} | orderBy:'fullName'">{{player.fullName}}</md-option>
-            </md-optgroup>
-            <md-optgroup label="Groupe B">
-                <md-option ng-value="player" ng-repeat="player in players() | filter:{group:'B', active: true} | orderBy:'fullName'">{{player.fullName}}</md-option>
-            </md-optgroup>
-        </md-select>
         <md-input-container>
-            <label>Description de l'action</label>
+            <label>{{'fight.form.action.type' | translate}}</label>
+            <md-select ng-model="currentAction().type" flex>
+                <md-option value="offense">{{'fights.actionTypes.offensive' | translate}}</md-option>
+                <md-option value="defense">{{'fights.actionTypes.defensive' | translate}}</md-option>
+                <md-option value="other">{{'fights.actionTypes.other' | translate}}</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'fight.form.action.archetype' | translate}}</label>
+            <md-select ng-model="currentAction().archetype" flex>
+                <md-option ng-value="archetype.trigram" ng-repeat="archetype in archetypes | orderBy:'name'" ng-show="isArchetypeAvailable(archetype)">{{archetype.name}}</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'fight.form.action.target' | translate}}</label>
+            <md-select ng-model="currentAction().target" flex>
+                <md-optgroup label="Groupe A">
+                    <md-option ng-value="player" ng-repeat="player in players() | filter:{group:'A', active: true} | orderBy:'fullName'">{{player.fullName}}</md-option>
+                </md-optgroup>
+                <md-optgroup label="Groupe B">
+                    <md-option ng-value="player" ng-repeat="player in players() | filter:{group:'B', active: true} | orderBy:'fullName'">{{player.fullName}}</md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>{{'fight.form.action.desc' | translate}}</label>
             <input ng-model="currentAction().desc">
         </md-input-container>
-        <md-button class="md-raised" ng-click="roll()" ng-disabled="!canRoll()" ng-hide="currentAction().roll">Lancer les dés</md-button>
-        <md-button class="md-raised" ng-click="save()" ng-disabled="!canRoll()" ng-show="currentAction().roll">Mettre à jour</md-button>
+        <md-button class="md-raised" ng-click="roll()" ng-disabled="!canRoll()" ng-hide="currentAction().roll">{{'fights.buttons.roll' | translate}}</md-button>
+        <md-button class="md-raised" ng-click="save()" ng-disabled="!canRoll()" ng-show="currentAction().roll">{{'fights.buttons.update' | translate}}</md-button>
     </form>
 </md-content>

@@ -1,23 +1,30 @@
-app.controller('MjCtrl', ["$scope", "$mdDialog", "timeService", "playersService", function($scope, $mdDialog, timeService, playersService) {
+app.controller('MjCtrl', ['$scope', '$mdDialog', 'timeService', 'playersService', '$translate', function($scope, $mdDialog, timeService, playersService, $translate) {
     $scope.init = function(archetypes, fight) {
         playersService.init(fight.groups, archetypes);
         timeService.init(fight);
         $scope.hasStarted = fight.time.hasStarted;
 
-        $scope.page.title = "Combat #" + fight.shortid.toUpperCase();
+        $translate('fights.titles.fight', {shortid: fight.shortid.toUpperCase()}).then(function (title) { $scope.page.title = title; });
 
         if (!timeService.isFinished()) {
-            $scope.contextualLinks.title = "Mon combat";
-            $scope.contextualLinks.links = [
-                {text: "Créer un PNJ", action: function() {
+            $scope.contextualLinks.links = [];
+            $translate('fights.menu.title').then(function (title) {
+                $scope.contextualLinks.title = title;
+            });
+            $translate('fights.menu.createNpc').then(function (text) {
+                $scope.contextualLinks.links.push({text: text, action: function() {
                     $mdDialog.show({
                         controller: 'CreatePlayerCtrl',
                         templateUrl: '/js/templates/ng-template-create-player.html'
                     });
-                }},
-                {text: "Annuler le combat", url: "/fight/end/" + timeService.id(), hide: function() { return $scope.hasStarted; } },
-                {text: "Terminer le combat", url: "/fight/end/" + timeService.id(), hide: function() { return !$scope.hasStarted; } }
-            ];
+                }});
+            });
+            $translate('fights.menu.cancel').then(function (text) {
+                $scope.contextualLinks.links.push({text: text, url: '/fight/end/' + timeService.id(), hide: function() { return $scope.hasStarted; } });
+            });
+            $translate('fights.menu.end').then(function (text) {
+                $scope.contextualLinks.links.push({text: text, url: '/fight/end/' + timeService.id(), hide: function() { return !$scope.hasStarted; } });
+            });
         }
     };
     $scope.group = function(code) { return code == 'A' ? playersService.groupA() : playersService.groupB() };
