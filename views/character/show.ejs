@@ -1,7 +1,7 @@
 <% if (req.isAuthenticated()) { %>
 <div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>, <%= JSON.stringify(req.user.id) %>); archetypes = <%= archetypes %>;" flex>
 <% } else { %>
-<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= character %>); archetypes = <%= archetypes %>;" flex>
+<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>); archetypes = <%= archetypes %>;" flex>
 <% } %>
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
