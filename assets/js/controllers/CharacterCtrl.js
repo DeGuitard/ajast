@@ -12,7 +12,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
     };
 
     $scope.initListMode = function(characters, userId) {
-        $scope.page.title = 'Liste des personnages';
+        $scope.page.title = 'characters.titles.list';
         $scope.characters = characters;
         var userCharacters = [];
 
@@ -23,7 +23,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
                 }
             }
 
-            $scope.contextualLinks.title = 'Mes personnages';
+            $scope.contextualLinks.title = 'characters.menu.list.title';
             $scope.contextualLinks.links = [];
             for (var i = 0; i < userCharacters.length; i++) {
                 $scope.contextualLinks.links.push({
@@ -31,19 +31,19 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
                     text: userCharacters[i].fullName
                 });
             }
-            $scope.contextualLinks.links.push({url: '/character/new', text: 'Créer un nouveau'});
+            $scope.contextualLinks.links.push({url: '/character/new', text: 'characters.menu.list.new'});
         }
     };
 
     $scope.initShowMode = function(character, userId) {
-        $scope.page.title = "Profil de " + character.fullName;
+        $translate('characters.titles.show', {name: character.fullName}).then(function (title) { $scope.page.title = title; });
         $scope.character = character;
         if (userId && ($scope.character.user == userId || $scope.character.user == undefined)) {
             $scope.isOwner = true;
-            $scope.contextualLinks.title = 'Mon personnage';
+            $scope.contextualLinks.title = 'characters.menu.show.title';
             $scope.contextualLinks.links = [
-                {url: '/character/edit/' + $scope.character.id, text: 'Modifier'},
-                {text: 'Supprimer', action: function() { $scope.delete(); }}
+                {url: '/character/edit/' + $scope.character.id, text: 'characters.menu.show.edit'},
+                {text: 'characters.menu.show.delete', action: function() { $scope.delete(); }}
             ];
         }
     };
@@ -52,14 +52,14 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
         $scope.character = character;
         $scope.avatar = '/images/avatars/' + $scope.character.avatar;
         if ($scope.character.id) {
-            $scope.page.title = 'Mettre à jour mon personnage';
-            $scope.contextualLinks.title = 'Mon personnage';
+            $scope.page.title = 'characters.titles.update';
+            $scope.contextualLinks.title = 'characters.menu.update.title';
             $scope.contextualLinks.links = [
-                {url: '/personnage/' + $scope.character.fullName, text: 'Consulter'},
-                {text: 'Supprimer', action: function () { $scope.delete(); }}
+                {url: '/personnage/' + $scope.character.fullName, text: 'characters.menu.update.show'},
+                {text: 'characters.menu.update.delete', action: function () { $scope.delete(); }}
             ];
         } else {
-            $scope.page.title = 'Créer son personnage';
+            $scope.page.title = 'characters.titles.new';
             $scope.avatar = '/images/avatars/default.png';
         }
     };

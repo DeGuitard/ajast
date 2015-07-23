@@ -7,24 +7,17 @@ app.controller('MjCtrl', ['$scope', '$mdDialog', 'timeService', 'playersService'
         $translate('fights.titles.fight', {shortid: fight.shortid.toUpperCase()}).then(function (title) { $scope.page.title = title; });
 
         if (!timeService.isFinished()) {
-            $scope.contextualLinks.links = [];
-            $translate('fights.menu.title').then(function (title) {
-                $scope.contextualLinks.title = title;
-            });
-            $translate('fights.menu.createNpc').then(function (text) {
-                $scope.contextualLinks.links.push({text: text, action: function() {
+            $scope.contextualLinks.title = 'fights.menu.title';
+            $scope.contextualLinks.links = [
+                {text: 'fights.menu.createNpc', action: function() {
                     $mdDialog.show({
                         controller: 'CreatePlayerCtrl',
                         templateUrl: '/js/templates/ng-template-create-player.html'
                     });
-                }});
-            });
-            $translate('fights.menu.cancel').then(function (text) {
-                $scope.contextualLinks.links.push({text: text, url: '/fight/end/' + timeService.id(), hide: function() { return $scope.hasStarted; } });
-            });
-            $translate('fights.menu.end').then(function (text) {
-                $scope.contextualLinks.links.push({text: text, url: '/fight/end/' + timeService.id(), hide: function() { return !$scope.hasStarted; } });
-            });
+                }},
+                {text: 'fights.menu.cancel', url: '/fight/end/' + timeService.id(), hide: function() { return $scope.hasStarted; } },
+                {text: 'fights.menu.end', url: '/fight/end/' + timeService.id(), hide: function() { return !$scope.hasStarted; } }
+            ];
         }
     };
     $scope.group = function(code) { return code == 'A' ? playersService.groupA() : playersService.groupB() };

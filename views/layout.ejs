@@ -40,10 +40,10 @@
                 <% } %>
             </md-list>
             <div class="contextual-links" ng-if="contextualLinks.links">
-                <h3>{{contextualLinks.title}}</h3>
+                <h3>{{contextualLinks.title | translate}}</h3>
                 <md-list layout="column">
                     <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-repeat="link in contextualLinks.links" ng-hide="link.hide()" flex>
-                        {{link.text}}
+                        {{link.text | translate}}
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
                 </md-list>

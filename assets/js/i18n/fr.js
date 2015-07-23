@@ -80,6 +80,26 @@ app.config(['$translateProvider', function ($translateProvider) {
         'archetypes.craftSkill.lvl3.desc': "Capable de réaliser des produits d'excellente qualité.",
         'archetypes.harvestSkill.lvl1.desc': 'Capable de récolter des produits de qualité médiocre.',
         'archetypes.harvestSkill.lvl2.desc': 'Capable de récolter un peu de tout.',
-        'archetypes.harvestSkill.lvl3.desc': 'Capable de tout récolter.'
+        'archetypes.harvestSkill.lvl3.desc': 'Capable de tout récolter.',
+
+        // Characters pages
+        'characters.titles.list': 'Liste des personnages',
+        'characters.titles.search': 'Rechercher',
+        'characters.search.byName': 'Chercher par nom',
+        'characters.menu.list.title': 'Mes personnages',
+        'characters.menu.list.new': 'Créer un nouveau',
+
+        // Rolls page
+        'rolls.titles.page': 'Dice rolls',
+        'rolls.titles.new': 'Lancer un dé',
+        'rolls.titles.history': 'Derniers résultats',
+        'rolls.notices.roll': 'Un dé vient d\'être lancé !',
+        'rolls.roll.desc': 'Description de l\'action',
+        'rolls.buttons.roll': 'Lancer',
+
+        // Forms
+        'forms.invalid.required': 'Champ requis.',
+        'forms.invalid.maxlength': 'Trop long !',
+        'forms.invalid.minlength': 'Trop court !'
     });
 }]);

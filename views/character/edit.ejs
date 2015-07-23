@@ -4,37 +4,37 @@
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
-                    <span class="md-toolbar-tools">Nom et physique</span>
+                    <span class="md-toolbar-tools">{{'' : translate}}Nom et physique</span>
                 </md-toolbar>
 
                 <md-content class="md-padding" style="font-size:1.2em;">
                     <div layout="row" layout-sm="column">
                         <md-input-container>
-                            <label>Prénom</label>
+                            <label>{{'' : translate}}Prénom</label>
                             <input ng-model="character.firstName" name="firstName" required minlength="3" md-maxlength="24" ng-pattern="/^[A-Za-z']*$/">
                             <div ng-messages="form.firstName.$error">
-                                <div ng-message="required">Champ requis.</div>
-                                <div ng-message="md-maxlength">Trop long !</div>
-                                <div ng-message="minlength">Trop court !</div>
-                                <div ng-message="pattern">Mauvais format !</div>
+                                <div ng-message="required">{{'' : translate}}Champ requis.</div>
+                                <div ng-message="md-maxlength">{{'' : translate}}Trop long !</div>
+                                <div ng-message="minlength">{{'' : translate}}Trop court !</div>
+                                <div ng-message="pattern">{{'' : translate}}Mauvais format !</div>
                             </div>
                         </md-input-container>
                         <md-input-container flex>
-                            <label>Nom de famille</label>
+                            <label>{{'' : translate}}Nom de famille</label>
                             <input ng-model="character.lastName" name="lastName" required minlength="3" md-maxlength="24" ng-pattern="/^[A-Za-z']*$/">
                             <div ng-messages="form.lastName.$error">
-                                <div ng-message="required">Champ requis.</div>
-                                <div ng-message="md-maxlength">Trop long !</div>
-                                <div ng-message="minlength">Trop court !</div>
-                                <div ng-message="pattern">Mauvais format !</div>
+                                <div ng-message="required">{{'' : translate}}Champ requis.</div>
+                                <div ng-message="md-maxlength">{{'' : translate}}Trop long !</div>
+                                <div ng-message="minlength">{{'' : translate}}Trop court !</div>
+                                <div ng-message="pattern">{{'' : translate}}Mauvais format !</div>
                             </div>
                         </md-input-container>
                         <md-input-container flex-gt-sm="25">
-                            <label>Trigramme</label>
+                            <label>{{'' : translate}}Trigramme</label>
                             <input ng-model="character.trigram" name="trigram" required minlength="3" maxlength="3" class="trigram">
                             <div ng-messages="form.trigram.$error">
-                                <div ng-message="required">Champ requis.</div>
-                                <div ng-message="minlength">Doit contenir 3 caractères !</div>
+                                <div ng-message="required">{{'' : translate}}Champ requis.</div>
+                                <div ng-message="minlength">{{'' : translate}}Doit contenir 3 caractères !</div>
                             </div>
                         </md-input-container>
                     </div>

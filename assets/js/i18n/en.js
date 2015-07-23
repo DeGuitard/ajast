@@ -80,6 +80,41 @@ app.config(['$translateProvider', function ($translateProvider) {
         'archetypes.craftSkill.lvl3.desc': 'Able to produce excellent products.',
         'archetypes.harvestSkill.lvl1.desc': 'Able to harvest basic products.',
         'archetypes.harvestSkill.lvl2.desc': 'Able to harvest most of things.',
-        'archetypes.harvestSkill.lvl3.desc': 'Able to harvest everything.'
+        'archetypes.harvestSkill.lvl3.desc': 'Able to harvest everything.',
+
+        // Characters pages
+        'characters.titles.list': 'Characters list',
+        'characters.titles.show': '{{name}}\'s profile',
+        'characters.titles.update': 'Update my character',
+        'characters.titles.new': 'Create a character',
+        'characters.titles.search': 'Search',
+        'characters.titles.namePhysique': 'Name and physique',
+        'characters.titles.behaviour': 'Culture and behaviour',
+        'characters.titles.timeline': 'Timeline',
+        'characters.titles.desc': 'Additionnal descriptions',
+        'characters.titles.avatar': 'In-game appearance',
+        'characters.search.byName': 'Search by name',
+        'characters.menu.list.title': 'My characters',
+        'characters.menu.list.new': 'Create a new character',
+        'characters.menu.update.title': 'My character',
+        'characters.menu.update.show': 'Show profile',
+        'characters.menu.update.delete': 'Delete',
+        'characters.menu.show.title': 'My character',
+        'characters.menu.show.edit': 'Edit',
+        'characters.menu.show.delete': 'Delete',
+
+        // Rolls page
+        'rolls.titles.page': 'Dice rolls',
+        'rolls.titles.new': 'Roll a dice',
+        'rolls.titles.history': 'Last rolls',
+        'rolls.notices.roll': 'A dice just has been rolled!',
+        'rolls.roll.desc': 'Action\'s description',
+        'rolls.buttons.roll': 'Roll',
+
+        // Forms
+        'forms.invalid.required': 'Required field.',
+        'forms.invalid.maxlength': 'Too long!',
+        'forms.invalid.minlength': 'Too short!',
+        'forms.invalid.pattern': 'Invalid format!'
     });
 }]);
