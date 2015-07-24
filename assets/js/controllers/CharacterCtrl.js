@@ -1,4 +1,4 @@
-app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', function($scope, $http, $mdToast, $mdDialog) {
+app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$translate', function($scope, $http, $mdToast, $mdDialog, $translate) {
     $scope.initRaces = function(races) {
         $scope.races = races;
         for (var i = 0; i < $scope.races.length; i++) {
@@ -140,20 +140,20 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
 
     $scope.getAlignment = function(character) {
         // Specific alignments (extreme cases).
-        if (character.moral == 0 && character.ethics == 0) return 'Démoniaque';
-        if (character.moral == 80 && character.ethics == 0) return 'Béatifique';
-        if (character.moral == 0 && character.ethics == 80) return 'Diabolique';
-        if (character.moral == 80 && character.ethics == 80) return 'Saint';
-        if (character.moral == 40 && character.ethics == 40) return 'Neutre strict';
+        if (character.moral == 0 && character.ethics == 0) return $scope.align.demoniac;
+        if (character.moral == 80 && character.ethics == 0) return $scope.align.beatific;
+        if (character.moral == 0 && character.ethics == 80) return $scope.align.diabolic;
+        if (character.moral == 80 && character.ethics == 80) return $scope.align.saintly;
+        if (character.moral == 40 && character.ethics == 40) return $scope.align.neutralStrict;
 
         // Generic alignments.
         var alignment = '';
-        if (character.ethics < 40) alignment = 'Chaotique ';
-        if (character.ethics > 40) alignment = 'Loyal ';
-        if (character.ethics == 40) alignment = 'Neutre ';
-        if (character.moral < 40) alignment += 'mauvais';
-        if (character.moral > 40) alignment += 'bon';
-        if (character.moral == 40) alignment += 'neutre';
+        if (character.ethics < 40) alignment = $scope.align.chaotic;
+        if (character.ethics > 40) alignment = $scope.align.lawful;
+        if (character.ethics == 40) alignment = $scope.align.neutral;
+        if (character.moral < 40) alignment += ' ' + $scope.align.bad;
+        if (character.moral > 40) alignment += ' ' + $scope.align.good;
+        if (character.moral == 40) alignment += ' ' + $scope.align.neutral;
 
         return alignment;
     };
@@ -162,6 +162,12 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', fun
         if (character.membership) return character.membership.name + ' (membre)';
         if (character.leadership) return character.leadership.name + ' (fondateur)';
         return 'Aucune'
+    };
+
+    $scope.align = {};
+    $scope.alignTypes = ['chaotic', 'lawful', 'good', 'bad', 'neutral', 'saintly', 'beatific', 'demoniac', 'diabolic'];
+    for (var i = 0; i < $scope.alignTypes.length; i++) {
+        $translate('characters.labels.align.' + $scope.alignTypes[i]).then(function (val) { $scope.align[$scope.alignTypes[i]] = val; });
     }
 }]);
 
