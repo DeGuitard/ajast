@@ -6,7 +6,7 @@ app.directive('timeline', function() {
             character: "=",
             editable: "="
         },
-        controller: ['$scope', '$element', function($scope, $element) {
+        controller: ['$scope', '$element', '$translate', function($scope, $element, $translate) {
             $scope.timelineGroups = new vis.DataSet([
                 {id: 1, content: 'Histoire Personnelle'},
                 {id: 2, content: 'Histoire d\'Eorzea'}
@@ -24,11 +24,11 @@ app.directive('timeline', function() {
                 {id: 9, content: 'Meutre et torture des disciples de Rhalgr', start: new Date(1552, 0, 1), className: 'history', group: 2},
                 {id: 10, content: 'Invasion d\'Ala Mhigo', start: new Date(1557, 0, 1), className: 'history', group: 2},
                 {id: 11, content: 'Combat entre Sir Alberic et Nidhogg', start: new Date(1557, 0, 1), className: 'history', group: 2},
-                {id: 13, content: 'Destruction de la flotte garlemaldaise par le Gardien du Lac Migsormr', start: new Date(1562, 0, 1), className: 'history', group: 2},
-                {id: 14, content: 'Invocation d\'Ifrit', start: new Date(1564, 0, 1), className: 'history', group: 2},
-                {id: 15, content: 'Alliance entre Limsa Lominsa et les pirates', start: new Date(1572, 0, 1), className: 'history', group: 2},
-                {id: 16, content: 'Nael van Darnus est vaincu', start: new Date(1572, 3, 1), className: 'history', group: 2},
-                {id: 17, content: 'Bataille de Carteneau et libération de Bahamut', start: new Date(1572, 5, 1), className: 'history', group: 2}
+                {id: 12, content: 'Destruction de la flotte garlemaldaise par le Gardien du Lac Migsormr', start: new Date(1562, 0, 1), className: 'history', group: 2},
+                {id: 13, content: 'Invocation d\'Ifrit', start: new Date(1564, 0, 1), className: 'history', group: 2},
+                {id: 14, content: 'Alliance entre Limsa Lominsa et les pirates', start: new Date(1572, 0, 1), className: 'history', group: 2},
+                {id: 15, content: 'Nael van Darnus est vaincu', start: new Date(1572, 3, 1), className: 'history', group: 2},
+                {id: 16, content: 'Bataille de Carteneau et libération de Bahamut', start: new Date(1572, 5, 1), className: 'history', group: 2}
             ];
             $scope.timelineItems = new vis.DataSet();
             $scope.timelineItems.add($scope.character.timeline);
@@ -36,7 +36,7 @@ app.directive('timeline', function() {
             $scope.eorzeaHistoryVisible = false;
             $scope.toggleEorzeaHistory = function() {
                 if ($scope.eorzeaHistoryVisible) {
-                    for (i = 1; i <= 18; i++) {
+                    for (i = 1; i <= 16; i++) {
                         $scope.timelineItems.remove(i);
                     }
                     $scope.timeline.setGroups(undefined);
@@ -62,7 +62,7 @@ app.directive('timeline', function() {
                     type: 'point',
                     editable: $scope.editable,
                     onUpdate: function (item, callback) {
-                        item.content = prompt('Nouveau nom : ', item.content);
+                        item.content = prompt($scope.noticesMsg.update, item.content);
                         if (item.content != null) {
                             callback(item);
                         } else {
@@ -70,7 +70,7 @@ app.directive('timeline', function() {
                         }
                     },
                     onAdd: function (item, callback) {
-                        item.content = prompt('Nom de l\'événement : ', item.content);
+                        item.content = prompt($scope.noticesMsg.new, item.content);
                         item.group = 1;
                         if (item.content != null) {
                             callback(item);
@@ -86,7 +86,34 @@ app.directive('timeline', function() {
                         return (item.group == 1);
                     }
                 });
-            }
+            };
+
+            // Event groups translation
+            $translate('timeline.groups.personal')  .then(function(val) { $scope.timelineGroups.update({id: 1, content: val}); });
+            $translate('timeline.groups.eorzea')    .then(function(val) { $scope.timelineGroups.update({id: 2, content: val}); });
+
+            // Events text translation
+            $translate('timeline.events.1') .then(function(val) { $scope.eorzeaHistory[0].content = val; });
+            $translate('timeline.events.2') .then(function(val) { $scope.eorzeaHistory[1].content = val; });
+            $translate('timeline.events.3') .then(function(val) { $scope.eorzeaHistory[2].content = val; });
+            $translate('timeline.events.4') .then(function(val) { $scope.eorzeaHistory[3].content = val; });
+            $translate('timeline.events.5') .then(function(val) { $scope.eorzeaHistory[4].content = val; });
+            $translate('timeline.events.6') .then(function(val) { $scope.eorzeaHistory[5].content = val; });
+            $translate('timeline.events.7') .then(function(val) { $scope.eorzeaHistory[6].content = val; });
+            $translate('timeline.events.8') .then(function(val) { $scope.eorzeaHistory[7].content = val; });
+            $translate('timeline.events.9') .then(function(val) { $scope.eorzeaHistory[8].content = val; });
+            $translate('timeline.events.10').then(function(val) { $scope.eorzeaHistory[9].content = val; });
+            $translate('timeline.events.11').then(function(val) { $scope.eorzeaHistory[10].content = val; });
+            $translate('timeline.events.12').then(function(val) { $scope.eorzeaHistory[11].content = val; });
+            $translate('timeline.events.13').then(function(val) { $scope.eorzeaHistory[12].content = val; });
+            $translate('timeline.events.14').then(function(val) { $scope.eorzeaHistory[13].content = val; });
+            $translate('timeline.events.15').then(function(val) { $scope.eorzeaHistory[14].content = val; });
+            $translate('timeline.events.16').then(function(val) { $scope.eorzeaHistory[15].content = val; });
+
+            // Buttons & notices translation
+            $scope.noticesMsg = {};
+            $translate('timeline.notices.new').then(function(val) { $scope.noticesMsg.new = val; });
+            $translate('timeline.notices.update').then(function(val) { $scope.noticesMsg.update = val; });
         }]
     };
 });

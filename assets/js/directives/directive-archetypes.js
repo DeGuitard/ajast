@@ -29,9 +29,9 @@ app.directive('archetypes', function() {
             };
 
             if ($scope.readonly) {
-                if ($scope.character.fightType == 'offense') $scope.fightType = 'Offensif';
-                else if ($scope.character.fightType == 'defense') $scope.fightType = 'Défensif';
-                else $scope.fightType = 'Hybride';
+                if ($scope.character.fightType == 'offense') $scope.fightType = 'archetypes.fightStyle.offensive';
+                else if ($scope.character.fightType == 'defense') $scope.fightType = 'archetypes.fightStyle.defensive';
+                else $scope.fightType = 'archetypes.fightStyle.hybrid';
             }
 
             // HARVEST AND CRAFT SKILLS

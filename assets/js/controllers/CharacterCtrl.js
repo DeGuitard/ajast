@@ -75,7 +75,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     });
     $scope.$on('flow::fileAdded', function (event, flow, file) {
         if (file.size > 1024000) {
-            $scope.uploadError = 'Fichier trop volumineux (1mo max).';
+            $scope.uploadError = $scope.noticesMsg.fileTooBig;
             event.preventDefault();
         } else {
             var fileReader = new FileReader();
@@ -97,12 +97,12 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
         $http.post('/character/save', {character: charToSave}).success(function(data) {
             $scope.character.id = (data.id) ? data.id : data[0].id;
             $mdToast.show(
-                $mdToast.simple().content('Sauvegarde réussie !').position('top right').hideDelay(5000)
+                $mdToast.simple().content($scope.noticesMsg.saveSuccess).position('top right').hideDelay(5000)
             );
         }).error(function(err) {
-            err = err == 'Conflict' ? 'Nom ou trigramme déjà utilisé par un autre personnage.' : err;
+            err = err == 'Conflict' ? $scope.noticesMsg.conflictError : err;
             $mdToast.show(
-                $mdToast.simple().content('Erreur ! ' + err).position('top right').hideDelay(5000)
+                $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + err).position('top right').hideDelay(5000)
             );
         })
     };
@@ -110,17 +110,17 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     $scope.delete = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
-            .title('Voulez-vous vraiment supprimer ce personnage ?')
-            .content('La suppression d\'un personnage est irréversible.')
-            .ok('Confirmer')
-            .cancel('Annuler')
+            .title($scope.noticesMsg.deleteTitle)
+            .content($scope.noticesMsg.deleteMsg)
+            .ok($scope.noticesMsg.confirm)
+            .cancel($scope.noticesMsg.cancel)
             .targetEvent(ev);
         $mdDialog.show(confirm).then(function() {
             $http.delete('/character/remove/' + $scope.character.id).success(function() {
                 window.location.href = '/characters';
             }).error(function(err) {
                 $mdToast.show(
-                    $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                    $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + err).position('top right').hideDelay(5000)
                 );
             });
         });
@@ -159,16 +159,33 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     };
 
     $scope.getFreeCompanyName = function(character) {
-        if (character.membership) return character.membership.name + ' (membre)';
-        if (character.leadership) return character.leadership.name + ' (fondateur)';
-        return 'Aucune'
+        if (character.membership) return character.membership.name + ' (' + $scope.noticesMsg.member + ')';
+        if (character.leadership) return character.leadership.name + ' (' + $scope.noticesMsg.founder + ')';
+        return $scope.noticesMsg.none;
     };
 
-    $scope.align = {};
-    $scope.alignTypes = ['chaotic', 'lawful', 'good', 'bad', 'neutral', 'saintly', 'beatific', 'demoniac', 'diabolic'];
-    for (var i = 0; i < $scope.alignTypes.length; i++) {
-        $translate('characters.labels.align.' + $scope.alignTypes[i]).then(function (val) { $scope.align[$scope.alignTypes[i]] = val; });
-    }
+    // Looking for translations
+    $scope.align = {}, $scope.noticesMsg = {};
+    $translate('characters.labels.align.chaotic')       .then(function (val) { $scope.align.chaotic = val;            });
+    $translate('characters.labels.align.lawful')        .then(function (val) { $scope.align.lawful = val;             });
+    $translate('characters.labels.align.good')          .then(function (val) { $scope.align.good = val;               });
+    $translate('characters.labels.align.bad')           .then(function (val) { $scope.align.bad = val;                });
+    $translate('characters.labels.align.neutral')       .then(function (val) { $scope.align.neutral = val;            });
+    $translate('characters.labels.align.saintly')       .then(function (val) { $scope.align.saintly = val;            });
+    $translate('characters.labels.align.beatific')      .then(function (val) { $scope.align.beatific = val;           });
+    $translate('characters.labels.align.demoniac')      .then(function (val) { $scope.align.demoniac = val;           });
+    $translate('characters.labels.align.diabolic')      .then(function (val) { $scope.align.diabolic = val;           });
+    $translate('characters.labels.align.neutralStrict') .then(function (val) { $scope.align.neutralStrict = val;      });
+    $translate('characters.labels.founder')             .then(function (val) { $scope.noticesMsg.founder = val;       });
+    $translate('characters.labels.member')              .then(function (val) { $scope.noticesMsg.member = val;        });
+    $translate('characters.labels.none')                .then(function (val) { $scope.noticesMsg.none = val;          });
+    $translate('characters.notices.fileTooBig')         .then(function (val) { $scope.noticesMsg.fileTooBig = val;    });
+    $translate('characters.notices.saveSuccess')        .then(function (val) { $scope.noticesMsg.saveSuccess = val;   });
+    $translate('characters.notices.saveError')          .then(function (val) { $scope.noticesMsg.saveError = val;     });
+    $translate('characters.notices.conflictError')      .then(function (val) { $scope.noticesMsg.conflictError = val; });
+    $translate('characters.notices.deleteTitle')        .then(function (val) { $scope.noticesMsg.deleteTitle = val;   });
+    $translate('characters.notices.deleteMsg')          .then(function (val) { $scope.noticesMsg.deleteMsg = val;     });
+    $translate('forms.buttons.confirm')                 .then(function (val) { $scope.noticesMsg.confirm = val;       });
 }]);
 
 // Just a small directive to be able to update the avatar with the preview of the new image.

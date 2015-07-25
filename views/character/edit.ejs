@@ -40,38 +40,38 @@
                     </div>
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
-                            <label>Race</label>
+                            <label>{{'characters.labels.race' | translate}}</label>
                             <md-select ng-model="character.race" ng-change="raceChange()" placeholder="Race" flex required>
                                 <md-option ng-value="race" ng-repeat="race in races | orderBy:'name' track by race.id">{{race.name}}</md-option>
                             </md-select>
                         </md-input-container>
                         <md-input-container flex>
-                            <label>Ethnie</label>
+                            <label>{{'characters.labels.tribe' | translate}}</label>
                             <md-select ng-model="character.tribe" placeholder="Ethnie" flex required>
-                                <md-option ng-value="tribe" ng-repeat="tribe in character.race.tribes">{{tribe}}</md-option>
+                                <md-option ng-value="tribe" ng-repeat="tribe in character.race.tribes">{{tribe | translate}}</md-option>
                             </md-select>
                         </md-input-container>
                         <md-input-container flex-gt-sm="25">
-                            <label>Sexe</label>
+                            <label>{{'characters.labels.sex' | translate}}</label>
                             <md-select ng-model="character.sex" name="sex" placeholder="Sexe" flex required>
-                                <md-option value="F">Femme</md-option>
-                                <md-option value="H">Homme</md-option>
+                                <md-option value="F">{{'characters.labels.sex.woman' | translate}}</md-option>
+                                <md-option value="H">{{'characters.labels.sex.man' | translate}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
                     <div layout="row" style="margin-top: 20px;">
                         <div flex="10" layout layout-align="center center">
-                            <span>Âge</span>
+                            <span>{{'characters.labels.age' | translate}}</span>
                         </div>
                         <md-slider flex md-discrete ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" aria-label="Âge"></md-slider>
                         <div flex-sm flex-gt-sm="25" layout="row" layout-align="center center">
                             {{character.age}} ans —&nbsp;
-                            <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">Enfant</span>
-                            <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">Jeune</span>
-                            <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">Adulte</span>
-                            <span ng-if="character.age > character.race.lifespan/6*3 && character.age <= character.race.lifespan/6*4">Mature</span>
-                            <span ng-if="character.age > character.race.lifespan/6*4 && character.age <= character.race.lifespan/6*5">Vieillissant</span>
-                            <span ng-if="character.age > character.race.lifespan/6*5 && character.age <= character.race.lifespan/6*6">Vieux</span>
+                            <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">{{'characters.labels.age.child' | translate}}</span>
+                            <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">{{'characters.labels.age.young' | translate}}</span>
+                            <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">{{'characters.labels.age.adult' | translate}}</span>
+                            <span ng-if="character.age > character.race.lifespan/6*3 && character.age <= character.race.lifespan/6*4">{{'characters.labels.age.mature' | translate}}</span>
+                            <span ng-if="character.age > character.race.lifespan/6*4 && character.age <= character.race.lifespan/6*5">{{'characters.labels.age.aging' | translate}}</span>
+                            <span ng-if="character.age > character.race.lifespan/6*5 && character.age <= character.race.lifespan/6*6">{{'characters.labels.age.old' | translate}}</span>
                         </div>
                     </div>
                 </md-content>
@@ -81,48 +81,48 @@
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
-                    <span class="md-toolbar-tools">Culture et comportement</span>
+                    <span class="md-toolbar-tools">{{'characters.titles.behaviour' | translate}}</span>
                 </md-toolbar>
 
                 <md-content class="md-padding" style="font-size:1.2em;">
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
-                            <label>Divinité vénérée</label>
+                            <label>{{'characters.labels.god' | translate}}</label>
                             <md-select ng-model="character.god" placeholder="Divinité vénérée" flex style="margin-top: 0px;" required>
-                                <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name}}, {{god.desc}}</md-option>
+                                <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name}}, {{god.desc | translate}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
-                            <label>Lieu de naissance</label>
+                            <label>{{'characters.labels.birthPlace' | translate}}</label>
                             <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
-                                <md-optgroup label="{{region}}" ng-repeat="region in regions | orderBy:'toString()'">
-                                    <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:'name'">{{town.name}}</md-option>
+                                <md-optgroup label="{{region | translate}}" ng-repeat="region in regions | orderBy:'toString()'">
+                                    <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:'name'">{{town.name | translate}}</md-option>
                                 </md-optgroup>
                             </md-select>
                         </md-input-container>
                     </div>
                     <md-input-container>
-                        <label>Alignement</label>
+                        <label>{{'characters.labels.align' | translate}}</label>
                         <input ng-model="getAlignment(character)" ng-readonly="true">
                     </md-input-container>
                     <div layout="row" layout-sm="column">
                         <div flex="10" layout layout-align="center center">
-                            <span><md-tooltip>Place sa propre personne au dessus de tout le reste.</md-tooltip>Mauvais</span>
+                            <span><md-tooltip>{{'characters.labels.align.bad.desc' | translate}}</md-tooltip>{{'characters.labels.align.bad' | translate}}</span>
                         </div>
                         <md-slider flex ng-model="character.moral" step="1" min="0" max="80" aria-label="Morale"></md-slider>
                         <div flex="10" layout layout-align="center center">
-                            <span><md-tooltip>Privilégie le bien collectif, altruiste.</md-tooltip>Bon</span>
+                            <span><md-tooltip>{{'characters.labels.align.good.desc' | translate}}</md-tooltip>{{'characters.labels.align.good' | translate}}</span>
                         </div>
                     </div>
                     <div layout="row" layout-sm="column">
                         <div flex="10" layout layout-align="center center">
-                            <span><md-tooltip>N'obéit qu'à ses propres règles et ne suit aucun ordre.</md-tooltip>Chaotique</span>
+                            <span><md-tooltip>{{'characters.labels.align.chaotic.desc' | translate}}</md-tooltip>{{'characters.labels.align.chaotic' | translate}}</span>
                         </div>
                         <md-slider flex ng-model="character.ethics" step="1" min="0" max="80" aria-label="Éthique"></md-slider>
                         <div flex="10" layout layout-align="center center">
-                            <span><md-tooltip>Respecte toutes les règles et la hiérarchie.</md-tooltip>Loyal</span>
+                            <span><md-tooltip>{{'characters.labels.align.lawful.desc' | translate}}</md-tooltip>{{'characters.labels.align.lawful' | translate}}</span>
                         </div>
                     </div>
                 </md-content>
@@ -138,7 +138,7 @@
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
-                    <span class="md-toolbar-tools">Chronologie</span>
+                    <span class="md-toolbar-tools">{{'characters.titles.timeline' | translate}}</span>
                 </md-toolbar>
 
                 <md-content class="md-padding" style="font-size:1.2em;" layout="column">
@@ -150,16 +150,16 @@
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
-                    <span class="md-toolbar-tools">Descriptions supplémentaires</span>
+                    <span class="md-toolbar-tools">{{'characters.titles.desc' | translate}}</span>
                 </md-toolbar>
 
                 <md-content class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
                     <md-input-container flex>
-                        <label>Apparence physique</label>
+                        <label>{{'characters.labels.physDesc' | translate}}</label>
                         <textarea ng-model="character.physDesc" columns="1" maxlength="4000" placeholder="Facultatif"></textarea>
                     </md-input-container>
                     <md-input-container flex>
-                        <label>Profil psychologique</label>
+                        <label>{{'characters.labels.mentDesc' | translate}}</label>
                         <textarea ng-model="character.mentDesc" columns="1" maxlength="4000" placeholder="Facultatif"></textarea>
                     </md-input-container>
                 </md-content>
@@ -169,12 +169,12 @@
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
-                    <span class="md-toolbar-tools">Apparence en jeu</span>
+                    <span class="md-toolbar-tools">{{'characters.titles.avatar' | translate}}</span>
                 </md-toolbar>
 
                 <md-content class="md-padding" layout-sm="column" layout-gt-sm="column" layout-margin flex>
                     <div flex>
-                        <md-button flow-btn flow-attrs="{accept:'image/*'}">Choisir un visage</md-button>
+                        <md-button flow-btn flow-attrs="{accept:'image/*'}">{{'characters.labels.chooseFace' | translate}}</md-button>
                         <div ng-show="uploadError" class="error-msg">{{uploadError}}</div>
                     </div>
 
@@ -196,7 +196,7 @@
         </div>
 
         <div layout="row" layout-margin layout-align="center center">
-            <md-button flex="100" flex-gt-lg="90" ng-click="save()" ng-disabled="form.$invalid" class="md-accent md-raised">Sauvegarder</md-button>
+            <md-button flex="100" flex-gt-lg="90" ng-click="save()" ng-disabled="form.$invalid" class="md-accent md-raised">{{ 'characters.buttons.save' | translate }}</md-button>
         </div>
     </form>
 </div>
