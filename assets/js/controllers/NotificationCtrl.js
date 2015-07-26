@@ -3,4 +3,8 @@ app.controller('NotificationCtrl', ['$scope', '$mdToast', 'notificationsService'
     $scope.decline  = function() { notificationsService.decline(notification);  $mdToast.hide(); };
 
     $scope.notification = notification;
+    $scope.translateData = {
+        charName: notification.data.character.fullName,
+        fcName: notification.data.freeCompany.name
+    };
 }]);

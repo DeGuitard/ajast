@@ -1,7 +1,7 @@
 <md-whiteframe class="md-whiteframe-z1" layout="column" layout-margin>
     <md-toolbar class="md-primary">
         <div class="md-toolbar-tools">
-            <span class="md-flex">Historique</span>
+            <span class="md-flex">{{'fights.titles.history' | translate}}</span>
         </div>
     </md-toolbar>
     <md-content md-theme="fight">
@@ -30,7 +30,7 @@
                 </md-content>
             </md-item>
             <md-content class="md-padding" ng-hide="actions().length">
-                L'historique est vide.
+                {{'fights.notices.emptyHistory' | translate}}
             </md-content>
         </md-list>
     </md-content>

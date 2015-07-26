@@ -1,38 +1,38 @@
 <md-tabs class="md-primary with-animation" md-dynamic-height md-selected="data.selectedIndex">
     <md-tab label="fight">
-        <md-tab-label>Combat</md-tab-label>
+        <md-tab-label>{{'archetypes.titles.fight' | translate}}</md-tab-label>
         <md-tab-template>
             <md-content class="md-padding">
                 <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isOP()">
-                    Ce personnage est surcompétent.
+                    {{'archetypes.notices.overskilled' | translate}}
                 </div>
                 <div layout="row" class="md-padding" layout-align="center center">
                     <md-input-container  flex="85" ng-hide="disabled">
-                        <label>Style de combat</label>
-                        <md-select ng-model="character.fightType" placeholder="Style de combat" required>
-                            <md-option value="offense">Offensif</md-option>
-                            <md-option value="defense">Défensif</md-option>
-                            <md-option value="hybrid">Hybride</md-option>
+                        <label>{{'archetypes.fightStyle.title' | translate}}</label>
+                        <md-select ng-model="character.fightType" required>
+                            <md-option value="offense">{{'archetypes.fightStyle.offensive' | translate}}</md-option>
+                            <md-option value="defense">{{'archetypes.fightStyle.defensive' | translate}}</md-option>
+                            <md-option value="hybrid">{{'archetypes.fightStyle.hybrid' | translate}}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container ng-show="disabled" flex="85">
-                        <label>Type de combat</label>
-                        <input ng-model="fightType" ng-readonly="true" />
+                        <label>{{'archetypes.fightStyle.title' | translate}}</label>
+                        <input ng-model="fightType | translate" ng-readonly="true" />
                     </md-input-container>
                 </div>
                 <div ng-repeat="archetype in archetypes | orderBy:'trigram'" layout="row" ng-hide="disabled && character.archetypes[archetype.trigram] == 0">
                     <div flex="15" layout layout-align="center center">
                         <img ng-src="/images/icons/archetypes/{{archetype.trigram}}.png" alt="{{archetype.trigram}}" />
-                        <md-tooltip>{{archetype.name}}</md-tooltip>
+                        <md-tooltip>{{archetype.name | translate}}</md-tooltip>
                     </div>
                     <md-slider flex md-discrete ng-model="character.archetypes[archetype.trigram]" step="1" min="0" max="5" ng-disabled="disabled" aria-label="Compétence d'archétype {{archetype.trigram}}"></md-slider>
                     <div flex="20" layout layout-align="center center">
                         <span ng-if="character.archetypes[archetype.trigram] == 0 || !character.archetypes[archetype.trigram]">—</span>
-                        <span ng-if="character.archetypes[archetype.trigram] == 1"><md-tooltip>Connaissances théoriques, peu de pratique.</md-tooltip>Apprenti</span>
-                        <span ng-if="character.archetypes[archetype.trigram] == 2"><md-tooltip>Connaissances théoriques et entraîné à la pratique.</md-tooltip>Amateur</span>
-                        <span ng-if="character.archetypes[archetype.trigram] == 3"><md-tooltip>Très bonnes connaissances et remarquable maîtrise de la pratique.</md-tooltip>Spécialiste</span>
-                        <span ng-if="character.archetypes[archetype.trigram] == 4"><md-tooltip>Modèle d'excellence dans le domaine.</md-tooltip>Expert</span>
-                        <span ng-if="character.archetypes[archetype.trigram] == 5"><md-tooltip>Référence dans le monde sur ce domaine.</md-tooltip>Surdoué</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 1"><md-tooltip>{{'archetypes.fightSkill.lvl1.desc' | translate}}</md-tooltip>{{'archetypes.fightSkill.lvl1.name' | translate}}</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 2"><md-tooltip>{{'archetypes.fightSkill.lvl2.desc' | translate}}</md-tooltip>{{'archetypes.fightSkill.lvl2.name' | translate}}</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 3"><md-tooltip>{{'archetypes.fightSkill.lvl3.desc' | translate}}</md-tooltip>{{'archetypes.fightSkill.lvl3.name' | translate}}</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 4"><md-tooltip>{{'archetypes.fightSkill.lvl4.desc' | translate}}</md-tooltip>{{'archetypes.fightSkill.lvl4.name' | translate}}</span>
+                        <span ng-if="character.archetypes[archetype.trigram] == 5"><md-tooltip>{{'archetypes.fightSkill.lvl5.desc' | translate}}</md-tooltip>{{'archetypes.fightSkill.lvl5.name' | translate}}</span>
                     </div>
                 </div>
                 <div class="gap"></div>
@@ -40,46 +40,46 @@
         </md-tab-template>
     </md-tab>
     <md-tab label="craft" ng-hide="fightOnly">
-        <md-tab-label>Artisanat</md-tab-label>
+        <md-tab-label>{{'archetypes.titles.craft' | translate}}</md-tab-label>
         <md-tab-template>
             <md-content class="md-padding">
                 <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isCraftOrHarvestOP()">
-                    Ce personnage est surcompétent.
+                    {{'archetypes.notices.overskilled' | translate}}
                 </div>
                 <div ng-show="!isCrafter() && disabled"  layout="row" layout-align="center center">
-                    Ce personnage n'a aucune compétence en artisanat.
+                    {{'archetypes.notices.noCraftSkills' | translate}}
                 </div>
                 <div ng-repeat="craft in crafts | orderBy:'trigram'" layout="row" ng-hide="disabled && character.crafts[craft.trigram] == 0">
                     <div flex="15" layout layout-align="center center"><img ng-src="/images/icons/crafts/{{craft.trigram}}.png" alt="{{craft.trigram}}" /></div>
                     <md-slider flex md-discrete ng-model="character.crafts[craft.trigram]" step="1" min="0" max="3" ng-disabled="disabled" aria-label="Compétence de craft {{craft.trigram}}"></md-slider>
                     <div flex="20" layout layout-align="center center">
                         <span ng-if="character.crafts[craft.trigram] == 0 || !character.crafts[craft.trigram]">—</span>
-                        <span ng-if="character.crafts[craft.trigram] == 1"><md-tooltip>Capable de réaliser des produits basiques.</md-tooltip>Apprenti</span>
-                        <span ng-if="character.crafts[craft.trigram] == 2"><md-tooltip>Capable de réaliser des produits de qualité intermédiaire.</md-tooltip>Amateur</span>
-                        <span ng-if="character.crafts[craft.trigram] == 3"><md-tooltip>Capable de réaliser des produits d'excellente qualité.</md-tooltip>Expert</span>
+                        <span ng-if="character.crafts[craft.trigram] == 1"><md-tooltip>{{'archetypes.craftSkill.lvl1.desc' | translate}}</md-tooltip>{{'archetypes.otherSkill.lvl1.name' | translate}}</span>
+                        <span ng-if="character.crafts[craft.trigram] == 2"><md-tooltip>{{'archetypes.craftSkill.lvl2.desc' | translate}}</md-tooltip>{{'archetypes.otherSkill.lvl2.name' | translate}}</span>
+                        <span ng-if="character.crafts[craft.trigram] == 3"><md-tooltip>{{'archetypes.craftSkill.lvl3.desc' | translate}}</md-tooltip>{{'archetypes.otherSkill.lvl3.name' | translate}}</span>
                     </div>
                 </div>
             </md-content>
         </md-tab-template>
     </md-tab>
     <md-tab label="harvest" ng-hide="fightOnly">
-        <md-tab-label>Récolte</md-tab-label>
+        <md-tab-label>{{'archetypes.titles.harvest' | translate}}</md-tab-label>
         <md-tab-template>
             <md-content class="md-padding">
                 <div layout="row" class="md-padding height-transition" layout-align="center center" ng-if="isCraftOrHarvestOP()">
-                    Ce personnage est surcompétent.
+                    {{'archetypes.notices.overskilled' | translate}}
                 </div>
                 <div ng-show="!isHarvester() && disabled" layout="row" layout-align="center center">
-                    Ce personnage n'a aucune compétence en récolte.
+                    {{'archetypes.notices.noHarvestSkills' | translate}}
                 </div>
                 <div ng-repeat="harvester in harvesters | orderBy:'trigram'" layout="row" ng-hide="disabled && character.harvesters[harvester.trigram] == 0">
                     <div flex="15" layout layout-align="center center"><img ng-src="/images/icons/crafts/{{harvester.trigram}}.png" alt="{{harvester.trigram}}" /></div>
                     <md-slider flex md-discrete ng-model="character.harvesters[harvester.trigram]" step="1" min="0" max="3" ng-disabled="disabled" aria-label="Compétence de récolte {{harvester.trigram}}"></md-slider>
                     <div flex="20" layout layout-align="center center">
                         <span ng-if="character.harvesters[harvester.trigram] == 0 || !character.harvesters[harvester.trigram]">—</span>
-                        <span ng-if="character.harvesters[harvester.trigram] == 1"><md-tooltip>Capable de récolter des produits de qualité médiocre.</md-tooltip>Apprenti</span>
-                        <span ng-if="character.harvesters[harvester.trigram] == 2"><md-tooltip>Capable de récolter un peu de tout.</md-tooltip>Amateur</span>
-                        <span ng-if="character.harvesters[harvester.trigram] == 3"><md-tooltip>Capable de tout récolter.</md-tooltip>Expert</span>
+                        <span ng-if="character.harvesters[harvester.trigram] == 1"><md-tooltip>{{'archetypes.harvestSkill.lvl1.desc' | translate}}</md-tooltip>{{'archetypes.otherSkill.lvl1.name' | translate}}</span>
+                        <span ng-if="character.harvesters[harvester.trigram] == 2"><md-tooltip>{{'archetypes.harvestSkill.lvl2.desc' | translate}}</md-tooltip>{{'archetypes.otherSkill.lvl2.name' | translate}}</span>
+                        <span ng-if="character.harvesters[harvester.trigram] == 3"><md-tooltip>{{'archetypes.harvestSkill.lvl3.desc' | translate}}</md-tooltip>{{'archetypes.otherSkill.lvl3.name' | translate}}</span>
                     </div>
                 </div>
             </md-content>

@@ -1,56 +1,56 @@
 <% if (req.isAuthenticated()) { %>
 <div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>, <%= JSON.stringify(req.user.id) %>); archetypes = <%= archetypes %>;" flex>
 <% } else { %>
-<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= character %>); archetypes = <%= archetypes %>;" flex>
+<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>); archetypes = <%= archetypes %>;" flex>
 <% } %>
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
-                <span class="md-toolbar-tools">Nom et physique</span>
+                <span class="md-toolbar-tools">{{ 'characters.titles.namePhysique' | translate }}</span>
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em;color: rgba(255,255,255,0.87)">
                 <div layout="row" layout-sm="column">
                     <md-input-container>
-                        <label>Prénom</label>
+                        <label>{{ 'characters.labels.firstName' | translate }}</label>
                         <input ng-model="character.firstName" ng-readonly="true">
                     </md-input-container>
                     <md-input-container flex>
-                        <label>Nom de famille</label>
+                        <label>{{ 'characters.labels.lastName' | translate }}</label>
                         <input ng-model="character.lastName" ng-readonly="true">
                     </md-input-container>
                     <md-input-container>
-                        <label>Trigramme</label>
+                        <label>{{ 'characters.labels.trigram' | translate }}</label>
                         <input ng-model="character.trigram" ng-readonly="true">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
                     <md-input-container>
-                        <label>Race</label>
+                        <label>{{ 'characters.labels.race' | translate }}</label>
                         <input ng-model="character.race.name" ng-readonly="true">
                     </md-input-container>
                     <md-input-container flex>
-                        <label>Ethnie</label>
-                        <input ng-model="character.tribe" ng-readonly="true">
+                        <label>{{ 'characters.labels.tribe' | translate }}</label>
+                        <input ng-model="character.tribe | translate" ng-readonly="true">
                     </md-input-container>
                     <md-input-container>
-                        <label>Sexe</label>
-                        <input ng-model="character.sex == 'F' ? 'Femme' : 'Homme'" ng-readonly="true" />
+                        <label>{{ 'characters.labels.sex' | translate }}</label>
+                        <input ng-model="character.sex == 'F' ? 'characters.labels.sex.woman' : 'characters.labels.sex.man' | translate" ng-readonly="true" />
                     </md-input-container>
                 </div>
                 <div layout="row">
                     <div flex="10" layout layout-align="center center">
-                        <span>Âge</span>
+                        <span>{{ 'characters.labels.age' | translate }}</span>
                     </div>
                     <md-slider flex md-discrete ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" ng-disabled="true" aria-label="Âge"></md-slider>
                     <div flex="20" layout="row" layout-align="center center">
                         {{character.age}} ans —&nbsp;
-                        <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">Enfant</span>
-                        <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">Jeune</span>
-                        <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">Adulte</span>
-                        <span ng-if="character.age > character.race.lifespan/6*3 && character.age <= character.race.lifespan/6*4">Mature</span>
-                        <span ng-if="character.age > character.race.lifespan/6*4 && character.age <= character.race.lifespan/6*5">Vieillissant</span>
-                        <span ng-if="character.age > character.race.lifespan/6*5 && character.age <= character.race.lifespan/6*6">Vieux</span>
+                        <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">{{'characters.labels.age.child' | translate}}</span>
+                        <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">{{'characters.labels.age.young' | translate}}</span>
+                        <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">{{'characters.labels.age.adult' | translate}}</span>
+                        <span ng-if="character.age > character.race.lifespan/6*3 && character.age <= character.race.lifespan/6*4">{{'characters.labels.age.mature' | translate}}</span>
+                        <span ng-if="character.age > character.race.lifespan/6*4 && character.age <= character.race.lifespan/6*5">{{'characters.labels.age.aging' | translate}}</span>
+                        <span ng-if="character.age > character.race.lifespan/6*5 && character.age <= character.race.lifespan/6*6">{{'characters.labels.age.old' | translate}}</span>
                     </div>
                 </div>
             </md-content>
@@ -60,48 +60,48 @@
     <div layout="row" layout-margin layout-align="center center" style="color: rgba(255,255,255,0.87)">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
-                <span class="md-toolbar-tools">Culture et comportement</span>
+                <span class="md-toolbar-tools">{{ 'characters.titles.behaviour' | translate }}</span>
             </md-toolbar>
 
             <md-content md-theme="dark"  class="md-padding" style="font-size:1.2em;">
                 <div layout="row" layout-sm="column">
                     <md-input-container flex>
-                        <label>Compagnie Libre</label>
+                        <label>{{ 'characters.labels.freeCompany' | translate }}</label>
                         <input ng-model="getFreeCompanyName(character)" ng-readonly="true" ng-click="to('/compagnie-libre/' + character.membership.name + character.leadership.name)">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
                     <md-input-container flex>
-                        <label>Dieu</label>
-                        <input ng-model="character.god.name + ', ' + character.god.desc" ng-readonly="true">
+                        <label>{{ 'characters.labels.god' | translate }}</label>
+                        <input ng-model="character.god.name + ', ' + (character.god.desc | translate)" ng-readonly="true">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
                     <md-input-container flex>
-                        <label>Région Natale</label>
-                        <input ng-model="character.birthPlace.name + ', ' + character.birthPlace.region" ng-readonly="true">
+                        <label>{{ 'characters.labels.birthPlace' | translate }}</label>
+                        <input ng-model="(character.birthPlace.name | translate) + ', ' + (character.birthPlace.region | translate)" ng-readonly="true">
                     </md-input-container>
                 </div>
                 <md-input-container>
-                    <label>Alignement</label>
+                    <label>{{ 'characters.labels.align' | translate }}</label>
                     <input ng-model="getAlignment(character)" ng-readonly="true">
                 </md-input-container>
                 <div layout="row" layout-sm="column">
                     <div flex="10" layout layout-align="center center">
-                        <span><md-tooltip>Place sa propre personne au dessus de tout le reste.</md-tooltip>Mauvais</span>
+                        <span><md-tooltip>{{'characters.labels.align.bad.desc' | translate}}</md-tooltip>{{'characters.labels.align.bad' | translate}}</span>
                     </div>
                     <md-slider flex ng-model="character.moral" step="1" min="0" max="80" aria-label="Morale" ng-disabled="true"></md-slider>
                     <div flex="10" layout layout-align="center center">
-                        <span><md-tooltip>Privilégie le bien collectif, altruiste.</md-tooltip>Bon</span>
+                        <span><md-tooltip>{{'characters.labels.align.good.desc' | translate}}</md-tooltip>{{'characters.labels.align.good' | translate}}</span>
                     </div>
                 </div>
                 <div layout="row" layout-sm="column">
                     <div flex="10" layout layout-align="center center">
-                        <span><md-tooltip>N'obéit qu'à ses propres règles et ne suit aucun ordre.</md-tooltip>Chaotique</span>
+                        <span><md-tooltip>{{'characters.labels.align.chaotic.desc' | translate}}</md-tooltip>{{'characters.labels.align.chaotic' | translate}}</span>
                     </div>
                     <md-slider flex ng-model="character.ethics" step="1" min="0" max="80" aria-label="Éthique" ng-disabled="true"></md-slider>
                     <div flex="10" layout layout-align="center center">
-                        <span><md-tooltip>Respecte toutes les règles et la hiérarchie.</md-tooltip>Loyal</span>
+                        <span><md-tooltip>{{'characters.labels.align.lawful.desc' | translate}}</md-tooltip>{{'characters.labels.align.lawful' | translate}}</span>
                     </div>
                 </div>
             </md-content>
@@ -119,7 +119,7 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
-                <span class="md-toolbar-tools">Chronologie</span>
+                <span class="md-toolbar-tools">{{ 'characters.titles.timeline' | translate }}</span>
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
@@ -132,16 +132,16 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
-                <span class="md-toolbar-tools">Descriptions supplémentaires</span>
+                <span class="md-toolbar-tools">{{ 'characters.titles.desc' | translate }}</span>
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
                 <md-input-container flex>
-                    <label>Apparence physique</label>
+                    <label>{{ 'characters.labels.physDesc' | translate }}</label>
                     <textarea ng-model="character.physDesc" columns="1" ng-readonly="true"></textarea>
                 </md-input-container>
                 <md-input-container flex>
-                    <label>Profil psychologique</label>
+                    <label>{{ 'characters.labels.mentDesc' | translate }}</label>
                     <textarea ng-model="character.mentDesc" columns="1" ng-readonly="true"></textarea>
                 </md-input-container>
             </md-content>
@@ -150,7 +150,7 @@
     </div>
 
     <div layout="row" layout-margin layout-align="center center">
-        <md-button flex="100" flex-gt-lg="90" ng-href="/character/edit/{{character.id}}" class="md-accent md-raised" ng-show="isOwner">Modifier</md-button>
+        <md-button flex="100" flex-gt-lg="90" ng-href="/character/edit/{{character.id}}" class="md-accent md-raised" ng-show="isOwner">{{ 'characters.buttons.edit' | translate }}</md-button>
     </div>
 </div>
 

@@ -7,15 +7,15 @@
     <div layout="row" layout-margin>
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
-                <span class="md-toolbar-tools">Rechercher</span>
+                <span class="md-toolbar-tools">{{ 'fc.titles.search' | translate }}</span>
             </md-toolbar>
             <md-content class="md-padding" layout="row">
                 <md-input-container class="md-accent" flex>
-                    <label>Recherche par nom</label>
+                    <label>{{ 'fc.labels.search.name' | translate }}</label>
                     <input ng-model="search.name" />
                 </md-input-container>
                 <md-input-container class="md-accent">
-                    <label>Recherche par serveur</label>
+                    <label>{{ 'fc.labels.search.server' | translate }}</label>
                     <md-select ng-model="search.server" placeholder="Recherche par serveur" style="margin-top: 1.3em;" flex required>
                         <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
                     </md-select>
@@ -27,7 +27,7 @@
     <div layout="row" layout-margin>
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
-                <span class="md-toolbar-tools">Liste des compagnies</span>
+                <span class="md-toolbar-tools">{{ 'fc.titles.list' | translate }}</span>
             </md-toolbar>
             <md-content>
                 <md-list layout="column">
@@ -44,7 +44,7 @@
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
                 </md-list>
-                <p class="md-padding" ng-hide="results.length">Aucune compagnie n'a été trouvée.</p>
+                <p class="md-padding" ng-hide="results.length">{{ 'fc.notices.noResults' | translate }}</p>
             </md-content>
         </md-whiteframe>
     </div>

@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html ng-app="ajast" ng-cloak>
 <head>
-    <title><%= typeof title == 'undefined' ? '' : title + ' - '%>XIVRP</title>
+    <title>
+        <% if(typeof name == 'undefined') { %>
+            <%= typeof title == 'undefined' ? '' : __(title) + ' - '%>
+        <% } else { %>
+            <%= typeof title == 'undefined' ? '' : __(title, name) + ' - '%>
+        <% }%>
+        XIVRP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="fragment" content="!">
     <meta name="language" content="fr-FR" />
     <meta name="description" content="<%= typeof metaDesc == 'undefined' ? '' : '' %>">
     <!--STYLES-->
-    <link rel="stylesheet" href="/min/v0.0.2a.min.css">
+    <link rel="stylesheet" href="/min/v0.0.2b.min.css">
     <!--STYLES END-->
     <!--SCRIPTS-->
-    <script src="/min/v0.0.2a.min.js"></script>
+    <script src="/min/v0.0.2b.min.js"></script>
     <!--SCRIPTS END-->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
@@ -27,23 +33,23 @@
             </a>
         </md-toolbar>
         <md-content role="navigation" flex>
-            <h3>Naviguer</h3>
+            <h3>{{'menu.mainTitle' | translate}}</h3>
             <md-list>
                 <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-hide="link.hide()" ng-repeat="link in links">
-                    {{link.text}}
+                    {{link.text | translate}}
                     <md-divider></md-divider>
                 </md-list-item>
                 <% if (req.isAuthenticated()) { %>
-                    <md-list-item ng-click="to('/logout')">Déconnexion</md-list-item>
+                    <md-list-item ng-click="to('/logout')">{{'menu.link.logout' | translate}}</md-list-item>
                 <% } else { %>
-                    <md-list-item ng-click="to('/login')">Connexion</md-list-item>
+                    <md-list-item ng-click="to('/login')">{{'menu.link.login' | translate}}</md-list-item>
                 <% } %>
             </md-list>
             <div class="contextual-links" ng-if="contextualLinks.links">
-                <h3>{{contextualLinks.title}}</h3>
+                <h3>{{contextualLinks.title | translate}}</h3>
                 <md-list layout="column">
                     <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-repeat="link in contextualLinks.links" ng-hide="link.hide()" flex>
-                        {{link.text}}
+                        {{link.text | translate}}
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
                 </md-list>
@@ -54,12 +60,12 @@
     <div layout="column" role="main" flex>
         <md-toolbar class="md-primary" hide show-gt-lg>
             <div class="md-toolbar-tools">
-                <h1>{{page.title}}</h1>
+                <h1>{{page.title | translate}}</h1>
             </div>
         </md-toolbar>
         <md-toolbar class="md-primary" md-scroll-shrink hide-gt-lg>
             <div class="md-toolbar-tools">
-                <h1>{{page.title}}</h1>
+                <h1>{{page.title | translate}}</h1>
                 <span flex></span>
                 <md-button ng-click="openMenu()" aria-label="Paramètres"><img src="/images/icons/hamburger.svg"/></md-button>
             </div>
@@ -71,5 +77,10 @@
 <!--TEMPLATES-->
 
 <!--TEMPLATES END-->
+<script type="text/javascript">
+    app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.preferredLanguage('<%= req.getLocale() %>');
+    }]);
+</script>
 </body>
 </html>

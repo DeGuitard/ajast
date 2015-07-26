@@ -1,6 +1,6 @@
 <md-toolbar md-theme="fight" class="md-hue-2" ng-class="{'md-primary': group().code == 'A', 'md-accent': group().code == 'B'}">
     <div class="md-toolbar-tools">
-        <span class="md-flex">{{group().name}}</span>
+        <span class="md-flex">{{'fights.titles.group' | translate}} {{group().code}}</span>
     </div>
 </md-toolbar>
 
@@ -15,7 +15,7 @@
 
 <md-autocomplete
         ng-hide="readOnly()"
-        placeholder="Ajouter un personnage"
+        placeholder="{{ 'fights.placeholders.addPlayer' | translate}}"
         md-search-text="searchString"
         md-items="player in findPlayers(searchString)"
         md-item-text="player.fullName"

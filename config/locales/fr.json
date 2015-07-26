@@ -1,4 +1,13 @@
 {
-	"Welcome": "Bienvenue",
-	"A brand new app.": "Une toute nouvelle application."
+    "titles.home": "Communauté RP de Final Fantasy XIV",
+    "titles.rolls": "Lancer de dés",
+    "titles.fc.list": "Liste des compagnies libres",
+    "titles.fc.new": "Créer une nouvelle compagnie libre",
+    "titles.fc.edit": "Mettre à jour %s",
+    "titles.fight.list": "Liste des combats RP",
+    "titles.fight.show": "Suivi du combat #%s",
+    "titles.fight.edit": "Gestion du combat #%s",
+    "titles.char.list": "Liste des personnages",
+    "titles.char.new": "Créer un nouveau personnage",
+    "titles.char.edit": "Mettre à jour %s"
 }

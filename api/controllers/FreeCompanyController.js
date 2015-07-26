@@ -30,7 +30,7 @@ module.exports = {
             if (err) return res.serverError(err);
 
             res.view('freeCompany/index', {
-                title: 'Liste des compagnies libres RP',
+                title: 'titles.fc.list',
                 metaDesc: 'Retrouvez la liste des compagnies libres RP sur FFXIV ! Inscrivez la vôtre, cherchez votre future compagnie, trouvez des contacts, et plus encore.',
                 freeCompanies: JSON.stringify(data.freeCompanies),
                 servers: JSON.stringify(data.servers)
@@ -65,7 +65,7 @@ module.exports = {
             if (err) return res.serverError(err);
 
             res.view('freeCompany/edit', {
-                title: 'Créer une nouvelle compagnie libre',
+                title: 'titles.fc.new',
                 metaDesc: '',
                 freeCompany: JSON.stringify({members: [], founders: [], users: [req.user.id], isRecruiting: true, icon: 'default.png'}),
                 servers: JSON.stringify(data.servers)
@@ -94,8 +94,9 @@ module.exports = {
             else if (data.freeCompany.users.indexOf(req.user.id) == -1 && data.freeCompany.users.length > 0) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
             res.view('freeCompany/edit', {
-                title: 'Éditer "' + data.freeCompany.name + '"',
+                title: 'titles.fc.edit',
                 metaDesc: '',
+                name: data.freeCompany.name,
                 freeCompany: JSON.stringify(data.freeCompany),
                 servers: JSON.stringify(data.servers)
             });
@@ -104,7 +105,7 @@ module.exports = {
 
     save: function(req, res) {
         var freeCompany = req.param('freeCompany');
-        if (!freeCompany) return res.userError('Données corrompues.');
+        if (!freeCompany) return res.userError('fc.notices.corruptData');
 
         FreeCompany.findOne({id: freeCompany.id}).exec(function(err, result) {
             if (err) return res.serverError(err);
@@ -115,7 +116,7 @@ module.exports = {
                 id: { '!': freeCompany.id }
             }).exec(function(err, duplicate) {
                 if (err) return res.serverError(err);
-                if (duplicate) return res.send(409);
+                if (duplicate) return res.userError('fc.notices.conflict');
                 if (!result) {
                     FreeCompany.create(freeCompany).exec(function (err, result) {
                         if (err) return res.serverError(err);
@@ -138,8 +139,8 @@ module.exports = {
             memberId = req.param('member'),
             isFounder = req.param('isFounder');
 
-        if (!fcId) return res.userError("Merci de sauvegarder la CL une première fois avant d'inviter des membres.");
-        if (!fcId || !memberId) return res.userError('Données corrompues.');
+        if (!fcId) return res.userError('fc.notices.saveOnce');
+        if (!fcId || !memberId) return res.userError('fc.notices.corruptData');
 
         FreeCompany.findOne({id: fcId}).exec(function(err, freeCompany) {
             if (err) return res.serverError(err);
@@ -149,8 +150,8 @@ module.exports = {
             Character.findOne({id: memberId}).exec(function(err, character) {
                 if (err) return res.serverError(err);
                 else if (!character) return res.notFound("Ce personnage n'existe pas / plus.");
-                else if (character.isInvited) return res.userError('Ce personnage a déjà une invitation en cours.');
-                else if (character.leadership || character.membership) return res.userError('Ce personnage est déjà dans une compagnie libre.');
+                else if (character.isInvited) return res.userError('fc.notices.alreadyInvited');
+                else if (character.leadership || character.membership) return res.userError('fc.notices.alreadyInside');
 
                 if (isFounder) freeCompany.founders.push(character.id);
                 else freeCompany.members.push(character.id);

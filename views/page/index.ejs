@@ -4,26 +4,26 @@
 <md-content layout="row" layout-sm="column">
     <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/personnages')">
         <span class="perk-icon"><img src="/images/icons/book.png" alt="Livre" /></span>
-        <h3 class="perk-title">Registre des personnages RP</h3>
-        <span class="perk-desc">Qui joue, où, et quoi comme personnage ?</span>
+        <h3 class="perk-title">{{'home.perk.characters.title' | translate}}</h3>
+        <span class="perk-desc">{{'home.perk.characters.subtitle' | translate}}</span>
     </div>
     <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/compagnies-libres')">
         <span class="perk-icon"><img src="/images/icons/home.png" alt="Maison" /></span>
-        <h3 class="perk-title">Registre des compagnies libres RP</h3>
-        <span class="perk-desc">Qui recrute, avec qui je peux jouer ?</span>
+        <h3 class="perk-title">{{'home.perk.freeCompanies.title' | translate}}</h3>
+        <span class="perk-desc">{{'home.perk.freeCompanies.subtitle' | translate}}</span>
     </div>
     <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/combats')">
         <span class="perk-icon"><img src="/images/icons/fight.png" alt="Bouclier" /></span>
-        <h3 class="perk-title">Combats avec garantie Fair Play</h3>
-        <span class="perk-desc">Fini l'enfant de 6 ans qui manie mieux l'épée que le vétéran…</span>
+        <h3 class="perk-title">{{'home.perk.fights.title' | translate}}</h3>
+        <span class="perk-desc">{{'home.perk.fights.subtitle' | translate}}</span>
     </div>
 </md-content>
 
 <% if (!req.isAuthenticated()) { %>
 <md-content layout="column" layout-align="center center">
     <div flex-gt-sm="50" flex-sm class="home-login">
-        <div class="home-login-title">Pour avoir accès à toutes les fonctionnalités, connectez-vous !</div>
-        <md-button class="md-primary home-login-button" ng-href="/login">Connexion</md-button>
+        <div class="home-login-title">{{'home.login.message' | translate}}</div>
+        <md-button class="md-primary home-login-button" ng-href="/login">{{'menu.link.login' | translate}}</md-button>
     </div>
 </md-content>
 <% } %>

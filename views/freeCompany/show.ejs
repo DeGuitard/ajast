@@ -7,45 +7,45 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
-                <span class="md-toolbar-tools">Informations générales</span>
+                <span class="md-toolbar-tools">{{ 'fc.titles.generalInfo' | translate }}</span>
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding input-block">
                 <div layout="row" layout-sm="column">
                     <md-input-container flex>
-                        <label>Nom de la compagnie</label>
+                        <label>{{ 'fc.labels.name' | translate }}</label>
                         <input ng-model="freeCompany.name" ng-readonly="true">
                     </md-input-container>
                     <md-input-container>
-                        <label>Tag</label>
+                        <label>{{ 'fc.labels.tag' | translate }}</label>
                         <input ng-model="freeCompany.tag" ng-readonly="true">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
                     <md-input-container>
-                        <label>Serveur</label>
+                        <label>{{ 'fc.labels.server' | translate }}</label>
                         <input ng-model="freeCompany.server" ng-readonly="true">
                     </md-input-container>
                     <md-input-container flex>
-                        <label>Site / Forum</label>
+                        <label>{{ 'fc.labels.website' | translate }}</label>
                         <input ng-model="freeCompany.url" ng-readonly="true">
                     </md-input-container>
                     <md-input-container>
-                        <label>Recrutement</label>
-                        <input ng-model="freeCompany.isRecruiting ? 'Ouvert' : 'Fermé'" ng-readonly="true">
+                        <label>{{ 'fc.labels.recruitment' | translate }}</label>
+                        <input ng-model="freeCompany.isRecruiting ? 'fc.labels.recruitment.open' : 'fc.labels.recruitment.close' | translate" ng-readonly="true">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
                     <md-input-container>
-                        <label>N°</label>
+                        <label>{{ 'fc.labels.house.no' | translate }}</label>
                         <input ng-model="freeCompany.address.plot" ng-readonly="true">
                     </md-input-container>
                     <md-input-container>
-                        <label>Secteur</label>
+                        <label>{{ 'fc.labels.house.ward' | translate }}</label>
                         <input ng-model="freeCompany.address.ward" ng-readonly="true">
                     </md-input-container>
                     <md-input-container flex>
-                        <label>Quartier</label>
+                        <label>{{ 'fc.labels.house.district' | translate }}</label>
                         <input ng-model="freeCompany.address.district" ng-readonly="true">
                     </md-input-container>
                 </div>
@@ -57,7 +57,7 @@
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-tabs md-theme="dark" class="md-primary" style="color: rgba(255,255,255,0.87);" md-dynamic-height md-selected="membersTab.selectedIndex" flex>
                 <md-tab label="founders">
-                    <md-tab-label>Fondateurs</md-tab-label>
+                    <md-tab-label>{{ 'fc.titles.founders' | translate }}</md-tab-label>
                     <md-tab-template>
                         <md-content><md-list>
                             <md-list-item ng-click="to('/personnage/' + founder.fullName)" ng-repeat="founder in freeCompany.founders | orderBy:'fullName' | filter:{isInvited: false}">
@@ -68,7 +68,7 @@
                     </md-tab-template>
                 </md-tab>
                 <md-tab label="members">
-                    <md-tab-label>Joueurs</md-tab-label>
+                    <md-tab-label>{{ 'fc.titles.members' | translate }}</md-tab-label>
                     <md-tab-template>
                         <md-content><md-list>
                                 <md-list-item ng-click="to('/personnage/' + member.fullName)" ng-repeat="member in freeCompany.members | orderBy:'fullName' | filter:{isInvited: false}">
@@ -85,12 +85,12 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
-                <span class="md-toolbar-tools">Présentation</span>
+                <span class="md-toolbar-tools">{{ 'fc.titles.presentation' | translate }}</span>
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding input-block" layout="column">
                 <md-input-container flex>
-                    <label>Présentation</label>
+                    <label>{{ 'fc.titles.presentation' | translate }}</label>
                     <textarea ng-model="freeCompany.desc" columns="1" ng-readonly="true"></textarea>
                 </md-input-container>
             </md-content>

@@ -2,19 +2,19 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
-                <span class="md-toolbar-tools">Lancer un dé</span>
+                <span class="md-toolbar-tools">{{'rolls.titles.new' | translate}}</span>
             </md-toolbar>
 
             <md-content class="md-padding">
                 <form name="form">
                     <div layout="row" layout-sm="column">
                         <md-input-container flex-gt-sm="75">
-                            <label>Description de l'action</label>
+                            <label>{{'rolls.roll.desc' | translate}}</label>
                             <input ng-model="newRoll.action" name="desc" required minlength="3" md-maxlength="255" />
                             <div ng-messages="form.desc.$error">
-                                <div ng-message="required">Champ requis.</div>
-                                <div ng-message="md-maxlength">Trop long !</div>
-                                <div ng-message="minlength">Trop court !</div>
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                                <div ng-message="md-maxlength">{{'forms.invalid.maxlength' | translate}}</div>
+                                <div ng-message="minlength">{{'forms.invalid.minlength' | translate}}</div>
                             </div>
                         </md-input-container>
                         <md-select ng-model="newRoll.faces" placeholder="Faces" required flex-gt-sm="25" style="margin-top: 20px;">
@@ -25,7 +25,7 @@
                         </md-select>
                     </div>
                     <div layout="row" layout-align="center center">
-                        <md-button class="md-accent" flex="75" ng-click="roll()" ng-disabled="form.$invalid">Lancer</md-button>
+                        <md-button class="md-accent" flex="75" ng-click="roll()" ng-disabled="form.$invalid">{{'rolls.buttons.roll' | translate}}</md-button>
                     </div>
                 </form>
             </md-content>
@@ -35,14 +35,14 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
-                <span class="md-toolbar-tools">Derniers résultats</span>
+                <span class="md-toolbar-tools">{{'rolls.titles.history' | translate}}</span>
             </md-toolbar>
 
             <md-content>
                 <md-list>
                     <md-item ng-repeat="roll in rolls">
                         <md-item-content layout="row" class="roll-row" ng-class-even="'roll-even'">
-                            <span class="roll-score"><md-button class="md-fab"><md-tooltip>Sur {{roll.faces}}</md-tooltip>{{roll.score}}</md-button></span>
+                            <span class="roll-score"><md-button class="md-fab"><md-tooltip>{{roll.score}}/{{roll.faces}}</md-tooltip>{{roll.score}}</md-button></span>
                             <span class="roll-action" flex>{{roll.action}}</span>
                             <span class="roll-date">{{dateToStr(roll.createdAt)}}</span>
                         </md-item-content>

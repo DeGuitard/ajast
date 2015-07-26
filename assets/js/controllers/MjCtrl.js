@@ -1,22 +1,22 @@
-app.controller('MjCtrl', ["$scope", "$mdDialog", "timeService", "playersService", function($scope, $mdDialog, timeService, playersService) {
+app.controller('MjCtrl', ['$scope', '$mdDialog', 'timeService', 'playersService', '$translate', function($scope, $mdDialog, timeService, playersService, $translate) {
     $scope.init = function(archetypes, fight) {
         playersService.init(fight.groups, archetypes);
         timeService.init(fight);
         $scope.hasStarted = fight.time.hasStarted;
 
-        $scope.page.title = "Combat #" + fight.shortid.toUpperCase();
+        $translate('fights.titles.fight', {shortid: fight.shortid.toUpperCase()}).then(function (title) { $scope.page.title = title; });
 
         if (!timeService.isFinished()) {
-            $scope.contextualLinks.title = "Mon combat";
+            $scope.contextualLinks.title = 'fights.menu.title';
             $scope.contextualLinks.links = [
-                {text: "Créer un PNJ", action: function() {
+                {text: 'fights.menu.createNpc', action: function() {
                     $mdDialog.show({
                         controller: 'CreatePlayerCtrl',
                         templateUrl: '/js/templates/ng-template-create-player.html'
                     });
                 }},
-                {text: "Annuler le combat", url: "/fight/end/" + timeService.id(), hide: function() { return $scope.hasStarted; } },
-                {text: "Terminer le combat", url: "/fight/end/" + timeService.id(), hide: function() { return !$scope.hasStarted; } }
+                {text: 'fights.menu.cancel', url: '/fight/end/' + timeService.id(), hide: function() { return $scope.hasStarted; } },
+                {text: 'fights.menu.end', url: '/fight/end/' + timeService.id(), hide: function() { return !$scope.hasStarted; } }
             ];
         }
     };
