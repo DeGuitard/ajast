@@ -1,6 +1,34 @@
-<div ng-controller="CharacterCtrl" ng-init="initEditMode(<%= character %>); archetypes = <%= archetypes %>; gods = <%= gods %>; towns = <%= towns %>; initRaces(<%= races %>); regions = <%= regions %>;"  flow-init="{target: '/upload/avatar', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+<div ng-controller="CharacterCtrl" ng-init="initEditMode(<%= character %>); archetypes = <%= archetypes %>; gods = <%= gods %>; towns = <%= towns %>; initRaces(<%= races %>); regions = <%= regions %>; servers = <%= servers %>; datacenters = <%= datacenters %>;"  flow-init="{target: '/upload/avatar', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
 
     <form name="form">
+        <div layout="row" layout-margin layout-align="center center">
+            <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+                <md-toolbar>
+                    <span class="md-toolbar-tools">{{'characters.titles.playerInfo' | translate}}</span>
+                </md-toolbar>
+
+                <md-content class="md-padding" style="font-size:1.2em;" layout="column">
+                    <div layout="row" layout-sm="column">
+                        <md-input-container flex="50">
+                            <label>{{'characters.labels.server' | translate}}</label>
+                            <md-select ng-model="character.server" flex required>
+                                <md-optgroup label="{{datacenter | translate}}" ng-repeat="datacenter in datacenters | orderBy:'toString()'">
+                                    <md-option ng-value="server.name" ng-repeat="server in servers | filter: {datacenter: datacenter} | orderBy:'name'">{{server.name}}</md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <label>{{'characters.labels.language' | translate}}</label>
+                            <md-select ng-model="character.language" name="language" flex required>
+                                <md-option value="fr">{{'characters.labels.languages.fr' | translate}}</md-option>
+                                <md-option value="en">{{'characters.labels.languages.en' | translate}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </md-content>
+            </md-whiteframe>
+        </div>
+
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
                 <md-toolbar>
@@ -97,7 +125,7 @@
                         <md-input-container flex>
                             <label>{{'characters.labels.birthPlace' | translate}}</label>
                             <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
-                                <md-optgroup label="{{region | translate}}" ng-repeat="region in regions | orderBy:'toString()'">
+                                <md-optgroup label="{{region | translate}}" ng-repeat="region in regions | orderBy:regionTranslated">
                                     <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:townTranslated">{{town.name | translate}}</md-option>
                                 </md-optgroup>
                             </md-select>

@@ -6,6 +6,26 @@
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
+                <span class="md-toolbar-tools">{{'characters.titles.playerInfo' | translate}}</span>
+            </md-toolbar>
+
+            <md-content md-theme="dark" class="md-padding" style="font-size:1.2em;color: rgba(255,255,255,0.87)" layout="column">
+                <div layout="row" layout-sm="column">
+                    <md-input-container flex="50">
+                        <label>{{'characters.labels.server' | translate}}</label>
+                        <input ng-model="character.server" ng-readonly="true">
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>{{'characters.labels.language' | translate}}</label>
+                        <input ng-model="character.language == 'fr' ? 'characters.labels.languages.fr' : 'characters.labels.languages.en' | translate" ng-readonly="true" />
+                    </md-input-container>
+                </div>
+            </md-content>
+        </md-whiteframe>
+    </div>
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
+            <md-toolbar>
                 <span class="md-toolbar-tools">{{ 'characters.titles.namePhysique' | translate }}</span>
             </md-toolbar>
 

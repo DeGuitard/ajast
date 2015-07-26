@@ -1,17 +1,25 @@
 <% if (req.isAuthenticated()) { %>
-<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>, <%= JSON.stringify(req.user.id) %>)" layout="column" layout-margin flex>
+<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>, <%= JSON.stringify(req.user.id) %>); servers = <%= servers %>; datacenters = <%= datacenters %>" layout="column" layout-margin flex>
 <% } else { %>
-<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>)" layout="column" layout-margin flex>
+<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>); servers = <%= servers %>; datacenters = <%= datacenters %>" layout="column" layout-margin flex>
 <% } %>
 
     <md-whiteframe class="md-whiteframe-z1" flex>
         <md-toolbar class="md-accent">
             <span class="md-toolbar-tools">{{'characters.titles.search' | translate}}</span>
         </md-toolbar>
-        <md-content class="md-padding">
-            <md-input-container class="md-accent">
+        <md-content class="md-padding" layout="row">
+            <md-input-container class="md-accent" flex>
                 <label>{{'characters.search.byName' | translate}}</label>
-                <input ng-model="searchString" ng-model-options="{ debounce: 200 }" />
+                <input ng-model="search.fullName" ng-model-options="{ debounce: 200 }" />
+            </md-input-container>
+            <md-input-container class="md-accent">
+                <label>{{'characters.search.byServer' | translate}}</label>
+                <md-select ng-model="search.server" style="margin-top: 1.3em;" flex>
+                    <md-optgroup label="{{datacenter | translate}}" ng-repeat="datacenter in datacenters | orderBy:'toString()'">
+                        <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                    </md-optgroup>
+                </md-select>
             </md-input-container>
         </md-content>
     </md-whiteframe>
@@ -23,13 +31,13 @@
             <md-grid-list
                     md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="7"
                     md-row-height="1:1" md-gutter="8px" md-gutter-gt-sm="4px" >
-                <md-grid-tile ng-repeat="character in characters | orderBy:'fullName' | filter:searchString" ng-style="{'background-image': 'url(/images/avatars/{{getAvatar(character)}})'}" class="character-tile">
+                <md-grid-tile ng-repeat="character in characters | orderBy:'-updatedAt' | filter:search" ng-style="{'background-image': 'url(/images/avatars/{{getAvatar(character)}})'}" class="character-tile">
                     <a ng-href="/personnage/{{character.fullName}}">
                         <div class="effect-lily">
                             <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
                             <p>
                                 <span ng-repeat="(key, value) in character.archetypes" ng-if="value > 0">{{key}} {{value}} / </span>
-                                <span>{{character.trigram}}</span>
+                                <span>{{character.server}}</span>
                             </p>
                         </div>
                     </a>

@@ -29,11 +29,19 @@ module.exports = {
         }, function(err, data) {
             if (err) return res.serverError(err);
 
+            var datacenters = [];
+            for (var i = 0; i < data.servers.length; i++) {
+                if (datacenters.indexOf(data.servers[i].datacenter) == -1) {
+                    datacenters.push(data.servers[i].datacenter);
+                }
+            }
+
             res.view('freeCompany/index', {
                 title: 'titles.fc.list',
                 metaDesc: 'Retrouvez la liste des compagnies libres RP sur FFXIV ! Inscrivez la vôtre, cherchez votre future compagnie, trouvez des contacts, et plus encore.',
                 freeCompanies: JSON.stringify(data.freeCompanies),
-                servers: JSON.stringify(data.servers)
+                servers: JSON.stringify(data.servers),
+                datacenters: JSON.stringify(datacenters)
             });
         });
 
@@ -64,11 +72,19 @@ module.exports = {
         }, function(err, data) {
             if (err) return res.serverError(err);
 
+            var datacenters = [];
+            for (var i = 0; i < data.servers.length; i++) {
+                if (datacenters.indexOf(data.servers[i].datacenter) == -1) {
+                    datacenters.push(data.servers[i].datacenter);
+                }
+            }
+
             res.view('freeCompany/edit', {
                 title: 'titles.fc.new',
                 metaDesc: '',
                 freeCompany: JSON.stringify({members: [], founders: [], users: [req.user.id], isRecruiting: true, icon: 'default.png'}),
-                servers: JSON.stringify(data.servers)
+                servers: JSON.stringify(data.servers),
+                datacenters: JSON.stringify(datacenters)
             });
         });
     },
@@ -93,12 +109,20 @@ module.exports = {
             if (!data.freeCompany) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             else if (data.freeCompany.users.indexOf(req.user.id) == -1 && data.freeCompany.users.length > 0) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
+            var datacenters = [];
+            for (var i = 0; i < data.servers.length; i++) {
+                if (datacenters.indexOf(data.servers[i].datacenter) == -1) {
+                    datacenters.push(data.servers[i].datacenter);
+                }
+            }
+
             res.view('freeCompany/edit', {
                 title: 'titles.fc.edit',
                 metaDesc: '',
                 name: data.freeCompany.name,
                 freeCompany: JSON.stringify(data.freeCompany),
-                servers: JSON.stringify(data.servers)
+                servers: JSON.stringify(data.servers),
+                datacenters: JSON.stringify(datacenters)
             });
         });
     },
@@ -113,6 +137,7 @@ module.exports = {
 
             FreeCompany.findOne({
                 name : freeCompany.name,
+                server: freeCompany.server,
                 id: { '!': freeCompany.id }
             }).exec(function(err, duplicate) {
                 if (err) return res.serverError(err);

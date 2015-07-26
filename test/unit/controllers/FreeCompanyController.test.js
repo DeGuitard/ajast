@@ -40,7 +40,7 @@ describe('FreeCompanyController', function() {
                     isRecruiting: true, address: {}, founders: [], members: [], users: ['test']
                 }
             };
-            request(sails.hooks.http.app).post("/free-company/save").send(newFc).expect(409).end(done);
+            request(sails.hooks.http.app).post("/free-company/save").send(newFc).expect(500).end(done);
         });
 
         it("should be detect missing fields", function(done) {
