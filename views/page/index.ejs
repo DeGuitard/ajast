@@ -28,6 +28,16 @@
 </md-content>
 <% } %>
 
+<md-content layout="column" layout-align="center center">
+    <div flex-gt-sm="50" flex-sm class="home-login">
+        <% if (req.cookies.lang == 'fr' || (req.getLocale() == 'fr' && req.cookies.lang === undefined)) { %>
+            <md-button class="md-primary home-login-button" ng-href="/lang/en">{{'home.switch.en' | translate}}</md-button>
+        <% } else { %>
+            <md-button class="md-primary home-login-button" ng-href="/lang/fr">{{'home.switch.fr' | translate}}</md-button>
+        <% }%>
+    </div>
+</md-content>
+
 <script type="application/ld+json">
     {  "@context" : "http://schema.org",
        "@type" : "WebSite",

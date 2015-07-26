@@ -94,6 +94,9 @@ module.exports.routes = {
     'get /notification/:id/accept': 'NotificationController.accept',
     'get /notification/:id/decline': 'NotificationController.decline',
 
+    /** Internationalisation */
+    'get /lang/:lang': 'PageController.lang',
+
     /** French SEO **/
     'get /personnages': 'CharacterController.list',
     'get /personnage/:name': 'CharacterController.show',

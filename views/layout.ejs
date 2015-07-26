@@ -79,7 +79,11 @@
 <!--TEMPLATES END-->
 <script type="text/javascript">
     app.config(['$translateProvider', function ($translateProvider) {
-        $translateProvider.preferredLanguage('<%= req.getLocale() %>');
+        <% if (req.cookies.lang) { %>
+            $translateProvider.preferredLanguage('<%= req.cookies.lang %>');
+        <% } else { %>
+            $translateProvider.preferredLanguage('<%= req.getLocale() %>');
+        <% } %>
     }]);
 </script>
 </body>

@@ -48,5 +48,11 @@ module.exports = {
             res.set('Content-Type', 'text/xml');
             return res.send(map);
         });
+    },
+
+    lang: function(req, res) {
+        var lang = req.param('lang');
+        res.cookie('lang', lang);
+        return res.redirect('/');
     }
 };
