@@ -41,8 +41,8 @@
         <% if (typeof error!== 'undefined') { %>
             <%= error %>
         <% } else { %>
-            <div>« Vous remarquez que quelque chose ne tourne pas rond. Il doit y avoir une erreur… Peut-être une perturbation éthérique ! »</div>
-            <div>Les meilleurs techniciens de Sharlayan sont sur le coup.</div>
+            <div>{{ 'errors.500.row1' | translate }}</div>
+            <div>{{ 'errors.500.row2' | translate }}</div>
         <% } %>
     </div>
 </md-content>

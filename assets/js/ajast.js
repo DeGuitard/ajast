@@ -10,7 +10,3 @@ var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flo
         .primaryPalette('blue', { 'hue-2': '700' })
         .accentPalette('indigo', { 'hue-2': '700' })
 }]);
-
-app.config(['$translateProvider', function ($translateProvider) {
-    $translateProvider.preferredLanguage('en');
-}]);

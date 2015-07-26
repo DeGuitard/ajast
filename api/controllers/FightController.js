@@ -91,15 +91,17 @@ module.exports = {
             if (!data.fight || !data.archetypes) return res.notFound();
             if (!req.user || data.fight.mj != req.user.id) {
                 res.view('fight/pj', {
-                    title: 'Suivi du combat #' + data.fight.shortid,
+                    title: 'titles.fight.show',
                     metaDesc: 'Suivez en direct live le combat RP entre les personnages et PNJs, afin de connaître en temps réel le déroulement du combat !',
                     archetypes: JSON.stringify(data.archetypes),
+                    shortid: data.fight.shortid,
                     fight: JSON.stringify(data.fight)
                 });
             } else {
                 res.view('fight/mj', {
-                    title: 'Gestion du combat #' + data.fight.shortid,
+                    title: 'titles.fight.edit',
                     metaDesc: '',
+                    shortid: data.fight.shortid,
                     archetypes: JSON.stringify(data.archetypes),
                     fight: JSON.stringify(data.fight)
                 });
@@ -258,8 +260,11 @@ module.exports = {
     _getScore: function(archetype) {
         if (!archetype) return 0;
 
-        // SCH = SMN > NIN = MNK > DRG = BRD > PLD = WAR > WHM = BLM
-        var y = { SCH: -2.5, SMN: -2.5, NIN: -2, MNK: -2, DRG: -1, BRD: -1, PLD: -0.25, WAR: -0.25, WHM: 0, BLM: 0, PNJ: -1};
+        // SCH = SMN > NIN = MNK > DRG = BRD = MCN > PLD = WAR = DRK > WHM = BLM = AST
+        var y = {
+            SCH: -2.5, SMN: -2.5, NIN: -2, MNK: -2, DRG: -1, BRD: -1, MCN: -1,
+            PLD: -0.25, WAR: -0.25, DRK: -0.25, WHM: 0, BLM: 0, AST: 0, PNJ: -1
+        };
 
         var x = 0;
         for (var key in archetype) {
@@ -272,9 +277,12 @@ module.exports = {
         if (archetype['MNK'] > archetype[mainArchetype]) mainArchetype = 'MNK';
         if (archetype['DRG'] > archetype[mainArchetype]) mainArchetype = 'DRG';
         if (archetype['BRD'] > archetype[mainArchetype]) mainArchetype = 'BRD';
+        if (archetype['MCN'] > archetype[mainArchetype]) mainArchetype = 'MCN';
         if (archetype['PLD'] > archetype[mainArchetype]) mainArchetype = 'PLD';
+        if (archetype['DRK'] > archetype[mainArchetype]) mainArchetype = 'DRK';
         if (archetype['WAR'] > archetype[mainArchetype]) mainArchetype = 'WAR';
         if (archetype['WHM'] > archetype[mainArchetype]) mainArchetype = 'WHM';
+        if (archetype['AST'] > archetype[mainArchetype]) mainArchetype = 'AST';
         if (archetype['BLM'] > archetype[mainArchetype]) mainArchetype = 'BLM';
         if (archetype['PNJ'] > archetype[mainArchetype]) mainArchetype = 'PNJ';
 

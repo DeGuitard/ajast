@@ -22,7 +22,7 @@ module.exports = {
         Character.native(function(err, Collection) {
             Collection.find({}, {fullName: 1, firstName: 1, lastName: 1, trigram: 1, avatar: 1, archetypes: 1, user: 1, _id: 1}).toArray(function(err, result) {
                 res.view('character/index', {
-                    title: 'Liste des personnages RP',
+                    title: 'titles.char.list',
                     metaDesc: 'Retrouvez tous les personnages RP de Final Fantasy XIV. Vous aussi, créez votre fiche, et connectez-vous avec les autres rôlistes de FFXIV !',
                     characters: JSON.stringify(result)
                 });
@@ -101,7 +101,7 @@ module.exports = {
                 }
             }
             res.view('character/edit', {
-                title: 'Créer un nouveau personnage',
+                title: 'titles.char.new',
                 metaDesc: '',
                 character: JSON.stringify(character),
                 archetypes: JSON.stringify(data.archetypes),
@@ -161,8 +161,9 @@ module.exports = {
                 }
             }
             res.view('character/edit', {
-                title: 'Édition de ' + data.character.fullName,
+                title: 'titles.char.edit',
                 metaDesc: '',
+                name: data.character.fullName,
                 character: JSON.stringify(data.character),
                 archetypes: JSON.stringify(data.archetypes),
                 gods: JSON.stringify(data.gods),
@@ -190,7 +191,7 @@ module.exports = {
                 id: { '!': character.id }
             }).exec(function(err, duplicate) {
                 if (err) return res.serverError(err);
-                if (duplicate) return res.send(409);
+                if (duplicate) return res.userError('characters.notices.conflictError');
                 if (!result) {
                     Character.create(character).exec(function (err, result) {
                         if (err) return res.serverError(err);

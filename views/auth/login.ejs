@@ -2,7 +2,7 @@
     <md-whiteframe class="md-whiteframe-z3" flex>
         <md-toolbar class="md-accent">
             <span class="md-toolbar-tools">
-                <span>Se connecter</span>
+                <span>{{ 'login.titles.login' | translate }}</span>
             </span>
         </md-toolbar>
         <md-content>
@@ -12,14 +12,14 @@
                     <md-item-content ng-click="to('/auth/<%= providers[key].slug %>')" flex-sm>
                         <div layout="row" layout-align="center center">
                             <img src="/images/icons/oauth-<%= key.substring(key.length - 3) %>-icn.svg" style="width: 50px; height: 50px; margin: 10px;"/>
-                            <span>Avec <%= providers[key].name %></span>
+                            <span>{{ 'login.labels.with' | translate }} <%= providers[key].name %></span>
                         </div>
                     </md-item-content>
                 </md-list-item>
                 <% }) %>
             </md-list>
             <div layout layout-align="center">
-                Votre pseudonyme, adresse email et noms ne seront jamais affichés, quelque soit le compte que vous choisissez.
+                {{ 'login.notices.privacy' | translate }}
             </div>
         </md-content>
     </md-whiteframe>

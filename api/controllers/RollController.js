@@ -9,7 +9,7 @@ module.exports = {
 
     index: function(req, res) {
         res.view({
-            title: 'Lancer de dés',
+            title: 'titles.rolls',
             metaDesc: 'Gérez vos dés de la façon la plus simple et fair play qui soit. Pas de triche, simple, mis à jour en temps réel et efficace !'
         });
     },

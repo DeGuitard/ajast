@@ -1,4 +1,4 @@
-app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$translate', function($scope, $http, $mdToast, $mdDialog, $translate) {
+app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$translate', '$interpolate', function($scope, $http, $mdToast, $mdDialog, $translate, $interpolate) {
     $scope.initRaces = function(races) {
         $scope.races = races;
         for (var i = 0; i < $scope.races.length; i++) {
@@ -100,9 +100,9 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
                 $mdToast.simple().content($scope.noticesMsg.saveSuccess).position('top right').hideDelay(5000)
             );
         }).error(function(err) {
-            err = err == 'Conflict' ? $scope.noticesMsg.conflictError : err;
+            var error = $interpolate('{{err | translate}}')({err: err});
             $mdToast.show(
-                $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + err).position('top right').hideDelay(5000)
+                $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + error).position('top right').hideDelay(5000)
             );
         })
     };
@@ -119,8 +119,9 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             $http.delete('/character/remove/' + $scope.character.id).success(function() {
                 window.location.href = '/characters';
             }).error(function(err) {
+                var error = $interpolate('{{err | translate}}')({err: err});
                 $mdToast.show(
-                    $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + err).position('top right').hideDelay(5000)
+                    $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + error).position('top right').hideDelay(5000)
                 );
             });
         });
@@ -151,9 +152,9 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
         if (character.ethics < 40) alignment = $scope.align.chaotic;
         if (character.ethics > 40) alignment = $scope.align.lawful;
         if (character.ethics == 40) alignment = $scope.align.neutral;
-        if (character.moral < 40) alignment += ' ' + $scope.align.bad;
-        if (character.moral > 40) alignment += ' ' + $scope.align.good;
-        if (character.moral == 40) alignment += ' ' + $scope.align.neutral;
+        if (character.moral < 40) alignment += ' ' + $scope.align.bad.toLowerCase();
+        if (character.moral > 40) alignment += ' ' + $scope.align.good.toLowerCase();
+        if (character.moral == 40) alignment += ' ' + $scope.align.neutral.toLowerCase();
 
         return alignment;
     };
@@ -182,7 +183,6 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     $translate('characters.notices.fileTooBig')         .then(function (val) { $scope.noticesMsg.fileTooBig = val;    });
     $translate('characters.notices.saveSuccess')        .then(function (val) { $scope.noticesMsg.saveSuccess = val;   });
     $translate('characters.notices.saveError')          .then(function (val) { $scope.noticesMsg.saveError = val;     });
-    $translate('characters.notices.conflictError')      .then(function (val) { $scope.noticesMsg.conflictError = val; });
     $translate('characters.notices.deleteTitle')        .then(function (val) { $scope.noticesMsg.deleteTitle = val;   });
     $translate('characters.notices.deleteMsg')          .then(function (val) { $scope.noticesMsg.deleteMsg = val;     });
     $translate('forms.buttons.confirm')                 .then(function (val) { $scope.noticesMsg.confirm = val;       });

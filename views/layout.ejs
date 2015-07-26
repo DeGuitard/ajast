@@ -1,49 +1,22 @@
 <!DOCTYPE html>
 <html ng-app="ajast" ng-cloak>
 <head>
-    <title><%= typeof title == 'undefined' ? '' : title + ' - '%>XIVRP</title>
+    <title>
+        <% if(typeof name == 'undefined') { %>
+            <%= typeof title == 'undefined' ? '' : __(title) + ' - '%>
+        <% } else { %>
+            <%= typeof title == 'undefined' ? '' : __(title, name) + ' - '%>
+        <% }%>
+        XIVRP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="fragment" content="!">
     <meta name="language" content="fr-FR" />
     <meta name="description" content="<%= typeof metaDesc == 'undefined' ? '' : '' %>">
     <!--STYLES-->
-    <link rel="stylesheet" href="/styles/angular-material.css">
-    <link rel="stylesheet" href="/styles/dist/vis.min.css">
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/min/v0.0.2b.min.css">
     <!--STYLES END-->
     <!--SCRIPTS-->
-    <script src="/js/dependencies/angular.js"></script>
-    <script src="/js/dependencies/angular-animate.js"></script>
-    <script src="/js/dependencies/angular-aria.js"></script>
-    <script src="/js/dependencies/angular-material.js"></script>
-    <script src="/js/dependencies/angular-messages.js"></script>
-    <script src="/js/dependencies/angular-translate.js"></script>
-    <script src="/js/dependencies/dist/flow.js"></script>
-    <script src="/js/dependencies/dist/ng-flow.js"></script>
-    <script src="/js/dependencies/dist/vis.min.js"></script>
-    <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/ajast.js"></script>
-    <script src="/js/controllers/CharacterCtrl.js"></script>
-    <script src="/js/controllers/CreatePlayerCtrl.js"></script>
-    <script src="/js/controllers/FreeCompanyCtrl.js"></script>
-    <script src="/js/controllers/MainCtrl.js"></script>
-    <script src="/js/controllers/MenuCtrl.js"></script>
-    <script src="/js/controllers/MjCtrl.js"></script>
-    <script src="/js/controllers/NotificationCtrl.js"></script>
-    <script src="/js/controllers/PjCtrl.js"></script>
-    <script src="/js/controllers/RollCtrl.js"></script>
-    <script src="/js/directives/directive-actionForm.js"></script>
-    <script src="/js/directives/directive-archetypes.js"></script>
-    <script src="/js/directives/directive-playerGroup.js"></script>
-    <script src="/js/directives/directive-timeBar.js"></script>
-    <script src="/js/directives/directive-timeHistory.js"></script>
-    <script src="/js/directives/directive-timeline.js"></script>
-    <script src="/js/i18n/en.js"></script>
-    <script src="/js/i18n/fr.js"></script>
-    <script src="/js/services/service-characters.js"></script>
-    <script src="/js/services/service-notifications.js"></script>
-    <script src="/js/services/service-players.js"></script>
-    <script src="/js/services/service-time.js"></script>
+    <script src="/min/v0.0.2b.min.js"></script>
     <!--SCRIPTS END-->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
@@ -104,5 +77,10 @@
 <!--TEMPLATES-->
 
 <!--TEMPLATES END-->
+<script type="text/javascript">
+    app.config(['$translateProvider', function ($translateProvider) {
+        $translateProvider.preferredLanguage('<%= req.getLocale() %>');
+    }]);
+</script>
 </body>
 </html>

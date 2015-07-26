@@ -1,4 +1,13 @@
 {
-	"Welcome": "Welcome",
-	"A brand new app.": "A brand new app."
+    "titles.home": "Final Fantasy XIV RP community",
+    "titles.rolls": "Roll dices",
+	"titles.fc.list": "Free companies list",
+    "titles.fc.new": "Create a new free company",
+    "titles.fc.edit": "Edit %s",
+    "titles.fight.list": "RP Fights list",
+    "titles.fight.show": "Watch fight #%s",
+    "titles.fight.edit": "Manage fight #%s",
+    "titles.char.list": "RP characters list",
+    "titles.char.new": "Create a new character",
+    "titles.char.edit": "Edit %s"
 }

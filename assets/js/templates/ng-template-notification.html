@@ -1,5 +1,5 @@
 <md-toast layout layout-wrap>
-    <div flex>{{notification.data.character.fullName}} a été invité<span ng-show="notification.data.character.sex == 'F'">e</span> dans {{notification.data.freeCompany.name}}</div>
-    <md-button ng-click="accept()">Accepter</md-button>
-    <md-button ng-click="decline()">Refuser</md-button>
+    <div flex>{{ 'notif.fc.invite' | translate:translateData }}</div>
+    <md-button ng-click="accept()">{{ 'notif.accept' | translate:'' }}</md-button>
+    <md-button ng-click="decline()">{{ 'notif.deny' | translate }}</md-button>
 </md-toast>

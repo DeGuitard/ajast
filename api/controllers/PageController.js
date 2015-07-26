@@ -11,8 +11,8 @@ module.exports = {
 
     index: function(req, res) {
         res.view({
-            title: 'Communauté RP de Final Fantasy XIV',
-            metaDesc: "Retrouvez tout l'essentiel pour faire du Role Play sur FFXIV : les compagnies libres, les personnages, un système de combat et plein d'outils pratiques !"
+            title: 'titles.home',
+            metaDesc: "Tout l'essentiel pour faire du Role Play sur FFXIV : liste des compagnies libres, des personnages et plein d'outils pratiques !"
         });
     },
 

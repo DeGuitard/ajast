@@ -1,10 +1,10 @@
-app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$mdDialog', 'charactersService', function($scope, $timeout, $http, $mdToast, $mdDialog, charactersService) {
+app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$mdDialog', 'charactersService', '$translate', '$interpolate', function($scope, $timeout, $http, $mdToast, $mdDialog, charactersService, $translate, $interpolate) {
     $scope.initListMode = function(freeCompanies, servers, userId) {
         $scope.freeCompanies = freeCompanies;
         $scope.servers = servers;
         $scope.search = {};
-        $scope.page.title = 'Liste des compagnies RP';
-        $scope.contextualLinks.title = 'Mes compagnies';
+        $scope.page.title = 'fc.titles.list';
+        $scope.contextualLinks.title = 'fc.menu.list.title';
         $scope.contextualLinks.links = [];
 
         if (userId) {
@@ -24,37 +24,36 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
 
         $scope.contextualLinks.links.push({
             url: '/free-company/new',
-            text: 'Créer une nouvelle'
+            text: 'fc.menu.new'
         });
     };
 
     $scope.initShowMode = function(freeCompany, userId) {
         $scope.freeCompany = freeCompany;
-        $scope.page.title = 'Profil de ' + freeCompany.name;
+        $translate('fc.titles.show', {name: freeCompany.name}).then(function (title) { $scope.page.title = title; });
 
         if ($scope.freeCompany.users.indexOf(userId) != -1 || $scope.freeCompany.users.length == 0) {
-            $scope.contextualLinks.title = 'Ma compagnie';
+            $scope.contextualLinks.title = 'fc.menu.title';
             $scope.contextualLinks.links = [
-                {url: '/free-company/edit/' + $scope.freeCompany.id, text: 'Modifier'},
-                {text: 'Supprimer', action: function() { $scope.delete(); }}
+                {url: '/free-company/edit/' + $scope.freeCompany.id, text: 'fc.menu.edit'},
+                {text: 'fc.menu.delete', action: function() { $scope.delete(); }}
             ];
         }
     };
 
     $scope.initEditMode = function(freeCompany) {
         $scope.freeCompany = freeCompany;
-        $scope.page.title = 'Éditer sa compagnie';
         $scope.icon = '/images/free-companies/' + $scope.freeCompany.icon;
 
         if ($scope.freeCompany.id) {
-            $scope.page.title = "Mettre à jour ma compagnie libre";
-            $scope.contextualLinks.title = "Ma compagnie libre";
+            $scope.page.title = 'fc.titles.edit';
+            $scope.contextualLinks.title = 'fc.menu.title';
             $scope.contextualLinks.links = [
-                {url: '/compagnie-libre/' + $scope.freeCompany.name, text: 'Consulter'},
-                {text: 'Supprimer', action: function () { $scope.delete(); }}
+                {url: '/compagnie-libre/' + $scope.freeCompany.name, text: 'fc.menu.show'},
+                {text: 'fc.menu.delete', action: function () { $scope.delete(); }}
             ];
         } else {
-            $scope.page.title = "Créer sa compagnie libre";
+            $scope.page.title = 'fc.titles.create';
         }
     };
 
@@ -79,8 +78,9 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
                 $scope.newMember = undefined;
             })
             .error(function(err) {
+                var error = $interpolate('{{err | translate}}')({err: err});
                 $mdToast.show(
-                    $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                    $mdToast.simple().content($scope.noticesMsg.error + error).position('top right').hideDelay(5000)
                 );
             });
     };
@@ -96,12 +96,12 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         $http.post("/free-company/save", {freeCompany: $scope.freeCompany}).success(function(data) {
             $scope.freeCompany.id = (data.id) ? data.id : data[0].id;
             $mdToast.show(
-                $mdToast.simple().content("Sauvegarde réussie !").position('top right').hideDelay(5000)
+                $mdToast.simple().content($scope.noticesMsg.saveSuccess).position('top right').hideDelay(5000)
             );
         }).error(function(err) {
-            err = err == 'Conflict' ? 'Nom déjà utilisé par une autre compagnie.' : err;
+            var error = $interpolate('{{err | translate}}')({err: err});
             $mdToast.show(
-                $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                $mdToast.simple().content($scope.noticesMsg.error + error).position('top right').hideDelay(5000)
             );
         })
     };
@@ -109,17 +109,18 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
     $scope.delete = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
-            .title('Voulez-vous vraiment supprimer cette compagnie libre ?')
-            .content('La suppression d\'une compagnie libre est irréversible.')
-            .ok('Confirmer')
-            .cancel('Annuler')
+            .title($scope.noticesMsg.deleteTitle)
+            .content($scope.noticesMsg.deleteMsg)
+            .ok($scope.noticesMsg.confirm)
+            .cancel($scope.noticesMsg.cancel)
             .targetEvent(ev);
         $mdDialog.show(confirm).then(function() {
             $http.delete('/free-company/remove/' + $scope.freeCompany.id).success(function() {
                 window.location.href = '/free-companies';
             }).error(function(err) {
+                var error = $interpolate('{{err | translate}}')({err: err});
                 $mdToast.show(
-                    $mdToast.simple().content("Erreur ! " + err).position('top right').hideDelay(5000)
+                    $mdToast.simple().content($scope.noticesMsg.error + error).position('top right').hideDelay(5000)
                 );
             });
         });
@@ -132,11 +133,19 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
     });
     $scope.$on('flow::fileAdded', function (event, flow, file) {
         if (file.size > 512000) {
-            $scope.uploadError = 'Fichier trop volumineux (512ko max).';
+            $scope.uploadError = 'fc.notices.fileTooBig';
             event.preventDefault();
         }
         $scope.imageLoading = true;
         $scope.imageIndex = $scope.imageIndex === undefined ? 0 : $scope.imageIndex + 1;
-        console.log($scope.imageIndex);
     });
+
+    // Translations
+    $scope.noticesMsg = {};
+    $translate('fc.notices.saveSuccess').then(function (val) { $scope.noticesMsg.saveSuccess = val; });
+    $translate('fc.notices.error').then(function (val) { $scope.noticesMsg.error = val; });
+    $translate('fc.notices.deleteTitle').then(function (val) { $scope.noticesMsg.deleteTitle = val; });
+    $translate('fc.notices.deleteMsg').then(function (val) { $scope.noticesMsg.deleteMsg = val; });
+    $translate('forms.buttons.confirm').then(function (val) { $scope.noticesMsg.confirm = val; });
+    $translate('forms.buttons.cancel').then(function (val) { $scope.noticesMsg.cancel = val; });
 }]);
