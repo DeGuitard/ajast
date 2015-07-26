@@ -281,6 +281,8 @@ app.config(['$translateProvider', function ($translateProvider) {
         'gods.oschon.desc': 'the Wanderer',
         'gods.rhalgr.desc': 'the Destroyer',
         'gods.thaliak.desc': 'the Scholar',
+        'gods.none.desc': 'or other than the Twelve',
+        'gods.none': 'None',
 
         // Jobs
         'jobs.ast': 'Astromancer',

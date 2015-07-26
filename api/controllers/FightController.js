@@ -29,7 +29,7 @@ module.exports = {
             },
             function(err, data) {
                 res.view({
-                    title: 'Liste des combats RP',
+                    title: 'titles.fight.list',
                     metaDesc: "Gérez vos combats Role Play (RP) avec fair play, simplicité et rapidité ; ou suivez en temps réel la progression d'un combat qui concerne votre personnage !",
                     fights: JSON.stringify(data.fights),
                     myFights: JSON.stringify(data.myFights)

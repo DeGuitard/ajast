@@ -73,7 +73,7 @@
                 <div layout="row" layout-sm="column">
                     <md-input-container flex>
                         <label>{{ 'characters.labels.god' | translate }}</label>
-                        <input ng-model="character.god.name + ', ' + (character.god.desc | translate)" ng-readonly="true">
+                        <input ng-model="(character.god.name | translate) + ', ' + (character.god.desc | translate)" ng-readonly="true">
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">

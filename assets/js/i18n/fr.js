@@ -281,6 +281,8 @@ app.config(['$translateProvider', function ($translateProvider) {
         'gods.oschon.desc': 'le Vagabond',
         'gods.rhalgr.desc': 'le Destructeur',
         'gods.thaliak.desc': 'l\'Érudit',
+        'gods.none.desc': 'ou autre que les Douze',
+        'gods.none': 'Aucun',
 
         // Jobs
         'jobs.ast': 'Astromancien',
@@ -347,7 +349,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'regions.others.paglthan': 'Quelque part dans Paglth\'an',
         'regions.others.sharlayan': 'Quelque part dans Sharlayan',
         'regions.others.xelphatol': 'Quelque part dans Xelphatol',
-        'regions.others.other': 'Somewhere',
+        'regions.others.other': 'Quelque part',
         'regions.othard': 'Othard',
         'regions.othard.doma': 'Doma',
         'regions.othard.other': 'Quelque part dans Othard'

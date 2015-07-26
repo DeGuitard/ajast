@@ -1,7 +1,7 @@
 {
   "name": "ajast",
   "private": true,
-  "version": "0.0.2b",
+  "version": "0.0.2b-hotfix",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {

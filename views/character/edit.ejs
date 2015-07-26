@@ -89,7 +89,7 @@
                         <md-input-container flex>
                             <label>{{'characters.labels.god' | translate}}</label>
                             <md-select ng-model="character.god" placeholder="Divinité vénérée" flex style="margin-top: 0px;" required>
-                                <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name}}, {{god.desc | translate}}</md-option>
+                                <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name | translate}}, {{god.desc | translate}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
@@ -98,7 +98,7 @@
                             <label>{{'characters.labels.birthPlace' | translate}}</label>
                             <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
                                 <md-optgroup label="{{region | translate}}" ng-repeat="region in regions | orderBy:'toString()'">
-                                    <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:'name'">{{town.name | translate}}</md-option>
+                                    <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:townTranslated">{{town.name | translate}}</md-option>
                                 </md-optgroup>
                             </md-select>
                         </md-input-container>

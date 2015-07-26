@@ -1,4 +1,4 @@
-app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$translate', '$interpolate', function($scope, $http, $mdToast, $mdDialog, $translate, $interpolate) {
+app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$translate', '$interpolate', '$filter', function($scope, $http, $mdToast, $mdDialog, $translate, $interpolate, $filter) {
     $scope.initRaces = function(races) {
         $scope.races = races;
         for (var i = 0; i < $scope.races.length; i++) {
@@ -186,6 +186,9 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     $translate('characters.notices.deleteTitle')        .then(function (val) { $scope.noticesMsg.deleteTitle = val;   });
     $translate('characters.notices.deleteMsg')          .then(function (val) { $scope.noticesMsg.deleteMsg = val;     });
     $translate('forms.buttons.confirm')                 .then(function (val) { $scope.noticesMsg.confirm = val;       });
+
+    $scope.townTranslated = function(val) { return $filter('translate')(val.name); }
+    $scope.regionTranslated = function(val) { return $filter('translate')(val.region); }
 }]);
 
 // Just a small directive to be able to update the avatar with the preview of the new image.
