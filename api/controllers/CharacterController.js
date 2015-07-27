@@ -205,7 +205,7 @@ module.exports = {
                     });
                 } else {
                     Character.update({id: character.id}, character).exec(function (err, result) {
-                        if (err) return res.serverError(err.originalError.message);
+                        if (err) return res.serverError(err);
                         return res.send(result);
                     });
                 }
