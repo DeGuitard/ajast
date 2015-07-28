@@ -10,9 +10,9 @@ app.config(['$translateProvider', function ($translateProvider) {
         'menu.mainTitle': 'Browse',
 
         // Home page
-        'home.perk.characters.title': 'Characters list',
+        'home.perk.characters.title': 'RP Characters list',
         'home.perk.characters.subtitle': 'Who plays, where, and which kind of character?',
-        'home.perk.freeCompanies.title': 'Free companies list',
+        'home.perk.freeCompanies.title': 'RP Free companies list',
         'home.perk.freeCompanies.subtitle': 'Who recruits, with whom can I play?',
         'home.perk.fights.title': 'Fair play fights',
         'home.perk.fights.subtitle': "No more 6 years-old handling swords better than a veteran…",

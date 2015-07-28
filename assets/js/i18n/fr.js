@@ -10,9 +10,9 @@ app.config(['$translateProvider', function ($translateProvider) {
         'menu.mainTitle': 'Naviguer',
 
         // Home page
-        'home.perk.characters.title': 'Registre des personnages RP',
+        'home.perk.characters.title': 'Liste des personnages RP',
         'home.perk.characters.subtitle': 'Qui joue, où, et quoi comme personnage ?',
-        'home.perk.freeCompanies.title': 'Registre des compagnies libres RP',
+        'home.perk.freeCompanies.title': 'Liste des compagnies libres RP',
         'home.perk.freeCompanies.subtitle': 'Qui recrute, avec qui je peux jouer ?',
         'home.perk.fights.title': 'Combats avec garantie Fair Play',
         'home.perk.fights.subtitle': "Fini l'enfant de 6 ans qui manie mieux l'épée que le vétéran…",
