@@ -1,5 +1,4 @@
-var request = require('supertest'),
-    should = require('should');
+var request = require('supertest');
 
 describe('CharacterController', function() {
 
@@ -29,6 +28,11 @@ describe('CharacterController', function() {
             request(sails.hooks.http.app).post('/character/save').send(newChar).expect(200).end(function() {
                 Character.find().exec(function(err, characters) {
                     characters.length.should.be.eql(1);
+                    var char = characters[0];
+                    char.firstName.should.be.eql(newChar.character.firstName);
+                    char.lastName.should.be.eql(newChar.character.lastName);
+                    char.sex.should.be.eql(newChar.character.sex);
+                    char.fightType.should.be.eql(newChar.character.fightType);
                     done();
                 });
             });
@@ -41,6 +45,7 @@ describe('CharacterController', function() {
                 request(sails.hooks.http.app).post('/character/save').send({character: result[0]}).expect(200).end(function() {
                     Character.find().exec(function(err, characters) {
                         characters.length.should.be.eql(1);
+                        characters[0].firstName.should.be.eql(result[0].firstName);
                         done();
                     });
                 });
