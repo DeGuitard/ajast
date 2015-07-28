@@ -3,6 +3,7 @@ var Sails = require('sails'),
     sails;
 
 before(function(done) {
+    this.timeout(10000);
     Sails.lift({
         // configuration for testing purposes
         models: {
