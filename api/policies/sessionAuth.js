@@ -13,10 +13,6 @@ module.exports = function(req, res, next) {
   // or if this is the last policy, the controller
   if (req.session.passport.user) {
     return next();
-  } else if (process.env.NODE_ENV === 'test') {
-    req.session.passport.user = {id: 'test'};
-    req.user = {id: 'test'};
-    return next();
   }
 
   // User is not allowed

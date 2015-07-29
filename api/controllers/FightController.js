@@ -113,10 +113,17 @@ module.exports = {
         var id = req.param("id"),
             self = this;
 
+        if (!id) {
+            return res.serverError('Corrupt data');
+        }
+
         Fight.findOne({id: id}).exec(function(err, result) {
-            if (result.mj != req.user.id) {
-                res.forbidden("Vous n'êtes pas le MJ de ce combat.");
-                return;
+            if (!result) {
+                return res.notFound('Combat introuvable.');
+            } else if (result.mj != req.user.id) {
+                return res.forbidden("Vous n'êtes pas le MJ de ce combat.");
+            } else if (result.time.isFinished) {
+                return res.forbidden('Ce combat est déjà fini.');
             }
 
             if (!result.time.hasStarted) {
@@ -141,10 +148,17 @@ module.exports = {
             action = req.param("action"),
             self = this;
 
+        if (!action || !id) {
+            return res.serverError('Corrupt data');
+        }
+
         Fight.findOne({id: id}).exec(function(err, result) {
-            if (result.mj != req.user.id) {
-                res.forbidden("Vous n'êtes pas le MJ de ce combat.");
-                return;
+            if (!result) {
+                return res.notFound('Combat introuvable.');
+            } else if (result.mj != req.user.id) {
+                return res.forbidden("Vous n'êtes pas le MJ de ce combat.");
+            } else if (result.time.isFinished) {
+                return res.forbidden('Ce combat est déjà fini.')
             }
 
             // Initializes the new actions & rolls.
@@ -174,15 +188,16 @@ module.exports = {
             data = req.param("data"),
             self = this;
 
+        if (!id || !data) return res.serverError();
+
         Fight.findOne({id: id}).exec(function(err, result) {
             if (result.mj != req.user.id) {
-                res.forbidden("Vous n'êtes pas le MJ de ce combat.");
-                return;
+                return res.forbidden("Vous n'êtes pas le MJ de ce combat.");
             }
 
             Fight.update({id: id}, data).exec(function(err, result) {
                 Fight.publishUpdate(result[0].id, {fight: result[0], action: 'save'});
-                res.status(200).send();
+                return res.ok();
             });
         });
     },
@@ -272,19 +287,19 @@ module.exports = {
         }
 
         var mainArchetype = 'SCH';
-        if (archetype['SMN'] > archetype[mainArchetype]) mainArchetype = 'SMN';
-        if (archetype['NIN'] > archetype[mainArchetype]) mainArchetype = 'NIN';
-        if (archetype['MNK'] > archetype[mainArchetype]) mainArchetype = 'MNK';
-        if (archetype['DRG'] > archetype[mainArchetype]) mainArchetype = 'DRG';
-        if (archetype['BRD'] > archetype[mainArchetype]) mainArchetype = 'BRD';
-        if (archetype['MCN'] > archetype[mainArchetype]) mainArchetype = 'MCN';
-        if (archetype['PLD'] > archetype[mainArchetype]) mainArchetype = 'PLD';
-        if (archetype['DRK'] > archetype[mainArchetype]) mainArchetype = 'DRK';
-        if (archetype['WAR'] > archetype[mainArchetype]) mainArchetype = 'WAR';
-        if (archetype['WHM'] > archetype[mainArchetype]) mainArchetype = 'WHM';
-        if (archetype['AST'] > archetype[mainArchetype]) mainArchetype = 'AST';
-        if (archetype['BLM'] > archetype[mainArchetype]) mainArchetype = 'BLM';
-        if (archetype['PNJ'] > archetype[mainArchetype]) mainArchetype = 'PNJ';
+        if (archetype['SMN'] > archetype[mainArchetype]) { mainArchetype = 'SMN'; }
+        if (archetype['NIN'] > archetype[mainArchetype]) { mainArchetype = 'NIN'; }
+        if (archetype['MNK'] > archetype[mainArchetype]) { mainArchetype = 'MNK'; }
+        if (archetype['DRG'] > archetype[mainArchetype]) { mainArchetype = 'DRG'; }
+        if (archetype['BRD'] > archetype[mainArchetype]) { mainArchetype = 'BRD'; }
+        if (archetype['MCN'] > archetype[mainArchetype]) { mainArchetype = 'MCN'; }
+        if (archetype['PLD'] > archetype[mainArchetype]) { mainArchetype = 'PLD'; }
+        if (archetype['DRK'] > archetype[mainArchetype]) { mainArchetype = 'DRK'; }
+        if (archetype['WAR'] > archetype[mainArchetype]) { mainArchetype = 'WAR'; }
+        if (archetype['WHM'] > archetype[mainArchetype]) { mainArchetype = 'WHM'; }
+        if (archetype['AST'] > archetype[mainArchetype]) { mainArchetype = 'AST'; }
+        if (archetype['BLM'] > archetype[mainArchetype]) { mainArchetype = 'BLM'; }
+        if (archetype['PNJ'] > archetype[mainArchetype]) { mainArchetype = 'PNJ'; }
 
         Math.log10 = Math.log10 || function(x) {
             return Math.log(x) / Math.LN10;

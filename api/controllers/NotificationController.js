@@ -26,7 +26,6 @@ module.exports = {
             else if (notification.target != req.user.id) return res.forbidden("Vous n'êtes pas le destinataire de cette notification.");
 
             if (notification.type == 'fc-invite') return self._acceptFcInvite(notification, res);
-            else return res.serverError('Type de notification inconnu.');
         });
     },
 
@@ -40,7 +39,6 @@ module.exports = {
             else if (notification.target != req.user.id) return res.forbidden("Vous n'êtes pas le destinataire de cette notification.");
 
             if (notification.type == 'fc-invite') return self._declineFcInvite(notification, res);
-            else return res.serverError('Type de notification inconnu.');
         });
     },
 
@@ -50,22 +48,13 @@ module.exports = {
 
         async.series({
             character: function(callback) {
-                Character.update({id: character.id}, {isInvited: false}).exec(function (err, result) {
-                    if (err) res.serverError(err);
-                    else return callback(null, result);
-                });
+                Character.update({id: character.id}, {isInvited: false}).exec(callback);
             },
             notification: function(callback) {
-                Notification.destroy({id: notification.id}).exec(function(err, result) {
-                    if (err) return callback(err);
-                    else return callback(null, result);
-                });
+                Notification.destroy({id: notification.id}).exec(callback);
             },
             company: function(callback) {
-                FreeCompany.updatePlayersCount(freeCompany.id, function(err, result) {
-                    if (err) return callback(err);
-                    else return callback(null, result);
-                });
+                FreeCompany.updatePlayersCount(freeCompany.id, callback);
             }
         }, function(err, data) {
             if (err) return res.serverError(err);
@@ -88,22 +77,13 @@ module.exports = {
 
             async.parallel({
                 freeCompany: function(callback) {
-                    FreeCompany.update({id: freeCompany.id}, {founders: result.founders, members: result.members}).exec(function(err, result) {
-                        if (err) return callback(err);
-                        else return callback(null, result);
-                    });
+                    FreeCompany.update({id: freeCompany.id}, {founders: result.founders, members: result.members}).exec(callback);
                 },
                 character: function(callback) {
-                    Character.update({id: character.id}, {isInvited: false}).exec(function(err, result) {
-                        if (err) return callback(err);
-                        else return callback(null, result);
-                    });
+                    Character.update({id: character.id}, {isInvited: false}).exec(callback);
                 },
                 notification: function(callback) {
-                    Notification.destroy({id: notification.id}).exec(function(err, result) {
-                        if (err) return callback(err);
-                        else return callback(null, result);
-                    });
+                    Notification.destroy({id: notification.id}).exec(callback);
                 }
             }, function(err, data) {
                 if (err) return res.serverError(err);
