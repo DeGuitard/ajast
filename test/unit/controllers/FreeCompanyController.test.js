@@ -252,6 +252,7 @@ describe('FreeCompanyController', function() {
                             Notification.find().limit(1).exec(callback);
                         }
                     }, function(err, data) {
+                        if (err) done(err);
                         data.freeCompany.members.length.should.be.exactly(1);
                         data.character.isInvited.should.be.exactly(true);
                         data.notification[0].type.should.be.exactly('fc-invite');
