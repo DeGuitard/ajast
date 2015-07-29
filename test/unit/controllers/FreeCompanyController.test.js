@@ -232,7 +232,7 @@ describe('FreeCompanyController', function() {
         it('should be successful', function(done) {
             async.parallel({
                 freeCompany: function(callback) {
-                    FreeCompany.find().limit(1).exec(callback);
+                    FreeCompany.update({}, {members: []}).exec(callback);
                 },
                 character: function(callback) {
                     Character.find().limit(1).exec(callback);
@@ -243,7 +243,7 @@ describe('FreeCompanyController', function() {
                 request(sails.hooks.http.app).post('/free-company/invite').send(params).expect(200).end(function() {
                     async.parallel({
                         freeCompany: function(callback) {
-                            FreeCompany.findOne({id: data.freeCompany[0].id}).exec(callback);
+                            FreeCompany.findOne({id: data.freeCompany[0].id}).populateAll().exec(callback);
                         },
                         character: function(callback) {
                             Character.findOne({id: data.character[0].id}).exec(callback);
