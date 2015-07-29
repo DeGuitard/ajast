@@ -15,16 +15,16 @@ module.exports = {
     list: function(req, res) {
         async.parallel({
             freeCompanies: function(callback) {
-                FreeCompany.find({}, {fields: { name: 1, tag: 1, isRecruiting: 1, trigram: 1, website: 1, icon: 1, users: 1, realPlayersCount: 1, server: 1, _id: 1 }}).sort('name ASC').exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                });
+                FreeCompany
+                    .find({}, {fields:
+                                {   name: 1, tag: 1, isRecruiting: 1, trigram: 1, website: 1, icon: 1,
+                                    users: 1, realPlayersCount: 1, server: 1, _id: 1 }
+                    })
+                    .sort('name ASC')
+                    .exec(callback);
             },
             servers: function(callback) {
-                Server.find().exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                });
+                Server.find().exec(callback);
             }
         }, function(err, data) {
             if (err) return res.serverError(err);

@@ -25,6 +25,5 @@ before(function(done) {
 });
 
 after(function(done) {
-    // here you can clear fixtures, etc.
     sails.lower(done);
 });

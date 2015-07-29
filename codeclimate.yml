@@ -3,3 +3,5 @@ languages:
 exclude_paths:
 - "assets/js/i18n/en.js"
 - "assets/js/i18n/fr.js"
+- "test/"
+- "coverage/"

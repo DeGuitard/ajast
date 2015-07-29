@@ -2,6 +2,16 @@ var request = require('supertest');
 
 describe('CharacterController', function() {
 
+    var character = {
+        character: {
+            firstName: 'Test', lastName: 'Test', trigram: 'TES', sex: 'F', archetypes: {BLM: 5},
+            crafts: {}, harvesters: {}, fightType: 'offense', avatar: 'default.png', tribe: 'test',
+            moral: 20, ethics: 40, language: 'en', server: 'Moogle',
+            race: {name: 'test', lifespan: 10, tribes: ['test']}, god: {name: 'test', desc: 'test', element: 'test'},
+            birthPlace: {name: 'test', region: 'test'}, user: {}
+        }
+    };
+
     describe('#list()', function () {
         it('should be successful', function (done) {
             request(sails.hooks.http.app).get('/characters').expect(200).end(done);
@@ -16,23 +26,14 @@ describe('CharacterController', function() {
 
     describe('#save()', function() {
         it('should insert data', function(done) {
-            var newChar = {
-                character: {
-                    firstName: 'Test', lastName: 'Test', trigram: 'TES', sex: 'F', archetypes: {BLM: 5},
-                    crafts: {}, harvesters: {}, fightType: 'offense', avatar: 'default.png', tribe: 'test',
-                    moral: 20, ethics: 40, language: 'en', server: 'Moogle',
-                    race: {name: 'test', lifespan: 10, tribes: ['test']}, god: {name: 'test', desc: 'test', element: 'test'},
-                    birthPlace: {name: 'test', region: 'test'}, user: {}
-                }
-            };
-            request(sails.hooks.http.app).post('/character/save').send(newChar).expect(200).end(function() {
+            request(sails.hooks.http.app).post('/character/save').send(character).expect(200).end(function() {
                 Character.find().exec(function(err, characters) {
                     characters.length.should.be.eql(1);
                     var char = characters[0];
-                    char.firstName.should.be.eql(newChar.character.firstName);
-                    char.lastName.should.be.eql(newChar.character.lastName);
-                    char.sex.should.be.eql(newChar.character.sex);
-                    char.fightType.should.be.eql(newChar.character.fightType);
+                    char.firstName.should.be.eql(character.character.firstName);
+                    char.lastName.should.be.eql(character.character.lastName);
+                    char.sex.should.be.eql(character.character.sex);
+                    char.fightType.should.be.eql(character.character.fightType);
                     done();
                 });
             });
@@ -53,16 +54,7 @@ describe('CharacterController', function() {
         }),
 
         it('should detect double', function(done) {
-            var newChar = {
-                character: {
-                    firstName: 'Test', lastName: 'Test', trigram: 'TES', sex: 'F', archetypes: {BLM: 5},
-                    crafts: {}, harvesters: {}, fightType: 'offense', avatar: 'default.png', tribe: 'test',
-                    moral: 20, ethics: 40, language: 'en', server: 'Moogle',
-                    race: {name: 'test', lifespan: 10, tribes: ['test']}, god: {name: 'test', desc: 'test', element: 'test'},
-                    birthPlace: {name: 'test', region: 'test'}, user: {}
-                }
-            };
-            request(sails.hooks.http.app).post('/character/save').send(newChar).expect(500).end(function() {
+            request(sails.hooks.http.app).post('/character/save').send(character).expect(500).end(function() {
                 Character.find().exec(function(err, characters) {
                     characters.length.should.be.eql(1);
                     done();
@@ -71,16 +63,8 @@ describe('CharacterController', function() {
         }),
 
         it("should be detect missing fields", function(done) {
-            var newChar = {
-                character: {
-                    firstName: 'Test', lastName: 'Test', sex: 'F', archetypes: {BLM: 5},
-                    crafts: {}, harvesters: {}, fightType: 'offense', avatar: 'default.png', tribe: 'test',
-                    moral: 20, ethics: 40, language: 'en', server: 'Moogle',
-                    race: {name: 'test', lifespan: 10, tribes: ['test']}, god: {name: 'test', desc: 'test', element: 'test'},
-                    birthPlace: {name: 'test', region: 'test'}, user: {}
-                }
-            };
-            request(sails.hooks.http.app).post("/character/save").send(newChar).expect(500).end(function() {
+            character.trigram = undefined;
+            request(sails.hooks.http.app).post("/character/save").send(character).expect(500).end(function() {
                 Character.find().exec(function(err, characters) {
                     characters.length.should.be.eql(1);
                     done();
