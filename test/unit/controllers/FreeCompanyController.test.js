@@ -253,12 +253,12 @@ describe('FreeCompanyController', function() {
                         }
                     }, function(err, data) {
                         if (err) done(err);
-                        data.freeCompany.members.length.should.be.exactly(1);
                         data.character.isInvited.should.be.exactly(true);
                         data.notification[0].type.should.be.exactly('fc-invite');
                         data.notification[0].target.should.be.eql(data.character.user);
                         data.notification[0].data.freeCompany.id.should.be.exactly(data.freeCompany.id);
                         data.notification[0].data.character.id.should.be.exactly(data.character.id);
+                        data.freeCompany.members.length.should.be.exactly(1);
                         done();
                     });
                 });
