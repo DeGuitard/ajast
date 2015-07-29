@@ -85,7 +85,7 @@ describe('NotificationController', function() {
                             Notification.find({id: notif.id}).exec(callback);
                         },
                         company: function(callback) {
-                            FreeCompany.findOne({id: notif.data.freeCompany.id}).exec(callback);
+                            FreeCompany.findOne({id: notif.data.freeCompany.id}).populateAll().exec(callback);
                         }
                     }, function(err, data) {
                         if (err) done(err);
@@ -156,7 +156,7 @@ describe('NotificationController', function() {
                             Notification.find({id: notif.id}).exec(callback);
                         },
                         company: function(callback) {
-                            FreeCompany.findOne({id: notif.data.freeCompany.id}).exec(callback);
+                            FreeCompany.findOne({id: notif.data.freeCompany.id}).populateAll().exec(callback);
                         }
                     }, function(err, data) {
                         if (err) done(err);
@@ -220,7 +220,7 @@ describe('NotificationController', function() {
                             Notification.find({id: notif.id}).exec(callback);
                         },
                         company: function(callback) {
-                            FreeCompany.findOne({id: notif.data.freeCompany.id}).exec(callback);
+                            FreeCompany.findOne({id: notif.data.freeCompany.id}).populateAll().exec(callback);
                         }
                     }, function(err, data) {
                         if (err) done(err);
