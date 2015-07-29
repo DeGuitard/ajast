@@ -137,41 +137,6 @@ describe('FreeCompanyController', function() {
             });
         }),
 
-        it('should be successful', function(done) {
-            async.parallel({
-                freeCompany: function(callback) {
-                    FreeCompany.find().limit(1).exec(callback);
-                },
-                character: function(callback) {
-                    Character.find().limit(1).exec(callback);
-                }
-            }, function(err, data) {
-                if (err) done(err);
-                var params = {freeCompany: data.freeCompany[0].id, member: data.character[0].id, isFounder: false};
-                request(sails.hooks.http.app).post('/free-company/invite').send(params).expect(200).end(function() {
-                    async.parallel({
-                        freeCompany: function(callback) {
-                            FreeCompany.findOne({id: data.freeCompany[0].id}).exec(callback);
-                        },
-                        character: function(callback) {
-                            Character.findOne({id: data.character[0].id}).exec(callback);
-                        },
-                        notification: function(callback) {
-                            Notification.find().limit(1).exec(callback);
-                        }
-                    }, function(err, data) {
-                        data.freeCompany.members.length.should.be.exactly(1);
-                        data.character.isInvited.should.be.exactly(true);
-                        data.notification[0].type.should.be.exactly('fc-invite');
-                        data.notification[0].target.should.be.eql(data.character.user);
-                        data.notification[0].data.freeCompany.id.should.be.exactly(data.freeCompany.id);
-                        data.notification[0].data.character.id.should.be.exactly(data.character.id);
-                        done();
-                    });
-                });
-            });
-        });
-
         it('should ask to save free company at least once before', function(done) {
             async.parallel({
                 character: function(callback) {
@@ -260,6 +225,41 @@ describe('FreeCompanyController', function() {
                 var params = {freeCompany: data.freeCompany[0].id, member: data.character[0].id, isFounder: true};
                 request(sails.hooks.http.app).post('/free-company/invite').send(params).expect(403).end(function() {
                     FreeCompany.update({}, {users: ['test']}).exec(done);
+                });
+            });
+        });
+
+        it('should be successful', function(done) {
+            async.parallel({
+                freeCompany: function(callback) {
+                    FreeCompany.find().limit(1).exec(callback);
+                },
+                character: function(callback) {
+                    Character.find().limit(1).exec(callback);
+                }
+            }, function(err, data) {
+                if (err) done(err);
+                var params = {freeCompany: data.freeCompany[0].id, member: data.character[0].id, isFounder: false};
+                request(sails.hooks.http.app).post('/free-company/invite').send(params).expect(200).end(function() {
+                    async.parallel({
+                        freeCompany: function(callback) {
+                            FreeCompany.findOne({id: data.freeCompany[0].id}).exec(callback);
+                        },
+                        character: function(callback) {
+                            Character.findOne({id: data.character[0].id}).exec(callback);
+                        },
+                        notification: function(callback) {
+                            Notification.find().limit(1).exec(callback);
+                        }
+                    }, function(err, data) {
+                        data.freeCompany.members.length.should.be.exactly(1);
+                        data.character.isInvited.should.be.exactly(true);
+                        data.notification[0].type.should.be.exactly('fc-invite');
+                        data.notification[0].target.should.be.eql(data.character.user);
+                        data.notification[0].data.freeCompany.id.should.be.exactly(data.freeCompany.id);
+                        data.notification[0].data.character.id.should.be.exactly(data.character.id);
+                        done();
+                    });
                 });
             });
         });

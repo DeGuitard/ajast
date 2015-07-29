@@ -54,7 +54,8 @@ describe('CharacterController', function() {
         }),
 
         it('should detect double', function(done) {
-            request(sails.hooks.http.app).post('/character/save').send(character).expect(500).end(function() {
+            request(sails.hooks.http.app).post('/character/save').send(character).expect(500).end(function(err, res) {
+                res.error.text.should.be.exactly('characters.notices.conflictError');
                 Character.find().exec(function(err, characters) {
                     characters.length.should.be.eql(1);
                     done();
