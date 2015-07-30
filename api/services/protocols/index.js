@@ -12,8 +12,7 @@
  * can contain any combination of tokens issued by the authentication API.
  */
 module.exports = {
-  local  : require('./local')
-, oauth  : require('./oauth')
+  oauth  : require('./oauth')
 , oauth2 : require('./oauth2')
 , openid : require('./openid')
 };

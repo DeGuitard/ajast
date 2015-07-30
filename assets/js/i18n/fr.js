@@ -181,6 +181,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'characters.notices.conflictError': 'Ce trigramme ou nom est déjà utilisé par un autre personnage.',
         'characters.notices.deleteTitle': 'Êtes-vous sûr de vouloir supprimer ce personnage ?',
         'characters.notices.deleteMsg': 'La suppression de personnage est irréversible.',
+        'characters.notices.corruptData': 'Données corrompues.',
 
         // Free companies pages
         'fc.titles.list': 'Liste des compagnies libres',

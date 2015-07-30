@@ -45,6 +45,15 @@ describe('NotificationController', function() {
                 });
             });
         });
+
+        it('should only return notifications to logged in users', function (done) {
+            sails.config.mockLogin = false;
+            request(sails.hooks.http.app).get('/notifications').end(function(err, res) {
+                res.body.length.should.be.eql(0);
+                sails.config.mockLogin = true;
+                done();
+            });
+        });
     });
 
     describe('#accept()', function () {
@@ -116,6 +125,15 @@ describe('NotificationController', function() {
                 done();
             });
         });
+
+        it('should require user to be logged in', function (done) {
+            sails.config.mockLogin = false;
+            request(sails.hooks.http.app).get('/notification/abc/accept').end(function(err, res) {
+                res.statusCode.should.be.exactly(403);
+                sails.config.mockLogin = true;
+                done();
+            });
+        });
     });
 
     describe('#decline()', function () {
@@ -179,6 +197,15 @@ describe('NotificationController', function() {
 
         it('should detect nonexistent notification', function (done) {
             request(sails.hooks.http.app).get('/notification/abc/decline').expect(404, done);
+        });
+
+        it('should require user to be logged in', function (done) {
+            sails.config.mockLogin = false;
+            request(sails.hooks.http.app).get('/notification/abc/decline').end(function(err, res) {
+                res.statusCode.should.be.exactly(403);
+                sails.config.mockLogin = true;
+                done();
+            });
         });
     });
 

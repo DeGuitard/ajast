@@ -81,6 +81,16 @@ describe('FreeCompanyController', function() {
             });
         });
 
+        it('should restrict edit access to founders', function(done) {
+            FreeCompany.update({}, {users: ['abc']}).exec(function (err, result) {
+                if (err) return done(err);
+                request(sails.hooks.http.app).post('/free-company/save').send({freeCompany: result[0]}).end(function (err, res) {
+                    res.statusCode.should.be.exactly(403);
+                    FreeCompany.update({}, {users: ['test']}).exec(done);
+                });
+            });
+        });
+
         it('should be detect missing fields', function(done) {
             var newFc = {
                 freeCompany: {
@@ -94,6 +104,14 @@ describe('FreeCompanyController', function() {
                     fcs.length.should.be.exactly(1);
                     done();
                 });
+            });
+        });
+
+        it('should be detect missing data', function(done) {
+            request(sails.hooks.http.app).post('/free-company/save').send({}).end(function (err, res) {
+                res.statusCode.should.be.exactly(500);
+                res.error.text.should.be.exactly('fc.notices.corruptData');
+                done();
             });
         });
     });
@@ -176,6 +194,15 @@ describe('FreeCompanyController', function() {
                 if (err) done(err);
                 var params = {freeCompany: data.freeCompany[0].id, member: 'abc', isFounder: false};
                 request(sails.hooks.http.app).post('/free-company/invite').send(params).expect(404, done);
+            });
+        });
+
+        it('should detect missing data', function(done) {
+            var params = {freeCompany: 'abc', member: undefined, isFounder: false};
+            request(sails.hooks.http.app).post('/free-company/invite').send(params).end(function(err, res) {
+                res.statusCode.should.be.exactly(500);
+                res.error.text.should.be.exactly('fc.notices.corruptData');
+                done();
             });
         });
 

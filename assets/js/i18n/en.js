@@ -181,6 +181,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'characters.notices.conflictError': 'Trigram or name is already used by another character.',
         'characters.notices.deleteTitle': 'Are you sure you want to delete this character?',
         'characters.notices.deleteMsg': 'Character removal is irreversible.',
+        'characters.notices.corruptData': 'Corrupt data.',
 
         // Free companies pages
         'fc.titles.list': 'Free companies list',

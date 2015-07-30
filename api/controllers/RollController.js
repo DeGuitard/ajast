@@ -16,6 +16,7 @@ module.exports = {
 
     apiList: function(req, res) {
         Roll.find({where: {}, limit: 30, sort: 'createdAt DESC'}).exec(function(err, rolls) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (req.socket) Roll.watch(req);
             return res.send(rolls);
@@ -28,6 +29,7 @@ module.exports = {
             score = Math.random() * (faces - 1) + 1;
 
         Roll.create({action: action, faces: faces, score: score}).exec(function(err, result) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             Roll.publishCreate(result);
             return res.send(result);

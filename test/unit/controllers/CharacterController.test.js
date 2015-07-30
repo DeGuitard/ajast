@@ -66,6 +66,15 @@ describe('CharacterController', function() {
             });
         });
 
+        it('should restrict save access to owner', function(done) {
+            Character.update({}, {user: 'test2'}).exec(function (err, result) {
+                request(sails.hooks.http.app).post('/character/save').send({character: result[0]}).end(function(err, res) {
+                    res.statusCode.should.be.exactly(403);
+                    Character.update({}, {user: 'test'}).exec(done);
+                });
+            });
+        });
+
         it('should detect overpowered character', function(done) {
             character.character.firstName = 'Test 3';
             character.character.trigram = 'T99';
@@ -76,12 +85,20 @@ describe('CharacterController', function() {
 
         it("should be detect missing fields", function(done) {
             character.trigram = undefined;
-            request(sails.hooks.http.app).post("/character/save").send(character).end(function(err, res) {
+            request(sails.hooks.http.app).post('/character/save').send(character).end(function(err, res) {
                 res.statusCode.should.be.exactly(500);
                 Character.find().exec(function(err, characters) {
                     characters.length.should.be.eql(1);
                     done();
                 });
+            });
+        });
+
+        it('should be detect missing data', function(done) {
+            request(sails.hooks.http.app).post('/character/save').send({}).end(function (err, res) {
+                res.statusCode.should.be.exactly(500);
+                res.error.text.should.be.exactly('characters.notices.corruptData');
+                done();
             });
         });
     });
@@ -141,10 +158,19 @@ describe('CharacterController', function() {
     });
 
     describe('#delete()', function() {
+        it('should restrict removal to owner', function(done) {
+            Character.update({}, {user: 'test2'}).exec(function (err, result) {
+                request(sails.hooks.http.app).delete('/character/remove/' + result[0].id).end(function(err, res) {
+                    res.statusCode.should.be.exactly(403);
+                    Character.update({}, {user: 'test'}).exec(done);
+                });
+            });
+        });
+
         it("should be successful", function(done) {
             Character.find().limit(1).exec(function(err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).delete("/character/remove/" + result[0].id).end(function(err, res) {
+                request(sails.hooks.http.app).delete('/character/remove/' + result[0].id).end(function(err, res) {
                     res.statusCode.should.be.exactly(200);
                     Character.find().exec(function(err, characters) {
                         characters.length.should.be.eql(0);

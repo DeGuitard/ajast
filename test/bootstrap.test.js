@@ -14,6 +14,9 @@ before(function(done) {
         sails = server;
         if (err) return done(err);
 
+        // By default, a user will be considered as logged in.
+        sails.config.mockLogin = true;
+
         // Load fixtures
         var barrels = new Barrels();
 

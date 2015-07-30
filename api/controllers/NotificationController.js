@@ -11,6 +11,7 @@ module.exports = {
         if (!req.user) return res.send([]);
 
         Notification.find({target: req.user.id}).exec(function (err, list) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             return res.send(list);
         });
@@ -21,6 +22,7 @@ module.exports = {
         var self = this;
 
         Notification.findOne({id: req.param('id')}).exec(function(err, notification) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             else if (!notification) return res.notFound("La notification n'exite pas / plus.");
             else if (notification.target != req.user.id) return res.forbidden("Vous n'êtes pas le destinataire de cette notification.");
@@ -34,6 +36,7 @@ module.exports = {
         var self = this;
 
         Notification.findOne({id: req.param('id')}).exec(function(err, notification) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             else if (!notification) return res.notFound("La notification n'exite pas / plus.");
             else if (notification.target != req.user.id) return res.forbidden("Vous n'êtes pas le destinataire de cette notification.");
@@ -57,6 +60,7 @@ module.exports = {
                 FreeCompany.updatePlayersCount(freeCompany.id, callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             else return res.ok();
         });
@@ -67,6 +71,7 @@ module.exports = {
             freeCompany = notification.data.freeCompany;
 
         FreeCompany.findOne({id: freeCompany.id}).exec(function(err, result) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
 
             var founderIndex = result.founders.indexOf(character.id.toString()),
@@ -86,6 +91,7 @@ module.exports = {
                     Notification.destroy({id: notification.id}).exec(callback);
                 }
             }, function(err, data) {
+                /* istanbul ignore if */
                 if (err) return res.serverError(err);
                 else return res.ok();
             });

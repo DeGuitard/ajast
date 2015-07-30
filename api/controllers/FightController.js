@@ -13,21 +13,19 @@ module.exports = {
         async.parallel(
             {
                 fights: function(callback) {
-                    Fight.find({}, {fields: { shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}}).sort('updatedAt DESC').limit(30).exec(function(err, result) {
-                        callback(null, result);
-                    });
+                    Fight.find({}, {fields: { shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}}).sort('updatedAt DESC').limit(30).exec(callback);
                 },
                 myFights: function(callback) {
                     if (req.user) {
-                        Fight.find({mj: req.user.id, "time.hasStarted": false}, {fields: {shortid: 1}}).exec(function (err, result) {
-                            callback(null, result);
-                        });
+                        Fight.find({mj: req.user.id, "time.hasStarted": false}, {fields: {shortid: 1}}).exec(callback);
                     } else {
                         callback(null, []);
                     }
                 }
             },
             function(err, data) {
+                /* istanbul ignore if */
+                if (err) return res.serverError(err);
                 res.view({
                     title: 'titles.fight.list',
                     metaDesc: "Gérez vos combats Role Play (RP) avec fair play, simplicité et rapidité ; ou suivez en temps réel la progression d'un combat qui concerne votre personnage !",
@@ -73,20 +71,15 @@ module.exports = {
             archetypes: function(callback) {
                 // Native request to limit the fields, because Sails can't handle projection...
                 Archetype.native(function(err, Collection) {
-                    Collection.find({}, {desc: 0, _id: 0}).toArray(function(err, result) {
-                        if (err) callback(err);
-                        callback(null, result);
-                    });
+                    Collection.find({}, {desc: 0, _id: 0}).toArray(callback);
                 });
             },
             fight: function(callback) {
                 var query = {shortid: req.param("id")};
-                Fight.findOne(query).exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                })
+                Fight.findOne(query).exec(callback)
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!data.fight || !data.archetypes) return res.notFound();
             if (!req.user || data.fight.mj != req.user.id) {
@@ -113,9 +106,7 @@ module.exports = {
         var id = req.param("id"),
             self = this;
 
-        if (!id) {
-            return res.serverError('Corrupt data');
-        }
+        if (!id) return res.serverError('Corrupt data');
 
         Fight.findOne({id: id}).exec(function(err, result) {
             if (!result) {
@@ -148,9 +139,7 @@ module.exports = {
             action = req.param("action"),
             self = this;
 
-        if (!action || !id) {
-            return res.serverError('Corrupt data');
-        }
+        if (!action || !id) return res.serverError('Corrupt data');
 
         Fight.findOne({id: id}).exec(function(err, result) {
             if (!result) {
@@ -228,6 +217,7 @@ module.exports = {
     apiGet: function(req, res) {
         var id = req.param('id');
         Fight.findOne({id: id}).exec(function(err, fight) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!fight) return res.notFound();
             if (req.socket) Fight.subscribe(req.socket, fight, ['update']);

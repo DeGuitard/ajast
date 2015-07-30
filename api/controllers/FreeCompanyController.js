@@ -27,6 +27,7 @@ module.exports = {
                 Server.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
 
             var datacenters = [];
@@ -48,9 +49,8 @@ module.exports = {
     },
 
     show: function(req, res) {
-        if (!req.param("name")) return res.notFound();
-
         FreeCompany.findOne({name: req.param("name")}).populate('founders').populate('members').exec(function(err, result) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!result) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             res.view('freeCompany/show', {
@@ -64,12 +64,10 @@ module.exports = {
     new: function(req, res) {
         async.parallel({
             servers: function(callback) {
-                Server.find().exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                });
+                Server.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
 
             var datacenters = [];
@@ -93,18 +91,13 @@ module.exports = {
         async.parallel({
             freeCompany: function(callback) {
                 var query = {id: req.param("id")};
-                FreeCompany.findOne(query).populate('founders').populate('members').exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                });
+                FreeCompany.findOne(query).populate('founders').populate('members').exec(callback);
             },
             servers: function(callback) {
-                Server.find().exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                });
+                Server.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!data.freeCompany) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             else if (data.freeCompany.users.indexOf(req.user.id) == -1 && data.freeCompany.users.length > 0) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
@@ -132,6 +125,7 @@ module.exports = {
         if (!freeCompany) return res.userError('fc.notices.corruptData');
 
         FreeCompany.findOne({id: freeCompany.id}).exec(function(err, result) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             else if (result && result.users.length > 0 && result.users.indexOf(req.user.id) == -1) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
@@ -140,15 +134,18 @@ module.exports = {
                 server: freeCompany.server,
                 id: { '!': freeCompany.id }
             }).exec(function(err, duplicate) {
+                /* istanbul ignore if */
                 if (err) return res.serverError(err);
                 if (duplicate) return res.userError('fc.notices.conflict');
                 if (!result) {
                     FreeCompany.create(freeCompany).exec(function (err, result) {
+                        /* istanbul ignore if */
                         if (err) return res.serverError(err);
                         return res.send(result);
                     });
                 } else {
                     FreeCompany.update({id: freeCompany.id}, freeCompany).exec(function(err, result) {
+                        /* istanbul ignore if */
                         if (err) return res.serverError(err.originalError.message);
                         FreeCompany.updatePlayersCount(freeCompany.id);
                         res.send(result);
@@ -165,14 +162,16 @@ module.exports = {
             isFounder = req.param('isFounder');
 
         if (!fcId) return res.userError('fc.notices.saveOnce');
-        if (!fcId || !memberId) return res.userError('fc.notices.corruptData');
+        if (!memberId) return res.userError('fc.notices.corruptData');
 
         FreeCompany.findOne({id: fcId}).exec(function(err, freeCompany) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!freeCompany) return res.notFound("Cette compagnie libre n'existe pas / plus.");
             else if (freeCompany.users.length > 0 && freeCompany.users.indexOf(req.user.id) == -1) return res.forbidden("Vous n'avez pas le droit de modifier cette compagnie libre !");
 
             Character.findOne({id: memberId}).exec(function(err, character) {
+                /* istanbul ignore if */
                 if (err) return res.serverError(err);
                 else if (!character) return res.notFound("Ce personnage n'existe pas / plus.");
                 else if (character.isInvited) return res.userError('fc.notices.alreadyInvited');
@@ -183,16 +182,10 @@ module.exports = {
 
                 async.series({
                     character: function(callback) {
-                        Character.update({id: character.id}, {isInvited: true}).exec(function(err, result) {
-                            if (err) return callback(err);
-                            else return callback(null, result);
-                        });
+                        Character.update({id: character.id}, {isInvited: true}).exec(callback);
                     },
                     freeCompany: function(callback) {
-                        FreeCompany.update({id: freeCompany.id}, freeCompany).exec(function(err, result) {
-                            if (err) return callback(err);
-                            else return callback(null, result);
-                        });
+                        FreeCompany.update({id: freeCompany.id}, freeCompany).exec(callback);
                     },
                     invite: function(callback) {
                         var notif = {
@@ -203,17 +196,12 @@ module.exports = {
                                 character: character
                             }
                         };
-                        Notification.create(notif).exec(function(err, result) {
-                            if (err) return callback(err);
-                            else return callback(null, result);
-                        });
+                        Notification.create(notif).exec(callback);
                     }
                 }, function(err, data) {
-                    if (err) {
-                        sails.log.error(err);
-                        return res.serverError(err);
-                    }
-                    else return res.send(data.freeCompany);
+                    /* istanbul ignore if */
+                    if (err) return res.serverError(err);
+                    return res.send(data.freeCompany);
                 });
             });
         });
@@ -221,6 +209,7 @@ module.exports = {
 
     remove: function(req, res) {
         FreeCompany.findOne({id: req.param('id')}).exec(function(err, freeCompany) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!freeCompany) {
                 sails.log.warn('Tried to remove inexistent free company.');
@@ -243,8 +232,9 @@ module.exports = {
                     FreeCompany.destroy({id: freeCompany.id}).exec(callback);
                 }
             }, function(err, data) {
-            if (err) return res.serverError(err);
-            return res.ok();
+                /* istanbul ignore if */
+                if (err) return res.serverError(err);
+                return res.ok();
             });
         });
     }

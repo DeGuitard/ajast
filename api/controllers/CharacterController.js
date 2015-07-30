@@ -46,8 +46,6 @@ module.exports = {
     },
 
     show: function(req, res) {
-        if (!req.param("name")) return res.notFound();
-
         async.parallel({
             archetypes: function(callback) {
                 // Native request to limit the fields, because Sails can't handle projection...
@@ -60,6 +58,7 @@ module.exports = {
                 Character.findOne(query).populate('god').populate('birthPlace').populate('race').populate('membership').populate('leadership').exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!data.character) return res.notFound("Ce personnage n'existe pas / plus.");
             res.view('character/show', {
@@ -92,6 +91,7 @@ module.exports = {
                 Server.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
 
             var regions  = [], character = {'timeline': [], 'archetypes': {}, 'crafts': {}, 'harvesters': {}, avatar: 'default.png', moral: 40, ethics: 40};
@@ -147,6 +147,7 @@ module.exports = {
                 Server.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!data.character) return res.notFound("Ce personnage n'existe pas / plus.");
             else if (data.character.user != req.user.id && data.character.user) return res.forbidden("Vous n'êtes pas le propriétaire de ce personnage !");
@@ -181,8 +182,10 @@ module.exports = {
 
     save: function(req, res) {
         var character = req.param('character');
+        if (!character) return res.userError('characters.notices.corruptData');
 
         Character.findOne({id: character.id}).exec(function(err, result) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!result || !result.user) character.user = req.user.id;
             else if (result.user != req.user.id) return res.forbidden("Vous n'êtes pas le propriétaire de ce personnage !");
@@ -196,15 +199,18 @@ module.exports = {
                 server: character.server,
                 id: { '!': character.id }
             }).exec(function(err, duplicate) {
+                /* istanbul ignore if */
                 if (err) return res.serverError(err);
                 if (duplicate) return res.userError('characters.notices.conflictError');
                 if (!result) {
                     Character.create(character).exec(function (err, result) {
+                        /* istanbul ignore if */
                         if (err) return res.serverError(err);
                         return res.send(result);
                     });
                 } else {
                     Character.update({id: character.id}, character).exec(function (err, result) {
+                        /* istanbul ignore if */
                         if (err) return res.serverError(err);
                         return res.send(result);
                     });
@@ -216,8 +222,9 @@ module.exports = {
     remove: function(req, res) {
         Character.findOne({id: req.param('id')}).exec(function(err, result) {
             if (result.user != req.user.id) return res.forbidden("Vous n'êtes pas le propriétaire de ce personnage !");
-
             Character.destroy({id: result.id}).exec(function(err, result) {
+                /* istanbul ignore if */
+                if (err) return res.serverError(err);
                 return res.ok();
             });
         });

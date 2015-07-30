@@ -47,8 +47,7 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "test": "PORT=9999 NODE_ENV=test mocha -R spec -b --recursive -r should",
-    "coverage": "PORT=9999 NODE_ENV=test ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec -b --recursive -r should"
+    "test": "PORT=9999 NODE_ENV=test ./node_modules/istanbul/lib/cli.js cover -x '**/services/** **/responses/**' ./node_modules/mocha/bin/_mocha -- -R spec -b --recursive -r should"
   },
   "main": "app.js",
   "repository": {

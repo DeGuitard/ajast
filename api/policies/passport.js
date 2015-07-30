@@ -26,7 +26,7 @@ module.exports = function (req, res, next) {
     passport.initialize()(req, res, function () {
         // Use the built-in sessions
         passport.session()(req, res, function () {
-            if (process.env.NODE_ENV === 'test') {
+            if (process.env.NODE_ENV === 'test' && sails.config.mockLogin) {
                 req.session.passport.user = {id: 'test'};
                 req.user = {id: 'test'};
                 return next();

@@ -34,6 +34,7 @@ module.exports = {
                 Character.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(res);
 
             for (var i = 0; i < data.freeCompanies.length; i++) {

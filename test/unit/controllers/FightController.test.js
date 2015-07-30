@@ -7,6 +7,15 @@ describe('FightController', function() {
         it('should be successful', function (done) {
             request(sails.hooks.http.app).get('/fights').expect(200, done);
         });
+
+        it('should be successful even when not logged in', function (done) {
+            sails.config.mockLogin = false;
+            request(sails.hooks.http.app).get('/fights').end(function(err, res) {
+                res.statusCode.should.be.exactly(200);
+                sails.config.mockLogin = true;
+                done();
+            });
+        });
     });
 
     describe('#create()', function () {
