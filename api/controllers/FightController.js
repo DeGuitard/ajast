@@ -13,23 +13,21 @@ module.exports = {
         async.parallel(
             {
                 fights: function(callback) {
-                    Fight.find({}, {fields: { shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}}).sort('updatedAt DESC').limit(30).exec(function(err, result) {
-                        callback(null, result);
-                    });
+                    Fight.find({}, {fields: { shortid: 1, "time.hasStarted": 1, "time.isFinished": 1, "updatedAt": 1}}).sort('updatedAt DESC').limit(30).exec(callback);
                 },
                 myFights: function(callback) {
                     if (req.user) {
-                        Fight.find({mj: req.user.id, "time.hasStarted": false}, {fields: {shortid: 1}}).exec(function (err, result) {
-                            callback(null, result);
-                        });
+                        Fight.find({mj: req.user.id, "time.hasStarted": false}, {fields: {shortid: 1}}).exec(callback);
                     } else {
                         callback(null, []);
                     }
                 }
             },
             function(err, data) {
+                /* istanbul ignore if */
+                if (err) return res.serverError(err);
                 res.view({
-                    title: 'Liste des combats RP',
+                    title: 'titles.fight.list',
                     metaDesc: "Gérez vos combats Role Play (RP) avec fair play, simplicité et rapidité ; ou suivez en temps réel la progression d'un combat qui concerne votre personnage !",
                     fights: JSON.stringify(data.fights),
                     myFights: JSON.stringify(data.myFights)
@@ -73,20 +71,15 @@ module.exports = {
             archetypes: function(callback) {
                 // Native request to limit the fields, because Sails can't handle projection...
                 Archetype.native(function(err, Collection) {
-                    Collection.find({}, {desc: 0, _id: 0}).toArray(function(err, result) {
-                        if (err) callback(err);
-                        callback(null, result);
-                    });
+                    Collection.find({}, {desc: 0, _id: 0}).toArray(callback);
                 });
             },
             fight: function(callback) {
                 var query = {shortid: req.param("id")};
-                Fight.findOne(query).exec(function(err, result) {
-                    if (err) callback(err);
-                    callback(null, result);
-                })
+                Fight.findOne(query).exec(callback)
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!data.fight || !data.archetypes) return res.notFound();
             if (!req.user || data.fight.mj != req.user.id) {
@@ -113,10 +106,15 @@ module.exports = {
         var id = req.param("id"),
             self = this;
 
+        if (!id) return res.serverError('Corrupt data');
+
         Fight.findOne({id: id}).exec(function(err, result) {
-            if (result.mj != req.user.id) {
-                res.forbidden("Vous n'êtes pas le MJ de ce combat.");
-                return;
+            if (!result) {
+                return res.notFound('Combat introuvable.');
+            } else if (result.mj != req.user.id) {
+                return res.forbidden("Vous n'êtes pas le MJ de ce combat.");
+            } else if (result.time.isFinished) {
+                return res.forbidden('Ce combat est déjà fini.');
             }
 
             if (!result.time.hasStarted) {
@@ -141,10 +139,15 @@ module.exports = {
             action = req.param("action"),
             self = this;
 
+        if (!action || !id) return res.serverError('Corrupt data');
+
         Fight.findOne({id: id}).exec(function(err, result) {
-            if (result.mj != req.user.id) {
-                res.forbidden("Vous n'êtes pas le MJ de ce combat.");
-                return;
+            if (!result) {
+                return res.notFound('Combat introuvable.');
+            } else if (result.mj != req.user.id) {
+                return res.forbidden("Vous n'êtes pas le MJ de ce combat.");
+            } else if (result.time.isFinished) {
+                return res.forbidden('Ce combat est déjà fini.')
             }
 
             // Initializes the new actions & rolls.
@@ -174,15 +177,16 @@ module.exports = {
             data = req.param("data"),
             self = this;
 
+        if (!id || !data) return res.serverError();
+
         Fight.findOne({id: id}).exec(function(err, result) {
             if (result.mj != req.user.id) {
-                res.forbidden("Vous n'êtes pas le MJ de ce combat.");
-                return;
+                return res.forbidden("Vous n'êtes pas le MJ de ce combat.");
             }
 
             Fight.update({id: id}, data).exec(function(err, result) {
                 Fight.publishUpdate(result[0].id, {fight: result[0], action: 'save'});
-                res.status(200).send();
+                return res.ok();
             });
         });
     },
@@ -213,6 +217,7 @@ module.exports = {
     apiGet: function(req, res) {
         var id = req.param('id');
         Fight.findOne({id: id}).exec(function(err, fight) {
+            /* istanbul ignore if */
             if (err) return res.serverError(err);
             if (!fight) return res.notFound();
             if (req.socket) Fight.subscribe(req.socket, fight, ['update']);
@@ -272,19 +277,19 @@ module.exports = {
         }
 
         var mainArchetype = 'SCH';
-        if (archetype['SMN'] > archetype[mainArchetype]) mainArchetype = 'SMN';
-        if (archetype['NIN'] > archetype[mainArchetype]) mainArchetype = 'NIN';
-        if (archetype['MNK'] > archetype[mainArchetype]) mainArchetype = 'MNK';
-        if (archetype['DRG'] > archetype[mainArchetype]) mainArchetype = 'DRG';
-        if (archetype['BRD'] > archetype[mainArchetype]) mainArchetype = 'BRD';
-        if (archetype['MCN'] > archetype[mainArchetype]) mainArchetype = 'MCN';
-        if (archetype['PLD'] > archetype[mainArchetype]) mainArchetype = 'PLD';
-        if (archetype['DRK'] > archetype[mainArchetype]) mainArchetype = 'DRK';
-        if (archetype['WAR'] > archetype[mainArchetype]) mainArchetype = 'WAR';
-        if (archetype['WHM'] > archetype[mainArchetype]) mainArchetype = 'WHM';
-        if (archetype['AST'] > archetype[mainArchetype]) mainArchetype = 'AST';
-        if (archetype['BLM'] > archetype[mainArchetype]) mainArchetype = 'BLM';
-        if (archetype['PNJ'] > archetype[mainArchetype]) mainArchetype = 'PNJ';
+        if (archetype['SMN'] > archetype[mainArchetype]) { mainArchetype = 'SMN'; }
+        if (archetype['NIN'] > archetype[mainArchetype]) { mainArchetype = 'NIN'; }
+        if (archetype['MNK'] > archetype[mainArchetype]) { mainArchetype = 'MNK'; }
+        if (archetype['DRG'] > archetype[mainArchetype]) { mainArchetype = 'DRG'; }
+        if (archetype['BRD'] > archetype[mainArchetype]) { mainArchetype = 'BRD'; }
+        if (archetype['MCN'] > archetype[mainArchetype]) { mainArchetype = 'MCN'; }
+        if (archetype['PLD'] > archetype[mainArchetype]) { mainArchetype = 'PLD'; }
+        if (archetype['DRK'] > archetype[mainArchetype]) { mainArchetype = 'DRK'; }
+        if (archetype['WAR'] > archetype[mainArchetype]) { mainArchetype = 'WAR'; }
+        if (archetype['WHM'] > archetype[mainArchetype]) { mainArchetype = 'WHM'; }
+        if (archetype['AST'] > archetype[mainArchetype]) { mainArchetype = 'AST'; }
+        if (archetype['BLM'] > archetype[mainArchetype]) { mainArchetype = 'BLM'; }
+        if (archetype['PNJ'] > archetype[mainArchetype]) { mainArchetype = 'PNJ'; }
 
         Math.log10 = Math.log10 || function(x) {
             return Math.log(x) / Math.LN10;

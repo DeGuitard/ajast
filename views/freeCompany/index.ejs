@@ -1,7 +1,7 @@
 <% if (req.isAuthenticated()) { %>
-    <div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>, <%= servers %>, <%= JSON.stringify(req.user.id) %>)" flex>
+    <div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>, <%= servers %>, <%= JSON.stringify(req.user.id) %>); datacenters = <%= datacenters %>" flex>
 <% } else { %>
-    <div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>, <%= servers %>)" flex>
+    <div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>, <%= servers %>); datacenters = <%= datacenters %>" flex>
 <% } %>
 
     <div layout="row" layout-margin>
@@ -16,8 +16,10 @@
                 </md-input-container>
                 <md-input-container class="md-accent">
                     <label>{{ 'fc.labels.search.server' | translate }}</label>
-                    <md-select ng-model="search.server" placeholder="Recherche par serveur" style="margin-top: 1.3em;" flex required>
-                        <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                    <md-select ng-model="search.server" style="margin-top: 1.3em;" flex required>
+                        <md-optgroup label="{{datacenter | translate}}" ng-repeat="datacenter in datacenters | orderBy:'toString()'">
+                            <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                        </md-optgroup>
                     </md-select>
                 </md-input-container>
             </md-content>

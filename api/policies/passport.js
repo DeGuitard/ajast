@@ -22,14 +22,19 @@
  * @param {Function} next
  */
 module.exports = function (req, res, next) {
-  // Initialize Passport
-  passport.initialize()(req, res, function () {
-    // Use the built-in sessions
-    passport.session()(req, res, function () {
-      // Make the user available throughout the frontend
-      res.locals.user = req.user;
+    // Initialize Passport
+    passport.initialize()(req, res, function () {
+        // Use the built-in sessions
+        passport.session()(req, res, function () {
+            if (process.env.NODE_ENV === 'test' && sails.config.mockLogin) {
+                req.session.passport.user = {id: 'test'};
+                req.user = {id: 'test'};
+                return next();
+            }
+            // Make the user available throughout the frontend
+            res.locals.user = req.user;
 
-      next();
+            next();
+        });
     });
-  });
 };

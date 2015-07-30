@@ -1,3 +1,4 @@
+<% if (req.cookies.lang) { req.setLocale(req.cookies.lang); } %>
 <!DOCTYPE html>
 <html ng-app="ajast" ng-cloak>
 <head>
@@ -13,10 +14,10 @@
     <meta name="language" content="fr-FR" />
     <meta name="description" content="<%= typeof metaDesc == 'undefined' ? '' : '' %>">
     <!--STYLES-->
-    <link rel="stylesheet" href="/min/v0.0.2b.min.css">
+    <link rel="stylesheet" href="/min/v0.0.2c.min.css">
     <!--STYLES END-->
     <!--SCRIPTS-->
-    <script src="/min/v0.0.2b.min.js"></script>
+    <script src="/min/v0.0.2c.min.js"></script>
     <!--SCRIPTS END-->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
@@ -79,7 +80,11 @@
 <!--TEMPLATES END-->
 <script type="text/javascript">
     app.config(['$translateProvider', function ($translateProvider) {
-        $translateProvider.preferredLanguage('<%= req.getLocale() %>');
+        <% if (req.cookies.lang) { %>
+            $translateProvider.preferredLanguage('<%= req.cookies.lang %>');
+        <% } else { %>
+            $translateProvider.preferredLanguage('<%= req.getLocale() %>');
+        <% } %>
     }]);
 </script>
 </body>

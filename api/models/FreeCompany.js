@@ -30,7 +30,7 @@ module.exports = {
         characters = characters.concat(members);
 
         if (characters.length == 0) callback(null, 0);
-        else if (characters[0].user) {
+        else {
             // We have the actual objects, so we just need to count distinct users.
             for (var i = 0; i < characters.length; i++) {
                 if (users.indexOf(characters[i].user) == -1 && !characters[i].isInvited) {
@@ -38,17 +38,6 @@ module.exports = {
                 }
             }
             callback(null, users.length);
-        } else {
-            // We only have IDs, so we need to query the database to get the whole objects.
-            // Then we count the distinct users.
-            Character.find().where({id: characters}).exec(function (err, results) {
-                for (var i = 0; i < results.length; i++) {
-                    if (users.indexOf(results[i].user) == -1 && !results[i].isInvited) {
-                        users.push(results[i].user);
-                    }
-                }
-                callback(null, users.length);
-            });
         }
     },
 
@@ -57,7 +46,7 @@ module.exports = {
         if (founders.length == 0) {
             // We won't unset the users list, to prevent the company from being un-editable.
             callback(null, users);
-        } else if (founders[0].user) {
+        } else {
             // We have actual objets, so we get the distinct users.
             for (var i = 0; i < founders.length; i++) {
                 if (users.indexOf(founders[i].user) == -1) {
@@ -65,17 +54,6 @@ module.exports = {
                 }
             }
             callback(null, users);
-        } else {
-            // We only have IDs, so we need to query the dabatase to get the whole objects.
-            // Then we get the distinct users.
-            Character.find().where({id: founders}).exec(function (err, results) {
-                for (var i = 0; i < results.length; i++) {
-                    if (users.indexOf(results[i].user) == -1) {
-                        users.push(results[i].user);
-                    }
-                }
-                callback(null, users);
-            });
         }
     },
 
@@ -93,6 +71,7 @@ module.exports = {
                 }
             }, function(err, data) {
                 FreeCompany.update({id: id}, {users: data.users, realPlayersCount: data.playersCount}).exec(function(err, result) {
+                    /* istanbul ignore if */
                     if (err && cb) return cb(err);
                     else if (cb) return cb(null, data.playersCount);
                 });

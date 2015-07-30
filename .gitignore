@@ -122,5 +122,5 @@ nbproject
 uploads
 assets/images/avatars
 config/env/development.js
-
 config/env/production.js
+coverage/

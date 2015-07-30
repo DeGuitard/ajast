@@ -34,6 +34,7 @@ module.exports = {
                 Character.find().exec(callback);
             }
         }, function(err, data) {
+            /* istanbul ignore if */
             if (err) return res.serverError(res);
 
             for (var i = 0; i < data.freeCompanies.length; i++) {
@@ -48,5 +49,11 @@ module.exports = {
             res.set('Content-Type', 'text/xml');
             return res.send(map);
         });
+    },
+
+    lang: function(req, res) {
+        var lang = req.param('lang');
+        res.cookie('lang', lang);
+        return res.redirect('/');
     }
 };

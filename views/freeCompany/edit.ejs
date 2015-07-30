@@ -1,4 +1,4 @@
-<div ng-controller="FreeCompanyCtrl" ng-init="initEditMode(<%= freeCompany %>); servers = <%= servers %>" flex flow-init="{target: '/upload/fcicon', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+<div ng-controller="FreeCompanyCtrl" ng-init="initEditMode(<%= freeCompany %>); servers = <%= servers %>; datacenters = <%= datacenters %>" flex flow-init="{target: '/upload/fcicon', testChunks: false}" flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
     <form name="form">
         <div layout="row" layout-margin layout-align="center center">
             <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
@@ -21,7 +21,9 @@
                         <md-input-container flex-gt-sm="25">
                             <label>{{ 'fc.labels.server' | translate }}</label>
                             <md-select ng-model="freeCompany.server" placeholder="Serveur" style="margin-top: 1.3em;" flex required>
-                                <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                                <md-optgroup label="{{datacenter | translate}}" ng-repeat="datacenter in datacenters | orderBy:'toString()'">
+                                    <md-option ng-value="server.name" ng-repeat="server in servers | orderBy:'name' track by server.id">{{server.name}}</md-option>
+                                </md-optgroup>
                             </md-select>
                         </md-input-container>
                         <md-input-container flex>

@@ -32,18 +32,13 @@ var AuthController = {
      */
     login: function (req, res) {
         if (req.isAuthenticated()) {
-            res.redirect('/logout');
-            return;
+            return res.redirect('/logout');
         }
         var strategies = sails.config.passport
             , providers  = {};
 
         // Get a list of available providers for use in your templates.
         Object.keys(strategies).forEach(function (key) {
-            if (key === 'local') {
-                return;
-            }
-
             providers[key] = {
                 name: strategies[key].name
                 , slug: key
@@ -76,27 +71,6 @@ var AuthController = {
     logout: function (req, res) {
         req.logout();
         res.redirect('/');
-    },
-
-    /**
-     * Render the registration page
-     *
-     * Just like the login form, the registration form is just simple HTML:
-     *
-     <form role="form" action="/auth/local/register" method="post">
-     <input type="text" name="username" placeholder="Username">
-     <input type="text" name="email" placeholder="Email">
-     <input type="password" name="password" placeholder="Password">
-     <button type="submit">Sign up</button>
-     </form>
-     *
-     * @param {Object} req
-     * @param {Object} res
-     */
-    register: function (req, res) {
-        res.view({
-            errors: req.flash('error')
-        });
     },
 
     /**

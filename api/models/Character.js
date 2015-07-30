@@ -24,6 +24,8 @@ module.exports = {
         isInvited: { type: 'boolean' },
         moral: { type: 'integer', required: true },
         ethics: { type: 'integer', required: true },
+        language: { type: 'string', required: true, size: 2},
+        server: { type: 'string', required: true, size: 24},
 
         race: { model: 'race', required: true },
         god: { model: 'god', required: true },

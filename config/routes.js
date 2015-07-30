@@ -47,8 +47,6 @@ module.exports.routes = {
     /** Auth routes **/
     'get /login': 'AuthController.login',
     'get /logout': 'AuthController.logout',
-    'post /auth/local': 'AuthController.callback',
-    'post /auth/local/:action': 'AuthController.callback',
     'get /auth/:provider': 'AuthController.provider',
     'get /auth/:provider/callback': 'AuthController.callback',
     'get /auth/:provider/:action': 'AuthController.callback',
@@ -93,6 +91,9 @@ module.exports.routes = {
     'get /notifications': 'NotificationController.list',
     'get /notification/:id/accept': 'NotificationController.accept',
     'get /notification/:id/decline': 'NotificationController.decline',
+
+    /** Internationalisation */
+    'get /lang/:lang': 'PageController.lang',
 
     /** French SEO **/
     'get /personnages': 'CharacterController.list',

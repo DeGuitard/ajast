@@ -20,6 +20,7 @@ module.exports = {
 
     _upload: function (req, res, folder) {
         req.file('file').upload({dirname: folder}, function (err, uploadedFiles) {
+            /* istanbul ignore if */
             if (err) return res.send(500, err);
             return res.json({
                 success: true,

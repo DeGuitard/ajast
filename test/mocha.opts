@@ -1,1 +1,1 @@
--R spec -b --recursive
+-R spec -b --recursive -r should

@@ -3,6 +3,7 @@ var Sails = require('sails'),
     sails;
 
 before(function(done) {
+    this.timeout(10000);
     Sails.lift({
         // configuration for testing purposes
         models: {
@@ -12,6 +13,9 @@ before(function(done) {
     }, function(err, server) {
         sails = server;
         if (err) return done(err);
+
+        // By default, a user will be considered as logged in.
+        sails.config.mockLogin = true;
 
         // Load fixtures
         var barrels = new Barrels();
@@ -24,6 +28,5 @@ before(function(done) {
 });
 
 after(function(done) {
-    // here you can clear fixtures, etc.
     sails.lower(done);
 });
