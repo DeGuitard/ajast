@@ -52,7 +52,7 @@ module.exports.routes = {
     'get /auth/:provider/:action': 'AuthController.callback',
 
     /** Character routes **/
-    'get /character/find/:term': 'CharacterController.search',
+    'post /api/character/find': 'CharacterController.find',
     'get /characters': 'CharacterController.list',
     'get /character/new': 'CharacterController.new',
     'get /character/show/:name': 'CharacterController.show',

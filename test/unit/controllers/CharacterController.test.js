@@ -1,4 +1,5 @@
-var request = require('supertest');
+var request = require('supertest'),
+    should = require('should');
 
 describe('CharacterController', function() {
 
@@ -103,21 +104,43 @@ describe('CharacterController', function() {
         });
     });
 
-    describe('#search()', function() {
-        it('should be successful', function(done) {
+    describe('#find()', function() {
+        it('should successfuly find one character', function(done) {
             Character.find().limit(1).exec(function (err, results) {
-                if (err) return done(err);
-                var char = results[0],
-                    expectation = {
-                        trigram: char.trigram, fullName: char.fullName, fightType: char.fightType,
-                        archetypes: char.archetypes, _id: char.id
-                    };
-                request(sails.hooks.http.app).get('/character/find/' + char.fullName.substring(1,4)).expect([expectation], done);
+                var char = results[0];
+                request(sails.hooks.http.app).post('/api/character/find/').send({term: char.fullName.substring(1,4)}).end(function(err, res) {
+                    res.statusCode.should.be.exactly(200);
+                    res.body[0].firstName.should.be.eql(char.firstName);
+                    res.body[0].lastName.should.be.eql(char.lastName);
+                    res.body[0].fullName.should.be.eql(char.fullName);
+                    res.body[0].avatar.should.be.eql(char.avatar);
+                    res.body[0].fightType.should.be.eql(char.fightType);
+                    res.body[0].archetypes.should.be.eql(char.archetypes);
+                    res.body[0].user.should.be.eql(char.user);
+                    res.body[0].server.should.be.eql(char.server);
+                    res.body[0].updatedAt.should.startWith('2015');
+                    res.body[0].id.should.be.eql(char.id);
+                    should.not.exist(res.body[0].race);
+                    should.not.exist(res.body[0].tribe);
+                    done();
+                });
             });
         });
 
         it('should not find nonexistent characters', function(done) {
-            request(sails.hooks.http.app).get('/character/find/napoleon').expect([], done);
+            request(sails.hooks.http.app).post('/api/character/find/').send({term: 'napoleon'}).expect([], done);
+        });
+
+        it('should return all characters if there is no criteria', function(done) {
+            request(sails.hooks.http.app).post('/api/character/find/').end(function(err, res) {
+                res.statusCode.should.be.exactly(200);
+                res.body.length.should.be.above(0);
+                done();
+            });
+        });
+
+        it('should not find anything if offset is too high', function(done) {
+            request(sails.hooks.http.app).post('/api/character/find/').send({offset: 400}).expect([], done);
         });
     });
 

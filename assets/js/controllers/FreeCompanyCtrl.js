@@ -62,10 +62,12 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         for (var i = 0; i < allMembers.length; i++) {
             if (allMembers[i].id) excludeIds.push(allMembers[i].id);
         }
+        console.log('findchar');
         return charactersService.find(term, excludeIds);
     };
 
     $scope.addMember = function() {
+        console.log('addmember');
         if (!$scope.newMember || !$scope.newMember.id) return;
         var isFounder = $scope.membersTab.selectedIndex == 0;
 

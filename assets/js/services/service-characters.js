@@ -5,9 +5,8 @@ function CharactersService($http) {
 
     this.find = function (term, excludeIds) {
         if (!excludeIds) excludeIds = [];
-        return $http.get('/character/find/' + term).then(function (response) {
+        return $http.post('/api/character/find/', {term: term}).then(function (response) {
             return response.data.filter(function(item) {
-                item.id = item._id;
                 return excludeIds.indexOf(item.id) == -1;
             });
         });

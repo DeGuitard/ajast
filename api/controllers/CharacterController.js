@@ -6,15 +6,21 @@
  */
 
 module.exports = {
-    search: function(req, res) {
-        var term = ".*" + req.param('term') + ".*";
-        // Native request to limit the fields... because Sails can't handle projection...
-        Character.native(function(err, Collection) {
-            Collection.find({
-                fullName: {$regex: term, $options: 'i'}
-            }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 1}).toArray(function(err, result) {
-                res.send(result);
-            });
+    find: function(req, res) {
+        var query = {},
+            offset = req.param('offset', 0);
+
+        if (req.param('term')) query.fullName = {contains: req.param('term')};
+
+        Character.find(query, {
+            fields: {
+                fullName: 1, firstName: 1, lastName: 1, trigram: 1, avatar: 1,
+                fightType:1, archetypes: 1, user: 1, server: 1, updatedAt: 1, _id: 1
+            }
+        }).skip(offset).limit(15).exec(function(err, result) {
+            /* istanbul ignore if */
+            if (err) return res.serverError(err);
+            res.send(result);
         });
     },
 
