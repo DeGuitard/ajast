@@ -47,7 +47,7 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "test": "PORT=9999 NODE_ENV=test ./node_modules/istanbul/lib/cli.js cover -x '**/services/** **/responses/**' ./node_modules/mocha/bin/_mocha -- 'test/unit/backend/**/*.js' -R spec -b --recursive -r should && karma start"
+    "test": "PORT=9999 NODE_ENV=test ./node_modules/istanbul/lib/cli.js cover -x '**/services/** **/responses/**' ./node_modules/mocha/bin/_mocha -- 'test/unit/backend/**/*.js' -R spec -b --recursive -r should && karma start karma.conf.js"
   },
   "main": "app.js",
   "repository": {
