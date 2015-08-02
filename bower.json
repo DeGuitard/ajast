@@ -21,5 +21,8 @@
         "ngInfiniteScroll": "1.0.0",
         "ng-flow": "~2",
         "vis": "~3.11.0"
+    },
+    "resolutions": {
+        "angular": "~1.4.3"
     }
 }
