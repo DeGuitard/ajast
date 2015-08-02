@@ -9,6 +9,7 @@ addons:
 before_script:
   - sleep 15
   - mongo ajast-test --eval 'db.addUser("test", "test");'
+  - bower install
 after_success:
   - npm install codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
