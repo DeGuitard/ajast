@@ -102,11 +102,11 @@
                         <input ng-model="(character.birthPlace.name | translate) + ', ' + (character.birthPlace.region | translate)" ng-readonly="true">
                     </md-input-container>
                 </div>
-                <md-input-container>
+                <md-input-container ng-if="character.moral && character.ethics">
                     <label>{{ 'characters.labels.align' | translate }}</label>
                     <input ng-model="getAlignment(character)" ng-readonly="true">
                 </md-input-container>
-                <div layout="row" layout-sm="column">
+                <div layout="row" layout-sm="column" ng-if="character.moral && character.ethics">
                     <div flex="10" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.bad.desc' | translate}}</md-tooltip>{{'characters.labels.align.bad' | translate}}</span>
                     </div>
@@ -115,7 +115,7 @@
                         <span><md-tooltip>{{'characters.labels.align.good.desc' | translate}}</md-tooltip>{{'characters.labels.align.good' | translate}}</span>
                     </div>
                 </div>
-                <div layout="row" layout-sm="column">
+                <div layout="row" layout-sm="column" ng-if="character.moral && character.ethics">
                     <div flex="10" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.chaotic.desc' | translate}}</md-tooltip>{{'characters.labels.align.chaotic' | translate}}</span>
                     </div>
