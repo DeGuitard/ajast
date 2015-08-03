@@ -28,6 +28,8 @@ describe('CharacterCtrl', function() {
             scope.getAlignment({ethics: 80, moral: 70}).should.be.eql('Lawful good');
             scope.getAlignment({ethics: 80, moral: 20}).should.be.eql('Lawful bad');
             scope.getAlignment({ethics: 80, moral: 40}).should.be.eql('Lawful neutral');
+            scope.getAlignment({ethics: 40, moral: 0}).should.be.eql('Neutral bad');
+            scope.getAlignment({ethics: 40, moral: 80}).should.be.eql('Neutral good');
         });
 
         it('should detect and return special alignments', function() {
@@ -41,6 +43,38 @@ describe('CharacterCtrl', function() {
 
         it('should return the nothing without valid arguments', function() {
             scope.getAlignment({}).should.be.eql('');
+        });
+    });
+
+    describe('#raceChange()', function() {
+        it('should reset character\'s tribe on race change and keep age if it is lower than the new lifespan', function() {
+            scope.character = {tribe: 'Test', race: {lifespan: 150}, age: 20};
+            scope.raceChange();
+            scope.character.should.be.eql({tribe: undefined, race: {lifespan: 150}, age: 20});
+        });
+
+        it('should reset character\'s tribe on race change and change age if it is higher than the new lifespan', function() {
+            scope.character = {tribe: 'Test', race: {lifespan: 60}, age: 80};
+            scope.raceChange();
+            scope.character.should.be.eql({tribe: undefined, race: {lifespan: 60}, age: 60});
+        });
+    });
+
+
+    describe('#initRaces()', function() {
+        var races = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+        it('should load the races and find the character\'s race', function() {
+            scope.character = {race: 3};
+            scope.initRaces(races);
+            scope.character.race.id.should.be.eql(3);
+            scope.races.should.be.eql(races);
+        });
+
+        it('should load the races and set a default race', function() {
+            scope.character = {};
+            scope.initRaces(races);
+            scope.character.race.id.should.be.eql(1);
+            scope.races.should.be.eql(races);
         });
     });
 
