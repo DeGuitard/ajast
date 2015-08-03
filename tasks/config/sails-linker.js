@@ -22,9 +22,9 @@ module.exports = function(grunt) {
 				appRoot: '.tmp/public'
 			},
 			files: {
-				'.tmp/public/**/*.html': require('../pipeline').jsFilesToInject,
-				'views/**/*.html': require('../pipeline').jsFilesToInject,
-				'views/**/*.ejs': require('../pipeline').jsFilesToInject
+                '.tmp/public/**/*.html': ['.tmp/public/concat/production.js'],
+                'views/**/*.html': ['.tmp/public/concat/production.js'],
+                'views/**/*.ejs': ['.tmp/public/concat/production.js']
 			}
 		},
 
@@ -81,9 +81,9 @@ module.exports = function(grunt) {
 			},
 
 			files: {
-				'.tmp/public/**/*.html': require('../pipeline').cssFilesToInject,
-				'views/**/*.html': require('../pipeline').cssFilesToInject,
-				'views/**/*.ejs': require('../pipeline').cssFilesToInject
+                '.tmp/public/index.html': ['.tmp/public/concat/production.css'],
+                'views/**/*.html': ['.tmp/public/concat/production.css'],
+                'views/**/*.ejs': ['.tmp/public/concat/production.css']
 			}
 		},
 
