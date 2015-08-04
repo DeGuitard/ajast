@@ -76,6 +76,11 @@ module.exports.routes = {
     'get /api/roll': 'RollController.apiList',
     'post /api/roll': 'RollController.apiNew',
 
+    /** Chat routes **/
+    'get /chat': 'ChatController.index',
+    'get /api/chat': 'ChatController.apiList',
+    'post /api/chat': 'ChatController.apiNew',
+
     /** Free companies routes **/
     'get /free-company/find/:term': 'FreeCompanyController.search',
     'get /free-companies': 'FreeCompanyController.list',

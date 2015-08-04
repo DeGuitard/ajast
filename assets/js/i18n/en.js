@@ -241,6 +241,14 @@ app.config(['$translateProvider', function ($translateProvider) {
         'rolls.roll.desc': 'Action\'s description',
         'rolls.buttons.roll': 'Roll',
 
+        // Chats page
+        'chat.titles.page': 'Chat',
+        'chat.titles.main': 'Chat',
+        'chat.labels.character': 'Pseudonym',
+        'chat.labels.text': 'Text',
+        'chat.labels.anonymous': 'Anonymous',
+        'chat.buttons.send': 'Send',
+
         // Log in page
         'login.titles.login': 'Log in',
         'login.labels.with': 'With',

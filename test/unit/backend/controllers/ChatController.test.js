@@ -22,14 +22,13 @@ describe('ChatController', function() {
         });
 
         it('should return one result', function (done) {
-            var msg = {username: 'Severus Snape', txt: 'Expelliarmus', date: Date.now()};
+            var msg = {username: 'Severus Snape', text: 'Expelliarmus', avatar: 'default.png'};
             ChatMsg.create(msg).exec(function(err, result) {
                 request(sails.hooks.http.app).get('/api/chat').expect(200).end(function(err, res) {
-                    if (err) done(err);
                     res.body.length.should.be.eql(1);
-                    res.body[0].action.should.be.exactly(msg.username);
-                    res.body[0].txt.should.be.exactly(msg.txt);
-                    res.body[0].date.should.startWith('2015');
+                    res.body[0].username.should.be.exactly(msg.username);
+                    res.body[0].text.should.be.exactly(msg.text);
+                    res.body[0].createdAt.should.startWith('2015');
                     done();
                 });
             });
@@ -37,15 +36,28 @@ describe('ChatController', function() {
     });
 
     describe('#apiSend()', function () {
+        var character = {
+                firstName: 'Test', lastName: 'Test', trigram: 'TES', sex: 'F', archetypes: {BLM: 5},
+                crafts: {}, harvesters: {}, fightType: 'offense', avatar: 'default.png', tribe: 'test',
+                moral: 20, ethics: 40, language: 'en', server: 'Moogle',
+                race: {name: 'test', lifespan: 10, tribes: ['test']}, god: {name: 'test', desc: 'test', element: 'test'},
+                birthPlace: {name: 'test', region: 'test'}, user: {}
+        };
+
         it('should save the message in database', function (done) {
-            var msg = {character: 'test', text: 'Wingardium leviosaaaa'};
-            Character.create({id: msg.character, fullName: 'Harry Potter', user: 'test'}).exec(function(err, result) {
-                request(sails.hooks.http.app).post('/api/chat').send(msg).end(function() {
+            var msg = {text: 'Wingardium leviosaaaa'};
+            character.fullName = 'Harry Potter';
+            character.user = 'test';
+            character.avatar = 'harry-potter.jpg';
+            Character.create(character).exec(function(err, result) {
+                msg.character = result.id;
+                request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
                     res.statusCode.should.be.exactly(200);
                     ChatMsg.findOne({text: msg.text}).exec(function(err, result) {
                         should.exist(result);
                         result.username.should.be.eql('Harry Potter');
-                        result.date.indexOf('2015').should.not.be.eql(-1);
+                        result.avatar.should.be.eql('harry-potter.jpg');
+                        should.exist(result.createdAt);
                         done();
                     });
                 });
@@ -54,11 +66,12 @@ describe('ChatController', function() {
 
         it('should set a default username if none is supplied', function (done) {
             var msg = {text: 'Avada Kedavra'};
-            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function() {
+            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
                 res.statusCode.should.be.exactly(200);
                 ChatMsg.findOne({text: msg.text}).exec(function(err, result) {
                     should.exist(result);
-                    result.username.should.be.eql('chat.label.anonymous');
+                    result.username.should.be.eql('chat.labels.anonymous');
+                    result.avatar.should.be.eql('default.png');
                     done();
                 });
             });
@@ -66,33 +79,34 @@ describe('ChatController', function() {
 
         it('should set a default username if the specified character does not exist', function (done) {
             var msg = {character: 'doesnotexist', text: 'Lumos'};
-            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function() {
+            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
                 res.statusCode.should.be.exactly(200);
                 ChatMsg.findOne({text: msg.text}).exec(function(err, result) {
                     should.exist(result);
-                    result.username.should.be.eql('chat.label.anonymous');
+                    result.username.should.be.eql('chat.labels.anonymous');
+                    result.avatar.should.be.eql('default.png');
                     done();
                 });
             });
         });
 
         it('should set a default username if the specified character does not belong to the user', function (done) {
-            var msg = {character: 'someoneelse', text: 'Crucio'};
-            Character.create({id: msg.character, fullName: 'Bellatrix Lestrange', user: 'someone'}).exec(function(err, result) {
-                request(sails.hooks.http.app).post('/api/chat').send(msg).end(function () {
-                    res.statusCode.should.be.exactly(200);
-                    ChatMsg.findOne({text: msg.text}).exec(function (err, result) {
-                        res.statusCode.should.be.exactly(403);
-                        res.error.text.should.be.exactly('chat.notices.notYourCharacter');
-                        done();
-                    });
+            var msg = {text: 'Crucio'};
+            character.fullName = 'Bellatrix Lestrange';
+            character.user = 'someone';
+            Character.create(character).exec(function(err, result) {
+                msg.character = result.id;
+                request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
+                    res.statusCode.should.be.exactly(403);
+                    res.error.text.should.be.exactly('chat.notices.notYourCharacter');
+                    done();
                 });
             });
         });
 
         it('should detect missing fields', function (done) {
             var msg = {};
-            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function() {
+            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
                 res.statusCode.should.be.exactly(500);
                 res.error.text.should.be.exactly('chat.notices.missingFields');
                 done();
