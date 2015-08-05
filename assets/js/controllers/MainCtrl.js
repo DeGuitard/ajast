@@ -3,7 +3,8 @@ app.controller('MainCtrl', ['$scope', '$mdSidenav', 'notificationsService', func
         {url: '/combats', text: 'menu.link.fights'},
         {url: '/des', text: 'menu.link.rolls'},
         {url: '/personnages', text: 'menu.link.characters'},
-        {url: '/compagnies-libres', text: 'menu.link.freeCompanies'}
+        {url: '/compagnies-libres', text: 'menu.link.freeCompanies'},
+        {url: '/chat', text: 'menu.link.chat'},
     ];
     $scope.contextualLinks = {};
     $scope.openMenu = function() { if (!$scope.noMenu) $mdSidenav('menu').open(); };

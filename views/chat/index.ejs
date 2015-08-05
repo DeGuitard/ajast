@@ -9,10 +9,9 @@
                 <form name="form">
                     <div layout="row" layout-sm="column">
                         <md-input-container flex-gt-sm="15">
-                            <label>{{ 'chat.labels.character' | translate }}</label>
                             <md-select ng-model="newMsg.character" flex-gt-sm="25" style="margin-top: 20px;">
                                 <md-option ng-value="">{{ 'chat.labels.anonymous' | translate }}</md-option>
-                                <md-option ng-value="character.id" ng-repeat="character in characters | orderBy:'fullName' track by character.id">{{character.fullName}}</md-option>
+                                <md-option ng-value="character.id" ng-repeat="character in characters | orderBy:'fullName' track by character.id">{{character.fullName | translate}}</md-option>
                             </md-select>
                         </md-input-container>
                         <md-input-container flex>
@@ -28,14 +27,21 @@
                     </div>
                 </form>
                 <md-list>
-                    <md-list-item class="md-2-line" ng-repeat="msg in messages | orderBy:'-createdAt'">
+                    <md-list-item class="md-2-line height-transition" ng-repeat="msg in messages | orderBy:'-createdAt'">
                         <img ng-src="/images/avatars/{{msg.avatar}}" class="md-avatar" alt="{{msg.username}}" />
                         <div class="md-list-item-text">
                             <h3>{{msg.username | translate}}</h3>
-                            <p>{{msg.text}}</p>
+                            <p style="text-align: justify" layout="row">
+                                <span flex-gt-sm="90">{{msg.text}}</span>
+                                <span hide-sm flex-gt-sm="10" style="float: right; padding-left: 20px;">{{formatDate(msg.createdAt)}}</span>
+                            </p>
                         </div>
                     </md-item>
                 </md-list>
+                <div layout="column" layout-align="center center">
+                    <md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+                    <md-button class="md-accent" flex ng-click="loadMore()" ng-hide="loading">{{'chat.buttons.loadMore' | translate}}</md-button>
+                </div>
             </md-content>
         </md-whiteframe>
     </div>

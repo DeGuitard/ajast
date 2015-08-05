@@ -118,7 +118,7 @@ describe('CharacterCtrl', function() {
         });
     });
 
-        describe('#save()', function() {
+    describe('#save()', function() {
         it('should save the character', function() {
             var expectation = {character: {timeline: [], race: 123} };
             scope.character = { getTimeline: function() { return []; }, race: {id: 123} };

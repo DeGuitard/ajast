@@ -23,6 +23,7 @@ var cssFilesToInject = [
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
 
+    'js/dependencies/dist/jquery.js',
     'js/dependencies/angular.js',
 
     // Dependencies like jQuery, or Angular are brought in here

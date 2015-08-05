@@ -5,6 +5,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'menu.link.rolls': 'Rolls',
         'menu.link.characters': 'Characters',
         'menu.link.freeCompanies': 'Free companies',
+        'menu.link.chat': 'Talk',
         'menu.link.login': 'Log in',
         'menu.link.logout': 'Log out',
         'menu.mainTitle': 'Browse',
@@ -243,11 +244,13 @@ app.config(['$translateProvider', function ($translateProvider) {
 
         // Chats page
         'chat.titles.page': 'Chat',
-        'chat.titles.main': 'Chat',
+        'chat.titles.main': 'Talk',
         'chat.labels.character': 'Pseudonym',
         'chat.labels.text': 'Text',
         'chat.labels.anonymous': 'Anonymous',
+        'chat.labels.admin': 'Administrator',
         'chat.buttons.send': 'Send',
+        'chat.buttons.loadMore': 'Show more',
 
         // Log in page
         'login.titles.login': 'Log in',

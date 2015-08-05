@@ -80,6 +80,7 @@ module.exports.routes = {
     'get /chat': 'ChatController.index',
     'get /api/chat': 'ChatController.apiList',
     'post /api/chat': 'ChatController.apiNew',
+    'post /api/chat/next': 'ChatController.apiNext',
 
     /** Free companies routes **/
     'get /free-company/find/:term': 'FreeCompanyController.search',

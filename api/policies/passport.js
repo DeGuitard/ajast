@@ -29,6 +29,7 @@ module.exports = function (req, res, next) {
             if (process.env.NODE_ENV === 'test' && sails.config.mockLogin) {
                 req.session.passport.user = {id: 'test'};
                 req.user = {id: 'test'};
+                if (sails.config.mockAdmin) req.user.isAdmin = true;
                 return next();
             }
             // Make the user available throughout the frontend

@@ -15,7 +15,6 @@ describe('ChatController', function() {
         });
     });
 
-
     describe('#apiList()', function () {
         it('should return zero result', function (done) {
             request(sails.hooks.http.app).get('/api/chat').expect([], done);
@@ -31,6 +30,19 @@ describe('ChatController', function() {
                     res.body[0].createdAt.should.startWith('2015');
                     done();
                 });
+            });
+        });
+    });
+
+    describe('#apiNext()', function () {
+        it('should return zero result if offset is too high', function (done) {
+            request(sails.hooks.http.app).post('/api/chat/next').send({offset: 200}).expect([], done);
+        });
+
+        it('should return the first results if offset is at zero', function (done) {
+            request(sails.hooks.http.app).post('/api/chat/next').send({offset: 0}).end(function(err, res) {
+                res.body.length.should.be.eql(1);
+                done();
             });
         });
     });
@@ -101,6 +113,28 @@ describe('ChatController', function() {
                     res.error.text.should.be.exactly('chat.notices.notYourCharacter');
                     done();
                 });
+            });
+        });
+
+        it('should set a default username if the user tries to be admin without rights', function (done) {
+            var msg = {text: 'Alohomora', character: 'admin'};
+            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
+                res.statusCode.should.be.exactly(200);
+                res.body.username.should.be.eql('chat.labels.anonymous');
+                res.body.avatar.should.be.eql('default.png');
+                done();
+            });
+        });
+
+        it('should set authorize admin nickname if the user has the rights', function (done) {
+            var msg = {text: 'Accio', character: 'admin'};
+            sails.config.mockAdmin = true;
+            request(sails.hooks.http.app).post('/api/chat').send(msg).end(function(err, res) {
+                res.statusCode.should.be.exactly(200);
+                res.body.username.should.be.eql('chat.labels.admin');
+                res.body.avatar.should.be.eql('admin.png');
+                sails.config.mockAdmin = false;
+                done();
             });
         });
 

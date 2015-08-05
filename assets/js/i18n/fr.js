@@ -5,6 +5,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'menu.link.rolls': 'Dés',
         'menu.link.characters': 'Personnages',
         'menu.link.freeCompanies': 'Compagnies libres',
+        'menu.link.chat': 'Discuter',
         'menu.link.login': 'Connexion',
         'menu.link.logout': 'Déconnexion',
         'menu.mainTitle': 'Naviguer',
@@ -243,11 +244,13 @@ app.config(['$translateProvider', function ($translateProvider) {
 
         // Chats page
         'chat.titles.page': 'Chat',
-        'chat.titles.main': 'Chat',
+        'chat.titles.main': 'Discuter',
         'chat.labels.character': 'Pseudonyme',
         'chat.labels.text': 'Texte',
         'chat.labels.anonymous': 'Anonyme',
+        'chat.labels.admin': 'Administrateur',
         'chat.buttons.send': 'Envoyer',
+        'chat.buttons.loadMore': 'Voir plus',
 
         // Log in page
         'login.titles.login': 'Connexion',
