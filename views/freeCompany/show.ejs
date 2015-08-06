@@ -12,41 +12,41 @@
 
             <md-content md-theme="dark" class="md-padding input-block">
                 <div layout="row" layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'fc.labels.name' | translate }}</label>
-                        <input ng-model="freeCompany.name" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.name}}</div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'fc.labels.tag' | translate }}</label>
-                        <input ng-model="freeCompany.tag" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.tag}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'fc.labels.server' | translate }}</label>
-                        <input ng-model="freeCompany.server" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.server}}</div>
                     </md-input-container>
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'fc.labels.website' | translate }}</label>
-                        <input ng-model="freeCompany.url" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.url}}</div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'fc.labels.recruitment' | translate }}</label>
-                        <input ng-model="freeCompany.isRecruiting ? 'fc.labels.recruitment.open' : 'fc.labels.recruitment.close' | translate" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.isRecruiting ? 'fc.labels.recruitment.open' : 'fc.labels.recruitment.close' | translate}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'fc.labels.house.no' | translate }}</label>
-                        <input ng-model="freeCompany.address.plot" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.address.plot}}</div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'fc.labels.house.ward' | translate }}</label>
-                        <input ng-model="freeCompany.address.ward" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.address.ward}}</div>
                     </md-input-container>
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'fc.labels.house.district' | translate }}</label>
-                        <input ng-model="freeCompany.address.district" ng-readonly="true">
+                        <div class="md-input">{{freeCompany.address.district}}</div>
                     </md-input-container>
                 </div>
             </md-content>
@@ -89,9 +89,9 @@
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding input-block" layout="column">
-                <md-input-container flex>
+                <md-input-container class="md-input-has-value" flex>
                     <label>{{ 'fc.titles.presentation' | translate }}</label>
-                    <textarea ng-model="freeCompany.desc" columns="1" ng-readonly="true"></textarea>
+                    <div class="md-input">{{freeCompany.desc}}</div>
                 </md-input-container>
             </md-content>
         </md-whiteframe>

@@ -11,13 +11,13 @@
 
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em;color: rgba(255,255,255,0.87)" layout="column">
                 <div layout="row" layout-sm="column">
-                    <md-input-container flex="50">
+                    <md-input-container class="md-input-has-value" flex="50">
                         <label>{{'characters.labels.server' | translate}}</label>
-                        <input ng-model="character.server" ng-readonly="true">
+                        <div class="md-input">{{character.server}}</div>
                     </md-input-container>
-                    <md-input-container flex="50">
+                    <md-input-container class="md-input-has-value" flex="50">
                         <label>{{'characters.labels.language' | translate}}</label>
-                        <input ng-model="character.language == 'fr' ? 'characters.labels.languages.fr' : 'characters.labels.languages.en' | translate" ng-readonly="true" />
+                        <div class="md-input">{{('characters.labels.languages.' + character.language) | translate}}</div>
                     </md-input-container>
                 </div>
             </md-content>
@@ -31,31 +31,31 @@
 
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em;color: rgba(255,255,255,0.87)">
                 <div layout="row" layout-sm="column">
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'characters.labels.firstName' | translate }}</label>
-                        <input ng-model="character.firstName" ng-readonly="true">
+                        <div class="md-input">{{character.firstName}}</div>
                     </md-input-container>
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'characters.labels.lastName' | translate }}</label>
-                        <input ng-model="character.lastName" ng-readonly="true">
+                        <div class="md-input">{{character.lastName}}</div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'characters.labels.trigram' | translate }}</label>
-                        <input ng-model="character.trigram" ng-readonly="true">
+                        <div class="md-input">{{character.trigram}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'characters.labels.race' | translate }}</label>
-                        <input ng-model="character.race.name" ng-readonly="true">
+                        <div class="md-input">{{character.race.name}}</div>
                     </md-input-container>
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'characters.labels.tribe' | translate }}</label>
-                        <input ng-model="character.tribe | translate" ng-readonly="true">
+                        <div class="md-input">{{character.tribe | translate}}</div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container class="md-input-has-value">
                         <label>{{ 'characters.labels.sex' | translate }}</label>
-                        <input ng-model="character.sex == 'F' ? 'characters.labels.sex.woman' : 'characters.labels.sex.man' | translate" ng-readonly="true" />
+                        <div class="md-input">{{character.sex == 'F' ? 'characters.labels.sex.woman' : 'characters.labels.sex.man' | translate}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row">
@@ -85,26 +85,26 @@
 
             <md-content md-theme="dark"  class="md-padding" style="font-size:1.2em;">
                 <div layout="row" layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'characters.labels.freeCompany' | translate }}</label>
-                        <input ng-model="getFreeCompanyName(character)" ng-readonly="true" ng-click="to('/compagnie-libre/' + character.membership.name + character.leadership.name)">
+                        <div class="md-input" ng-click="to('/compagnie-libre/' + character.membership.name + character.leadership.name)">{{getFreeCompanyName(character)}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'characters.labels.god' | translate }}</label>
-                        <input ng-model="(character.god.name | translate) + ', ' + (character.god.desc | translate)" ng-readonly="true">
+                        <div class="md-input">{{character.god.name | translate}}, {{character.god.desc | translate}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
-                    <md-input-container flex>
+                    <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'characters.labels.birthPlace' | translate }}</label>
-                        <input ng-model="(character.birthPlace.name | translate) + ', ' + (character.birthPlace.region | translate)" ng-readonly="true">
+                        <div class="md-input">{{character.birthPlace.name | translate}}, {{character.birthPlace.region | translate}}</div>
                     </md-input-container>
                 </div>
-                <md-input-container>
+                <md-input-container class="md-input-has-value">
                     <label>{{ 'characters.labels.align' | translate }}</label>
-                    <input ng-model="getAlignment(character)" ng-readonly="true">
+                    <div class="md-input">{{getAlignment(character)}}</div>
                 </md-input-container>
                 <div layout="row" layout-sm="column">
                     <div flex="10" layout layout-align="center center">
@@ -145,7 +145,6 @@
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
                 <timeline character="character" editable="false" class="dark"></timeline>
             </md-content>
-            </md-content>
         </md-whiteframe>
     </div>
 
@@ -156,15 +155,14 @@
             </md-toolbar>
 
             <md-content md-theme="dark" class="md-padding" style="font-size:1.2em; color: rgba(255,255,255,0.87);" layout="column">
-                <md-input-container flex>
+                <md-input-container class="md-input-has-value" flex>
                     <label>{{ 'characters.labels.physDesc' | translate }}</label>
-                    <textarea ng-model="character.physDesc" columns="1" ng-readonly="true"></textarea>
+                    <div class="md-input">{{character.physDesc}}</div>
                 </md-input-container>
-                <md-input-container flex>
+                <md-input-container class="md-input-has-value" flex>
                     <label>{{ 'characters.labels.mentDesc' | translate }}</label>
-                    <textarea ng-model="character.mentDesc" columns="1" ng-readonly="true"></textarea>
+                    <div class="md-input">{{character.mentDesc}}</div>
                 </md-input-container>
-            </md-content>
             </md-content>
         </md-whiteframe>
     </div>
