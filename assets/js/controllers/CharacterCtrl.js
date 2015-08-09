@@ -48,6 +48,9 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
                 {state: 'characterEdit', stateParams: {id: $scope.character.id}, text: 'characters.menu.show.edit'},
                 {text: 'characters.menu.show.delete', action: function() { $scope.delete(); }}
             ];
+        } else {
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
         }
     };
 

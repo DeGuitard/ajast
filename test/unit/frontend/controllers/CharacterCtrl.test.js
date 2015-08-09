@@ -135,7 +135,7 @@ describe('CharacterCtrl', function() {
             scope.initListMode(characters);
             scope.characters.should.be.eql(characters);
             scope.page.title.should.be.eql('characters.titles.list');
-            scope.contextualLinks.should.be.eql({});
+            scope.contextualLinks.should.be.eql({links: [], title: ''});
         });
 
         it('should display the characters list with links to edit the user\'s own characters', function() {
@@ -163,14 +163,14 @@ describe('CharacterCtrl', function() {
             scope.initShowMode(character);
             scope.character.should.be.eql(character);
             scope.page.title.should.be.eql('Harry Potter\'s profile');
-            scope.contextualLinks.should.be.eql({});
+            scope.contextualLinks.should.be.eql({links: [], title: ''});
         });
 
         it('should display the character\'s profile, and restrict edit/removal access to character owner', function() {
             scope.initShowMode(character, 'def');
             scope.character.should.be.eql(character);
             scope.page.title.should.be.eql('Harry Potter\'s profile');
-            scope.contextualLinks.should.be.eql({});
+            scope.contextualLinks.should.be.eql({links: [], title: ''});
         });
 
         it('should display the character\'s profile, and authorize edit/removal access to character owner', function() {
