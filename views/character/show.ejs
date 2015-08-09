@@ -98,11 +98,11 @@
                         <div class="md-input">{{character.birthPlace.name | translate}}, {{character.birthPlace.region | translate}}</div>
                     </md-input-container>
                 </div>
-                <md-input-container class="md-input-has-value">
+                <md-input-container class="md-input-has-value" ng-if="character.moral && character.ethics">
                     <label>{{ 'characters.labels.align' | translate }}</label>
                     <div class="md-input">{{getAlignment(character)}}</div>
                 </md-input-container>
-                <div layout="row">
+                <div layout="row" ng-if="character.moral && character.ethics">
                     <div flex="15" flex-sm="40" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.bad.desc' | translate}}</md-tooltip>{{'characters.labels.align.bad' | translate}}</span>
                     </div>
@@ -111,7 +111,7 @@
                         <span><md-tooltip>{{'characters.labels.align.good.desc' | translate}}</md-tooltip>{{'characters.labels.align.good' | translate}}</span>
                     </div>
                 </div>
-                <div layout="row">
+                <div layout="row" ng-if="character.moral && character.ethics">
                     <div flex="15" flex-sm="40" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.chaotic.desc' | translate}}</md-tooltip>{{'characters.labels.align.chaotic' | translate}}</span>
                     </div>
