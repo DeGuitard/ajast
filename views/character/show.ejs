@@ -1,8 +1,4 @@
-<% if (req.isAuthenticated()) { %>
-<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>, <%= JSON.stringify(req.user.id) %>); archetypes = <%= archetypes %>;" flex>
-<% } else { %>
-<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %>); archetypes = <%= archetypes %>;" flex>
-<% } %>
+<div ng-controller="CharacterCtrl" ng-init="initShowMode(<%= JSON.stringify(character) %> <%= req.isAuthenticated() ? ', ' + JSON.stringify(req.user.id) : '' %>); archetypes = <%= archetypes %>;" flex>
     <div layout="row" layout-margin layout-align="center center">
         <md-whiteframe class="md-whiteframe-z1" flex="100" flex-gt-lg="90">
             <md-toolbar>
@@ -59,11 +55,11 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <div flex="10" layout layout-align="center center">
+                    <div flex="10" flex-sm="15" layout layout-align="center center">
                         <span>{{ 'characters.labels.age' | translate }}</span>
                     </div>
-                    <md-slider flex md-discrete ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" ng-disabled="true" aria-label="Âge"></md-slider>
-                    <div flex="20" layout="row" layout-align="center center">
+                    <md-slider flex ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" ng-disabled="true" aria-label="Âge"></md-slider>
+                    <div flex="20" flex-sm="50" layout="row" layout-align="center center">
                         {{character.age}} ans —&nbsp;
                         <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">{{'characters.labels.age.child' | translate}}</span>
                         <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">{{'characters.labels.age.young' | translate}}</span>
@@ -87,7 +83,7 @@
                 <div layout="row" layout-sm="column">
                     <md-input-container class="md-input-has-value" flex>
                         <label>{{ 'characters.labels.freeCompany' | translate }}</label>
-                        <div class="md-input" ng-click="to('/compagnie-libre/' + character.membership.name + character.leadership.name)">{{getFreeCompanyName(character)}}</div>
+                        <div class="md-input md-clickable" md-ink-ripple ng-click="character.leadership || character.membership ? to('freeCompanyShow', {name: character.membership.name + character.leadership.name}) : return;">{{getFreeCompanyName(character)}}</div>
                     </md-input-container>
                 </div>
                 <div layout="row" layout-sm="column">
@@ -106,21 +102,21 @@
                     <label>{{ 'characters.labels.align' | translate }}</label>
                     <div class="md-input">{{getAlignment(character)}}</div>
                 </md-input-container>
-                <div layout="row" layout-sm="column">
-                    <div flex="10" layout layout-align="center center">
+                <div layout="row">
+                    <div flex="15" flex-sm="40" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.bad.desc' | translate}}</md-tooltip>{{'characters.labels.align.bad' | translate}}</span>
                     </div>
                     <md-slider flex ng-model="character.moral" step="1" min="0" max="80" aria-label="Morale" ng-disabled="true"></md-slider>
-                    <div flex="10" layout layout-align="center center">
+                    <div flex="15" flex-sm="40" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.good.desc' | translate}}</md-tooltip>{{'characters.labels.align.good' | translate}}</span>
                     </div>
                 </div>
-                <div layout="row" layout-sm="column">
-                    <div flex="10" layout layout-align="center center">
+                <div layout="row">
+                    <div flex="15" flex-sm="40" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.chaotic.desc' | translate}}</md-tooltip>{{'characters.labels.align.chaotic' | translate}}</span>
                     </div>
                     <md-slider flex ng-model="character.ethics" step="1" min="0" max="80" aria-label="Éthique" ng-disabled="true"></md-slider>
-                    <div flex="10" layout layout-align="center center">
+                    <div flex="15" flex-sm="40" layout layout-align="center center">
                         <span><md-tooltip>{{'characters.labels.align.lawful.desc' | translate}}</md-tooltip>{{'characters.labels.align.lawful' | translate}}</span>
                     </div>
                 </div>

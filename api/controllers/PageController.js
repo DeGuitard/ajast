@@ -10,9 +10,21 @@ var async = require('async');
 module.exports = {
 
     index: function(req, res) {
-        res.view({
+        res.view('page/index', {
             title: 'titles.home',
             metaDesc: "Tout l'essentiel pour faire du Role Play sur FFXIV : liste des compagnies libres, des personnages et plein d'outils pratiques !"
+        });
+    },
+
+    redirect: function(req, res) {
+        this.index(req, res);
+    },
+
+    partialIndex: function(req, res) {
+        res.view('page/index', {
+            title: 'titles.home',
+            metaDesc: "Tout l'essentiel pour faire du Role Play sur FFXIV : liste des compagnies libres, des personnages et plein d'outils pratiques !",
+            layout: null
         });
     },
 

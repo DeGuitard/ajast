@@ -12,13 +12,13 @@ describe('FreeCompanyController', function() {
 
     describe('#list()', function() {
         it('should be successful', function(done) {
-            request(sails.hooks.http.app).get('/free-companies').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/free-companies').expect(200, done);
         });
     });
 
     describe('#new()', function() {
         it('should be successful', function(done) {
-            request(sails.hooks.http.app).get('/free-company/new').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/free-company/new').expect(200, done);
         });
     });
 
@@ -120,12 +120,12 @@ describe('FreeCompanyController', function() {
         it('should be successful', function(done) {
             FreeCompany.find().limit(1).exec(function (err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).get('/free-company/show/' + result[0].name).expect(200, done);
+                request(sails.hooks.http.app).get('/partials/free-company/show/' + result[0].name).expect(200, done);
             });
         });
 
         it('should not find nonexistent free companies', function(done) {
-            request(sails.hooks.http.app).get('/free-company/show/abc').expect(404, done);
+            request(sails.hooks.http.app).get('/partials/free-company/show/abc').expect(404, done);
         });
     });
 
@@ -133,18 +133,18 @@ describe('FreeCompanyController', function() {
         it('should be successful', function(done) {
             FreeCompany.find().limit(1).exec(function (err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).get('/free-company/edit/' + result[0].id).expect(200, done);
+                request(sails.hooks.http.app).get('/partials/free-company/edit/' + result[0].id).expect(200, done);
             });
         });
 
         it('should not authorize to edit nonexistent free companies', function(done) {
-            request(sails.hooks.http.app).get('/free-company/edit/abc').expect(404, done);
+            request(sails.hooks.http.app).get('/partials/free-company/edit/abc').expect(404, done);
         });
 
         it('should restrict edit access to founders', function(done) {
             FreeCompany.update({}, {users: ['abc']}).exec(function (err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).get('/free-company/edit/' + result[0].id).end(function(err, res) {
+                request(sails.hooks.http.app).get('/partials/free-company/edit/' + result[0].id).end(function(err, res) {
                     res.statusCode.should.be.exactly(403);
                     FreeCompany.update({}, {users: ['test']}).exec(done);
                 });

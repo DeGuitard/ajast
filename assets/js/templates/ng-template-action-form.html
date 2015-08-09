@@ -17,7 +17,7 @@
         <md-input-container>
             <label>{{'fight.form.action.archetype' | translate}}</label>
             <md-select ng-model="currentAction().archetype" flex>
-                <md-option ng-value="archetype.trigram" ng-repeat="archetype in archetypes | orderBy:'name'" ng-show="isArchetypeAvailable(archetype)">{{archetype.name}}</md-option>
+                <md-option ng-value="archetype.trigram" ng-repeat="archetype in archetypes | orderBy:'name'" ng-show="isArchetypeAvailable(archetype)">{{archetype.name | translate}}</md-option>
             </md-select>
         </md-input-container>
         <md-input-container>

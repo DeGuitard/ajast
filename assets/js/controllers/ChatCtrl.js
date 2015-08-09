@@ -1,5 +1,7 @@
 app.controller('ChatCtrl', ['$scope', '$http', '$mdToast', '$translate', function($scope, $http, $mdToast, $translate) {
     $scope.page.title = 'chat.titles.page';
+    $scope.contextualLinks.links = [];
+    $scope.contextualLinks.title = '';
     $scope.messages = [];
     $scope.offset = 15;
 

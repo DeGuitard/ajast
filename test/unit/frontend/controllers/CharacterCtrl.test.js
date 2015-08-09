@@ -146,11 +146,13 @@ describe('CharacterCtrl', function() {
             scope.contextualLinks.title.should.be.eql('characters.menu.list.title');
             scope.contextualLinks.links.length.should.be.eql(3);
             scope.contextualLinks.links[0].text.should.be.eql(characters[0].fullName);
-            scope.contextualLinks.links[0].url.should.be.eql('/personnage/' + characters[0].fullName);
+            scope.contextualLinks.links[0].state.should.be.eql('characterShow')
+            scope.contextualLinks.links[0].stateParams.should.be.eql({name: characters[0].fullName});
             scope.contextualLinks.links[1].text.should.be.eql(characters[1].fullName);
-            scope.contextualLinks.links[1].url.should.be.eql('/personnage/' + characters[1].fullName);
+            scope.contextualLinks.links[1].state.should.be.eql('characterShow')
+            scope.contextualLinks.links[1].stateParams.should.be.eql({name: characters[1].fullName});
             scope.contextualLinks.links[2].text.should.be.eql('characters.menu.list.new');
-            scope.contextualLinks.links[2].url.should.be.eql('/character/new');
+            scope.contextualLinks.links[2].state.should.be.eql('characterNew');
         });
     });
 
@@ -179,7 +181,8 @@ describe('CharacterCtrl', function() {
             scope.contextualLinks.title.should.be.eql('characters.menu.show.title');
             scope.contextualLinks.links.length.should.be.eql(2);
             scope.contextualLinks.links[0].text.should.be.eql('characters.menu.show.edit');
-            scope.contextualLinks.links[0].url.should.be.eql('/character/edit/123');
+            scope.contextualLinks.links[0].state.should.be.eql('characterEdit');
+            scope.contextualLinks.links[0].stateParams.should.be.eql({id: 123});
             scope.contextualLinks.links[1].text.should.be.eql('characters.menu.show.delete');
         });
 
@@ -192,7 +195,8 @@ describe('CharacterCtrl', function() {
             scope.contextualLinks.title.should.be.eql('characters.menu.show.title');
             scope.contextualLinks.links.length.should.be.eql(2);
             scope.contextualLinks.links[0].text.should.be.eql('characters.menu.show.edit');
-            scope.contextualLinks.links[0].url.should.be.eql('/character/edit/123');
+            scope.contextualLinks.links[0].state.should.be.eql('characterEdit');
+            scope.contextualLinks.links[0].stateParams.should.be.eql({id: 123});
             scope.contextualLinks.links[1].text.should.be.eql('characters.menu.show.delete');
         });
     });

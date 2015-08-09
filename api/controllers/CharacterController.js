@@ -46,7 +46,8 @@ module.exports = {
                 metaDesc: 'Retrouvez tous les personnages RP de Final Fantasy XIV. Vous aussi, créez votre fiche, et connectez-vous avec les autres rôlistes de FFXIV !',
                 characters: JSON.stringify(data.characters),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
     },
@@ -71,7 +72,8 @@ module.exports = {
                 title: data.character.fullName,
                 metaDesc: 'Profil de ' + data.character.fullName + ', un joueur qui fait du RP sur FFXIV. Retrouvez tous les détails dans son profil : âge, race, compétences, description physique…',
                 character: data.character,
-                archetypes: JSON.stringify(data.archetypes)
+                archetypes: JSON.stringify(data.archetypes),
+                layout: null
             });
         });
     },
@@ -123,7 +125,8 @@ module.exports = {
                 races: JSON.stringify(data.races),
                 regions: JSON.stringify(regions),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
     },
@@ -181,7 +184,8 @@ module.exports = {
                 races: JSON.stringify(data.races),
                 regions: JSON.stringify(regions),
                 datacenters: JSON.stringify(datacenters),
-                servers: JSON.stringify(data.servers)
+                servers: JSON.stringify(data.servers),
+                layout: null
             });
         });
     },

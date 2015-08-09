@@ -30,7 +30,8 @@ module.exports = {
                     title: 'titles.fight.list',
                     metaDesc: "Gérez vos combats Role Play (RP) avec fair play, simplicité et rapidité ; ou suivez en temps réel la progression d'un combat qui concerne votre personnage !",
                     fights: JSON.stringify(data.fights),
-                    myFights: JSON.stringify(data.myFights)
+                    myFights: JSON.stringify(data.myFights),
+                    layout: null
                 });
             }
         );
@@ -61,7 +62,7 @@ module.exports = {
         };
 
         Fight.create(fight).exec(function(err, data) {
-            res.redirect('/fight/' + data.shortid);
+            res.redirect('/partials/fight/show/' + data.shortid);
         });
     },
 
@@ -88,7 +89,8 @@ module.exports = {
                     metaDesc: 'Suivez en direct live le combat RP entre les personnages et PNJs, afin de connaître en temps réel le déroulement du combat !',
                     archetypes: JSON.stringify(data.archetypes),
                     shortid: data.fight.shortid,
-                    fight: JSON.stringify(data.fight)
+                    fight: JSON.stringify(data.fight),
+                    layout: null
                 });
             } else {
                 res.view('fight/mj', {
@@ -96,7 +98,8 @@ module.exports = {
                     metaDesc: '',
                     shortid: data.fight.shortid,
                     archetypes: JSON.stringify(data.archetypes),
-                    fight: JSON.stringify(data.fight)
+                    fight: JSON.stringify(data.fight),
+                    layout: null
                 });
             }
         });
@@ -204,11 +207,11 @@ module.exports = {
             if (result.time.hasStarted) {
                 Fight.update({id: id}, {"time.isFinished": true}).exec(function(err, result) {
                     Fight.publishUpdate(result[0].id, {fight: result[0], action: 'end'});
-                    res.redirect("/fights");
+                    res.ok();
                 });
             } else {
                 Fight.destroy({id: id}).exec(function(err, result) {
-                    res.redirect("/fights");
+                    res.ok();
                 });
             }
         });

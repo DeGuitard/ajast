@@ -35,6 +35,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'fights.buttons.update': 'Update',
         'fights.notices.noCurrentFights': 'There are no fights at the moment.',
         'fights.notices.emptyHistory': 'The history is empty.',
+        'fights.notices.error': 'Error!',
         'fights.placeholders.addPlayer': 'Add a character',
         'fights.actionTypes.offensive': 'Offensive',
         'fights.actionTypes.defensive': 'Defensive',

@@ -26,11 +26,15 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             $scope.contextualLinks.links = [];
             for (var i = 0; i < userCharacters.length; i++) {
                 $scope.contextualLinks.links.push({
-                    url: '/personnage/' + userCharacters[i].fullName,
+                    state: 'characterShow',
+                    stateParams: {name: userCharacters[i].fullName},
                     text: userCharacters[i].fullName
                 });
             }
-            $scope.contextualLinks.links.push({url: '/character/new', text: 'characters.menu.list.new'});
+            $scope.contextualLinks.links.push({state: 'characterNew', text: 'characters.menu.list.new'});
+        } else {
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
         }
     };
 
@@ -41,7 +45,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             $scope.isOwner = true;
             $scope.contextualLinks.title = 'characters.menu.show.title';
             $scope.contextualLinks.links = [
-                {url: '/character/edit/' + $scope.character.id, text: 'characters.menu.show.edit'},
+                {state: 'characterEdit', stateParams: {id: $scope.character.id}, text: 'characters.menu.show.edit'},
                 {text: 'characters.menu.show.delete', action: function() { $scope.delete(); }}
             ];
         }
@@ -54,11 +58,13 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             $scope.page.title = 'characters.titles.update';
             $scope.contextualLinks.title = 'characters.menu.update.title';
             $scope.contextualLinks.links = [
-                {url: '/personnage/' + $scope.character.fullName, text: 'characters.menu.update.show'},
+                {state: 'characterShow', stateParams: {name: $scope.character.fullName}, text: 'characters.menu.update.show'},
                 {text: 'characters.menu.update.delete', action: function () { $scope.delete(); }}
             ];
         } else {
             $scope.page.title = 'characters.titles.new';
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
             $scope.avatar = '/images/avatars/default.png';
         }
     };
@@ -116,7 +122,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
 
         $mdDialog.show(confirm).then(function() {
             $http.delete('/character/remove/' + $scope.character.id).success(function() {
-                window.location.href = '/characters';
+                $scope.to('characters');
             }).error(function(err) {
                 var error = $interpolate('{{err | translate}}')({err: err}),
                     msg   = $translate.instant('characters.notices.saveError') + ' ' + error;

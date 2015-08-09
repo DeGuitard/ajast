@@ -45,7 +45,6 @@ module.exports.routes = {
     'get /sitemap.xml': 'PageController.siteMap',
 
     /** Auth routes **/
-    'get /login': 'AuthController.login',
     'get /logout': 'AuthController.logout',
     'get /auth/:provider': 'AuthController.provider',
     'get /auth/:provider/callback': 'AuthController.callback',
@@ -53,41 +52,28 @@ module.exports.routes = {
 
     /** Character routes **/
     'post /api/character/find': 'CharacterController.find',
-    'get /characters': 'CharacterController.list',
-    'get /character/new': 'CharacterController.new',
-    'get /character/show/:name': 'CharacterController.show',
-    'get /character/edit/:id': 'CharacterController.edit',
     'post /character/save': 'CharacterController.save',
     'delete /character/remove/:id': 'CharacterController.remove',
     'post /upload/avatar': 'UploadController.uploadAvatar',
 
     /** Fights routes **/
-    'get /fights': 'FightController.index',
-    'get /fight/new': 'FightController.create',
-    'get /fight/:id': 'FightController.show',
     'post /fight/roll': 'FightController.roll',
     'post /fight/refresh': 'FightController.refresh',
     'put /fight/save': 'FightController.save',
-    'get /fight/end/:id': 'FightController.end',
+    'post /fight/end': 'FightController.end',
     'get /api/fight/:id': 'FightController.apiGet',
 
     /** Rolls routes **/
-    'get /rolls': 'RollController.index',
     'get /api/roll': 'RollController.apiList',
     'post /api/roll': 'RollController.apiNew',
 
     /** Chat routes **/
-    'get /chat': 'ChatController.index',
     'get /api/chat': 'ChatController.apiList',
     'post /api/chat': 'ChatController.apiNew',
     'post /api/chat/next': 'ChatController.apiNext',
 
     /** Free companies routes **/
     'get /free-company/find/:term': 'FreeCompanyController.search',
-    'get /free-companies': 'FreeCompanyController.list',
-    'get /free-company/new': 'FreeCompanyController.new',
-    'get /free-company/show/:name': 'FreeCompanyController.show',
-    'get /free-company/edit/:id': 'FreeCompanyController.edit',
     'post /free-company/save': 'FreeCompanyController.save',
     'post /free-company/invite': 'FreeCompanyController.invite',
     'delete /free-company/remove/:id': 'FreeCompanyController.remove',
@@ -101,11 +87,23 @@ module.exports.routes = {
     /** Internationalisation */
     'get /lang/:lang': 'PageController.lang',
 
-    /** French SEO **/
-    'get /personnages': 'CharacterController.list',
-    'get /personnage/:name': 'CharacterController.show',
-    'get /compagnies-libres': 'FreeCompanyController.list',
-    'get /compagnie-libre/:name': 'FreeCompanyController.show',
-    'get /combats': 'FightController.index',
-    'get /des': 'RollController.index'
+    /** Partials **/
+    'get /partials/home': 'PageController.partialIndex',
+    'get /partials/login': 'AuthController.login',
+    'get /partials/characters': 'CharacterController.list',
+    'get /partials/character/new': 'CharacterController.new',
+    'get /partials/character/show/:name': 'CharacterController.show',
+    'get /partials/character/edit/:id': 'CharacterController.edit',
+    'get /partials/rolls': 'RollController.index',
+    'get /partials/chat': 'ChatController.index',
+    'get /partials/fights': 'FightController.index',
+    'get /partials/fight/new': 'FightController.create',
+    'get /partials/fight/show/:id': 'FightController.show',
+    'get /partials/free-companies': 'FreeCompanyController.list',
+    'get /partials/free-company/new': 'FreeCompanyController.new',
+    'get /partials/free-company/show/:name': 'FreeCompanyController.show',
+    'get /partials/free-company/edit/:id': 'FreeCompanyController.edit',
+
+    /** Redirect all other routes */
+    'get /*': {controller: 'PageController', action: 'redirect', skipAssets: true}
 };

@@ -5,12 +5,12 @@ describe('FightController', function() {
 
     describe('#index()', function () {
         it('should be successful', function (done) {
-            request(sails.hooks.http.app).get('/fights').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/fights').expect(200, done);
         });
 
         it('should be successful even when not logged in', function (done) {
             sails.config.mockLogin = false;
-            request(sails.hooks.http.app).get('/fights').end(function(err, res) {
+            request(sails.hooks.http.app).get('/partials/fights').end(function(err, res) {
                 res.statusCode.should.be.exactly(200);
                 sails.config.mockLogin = true;
                 done();
@@ -20,7 +20,7 @@ describe('FightController', function() {
 
     describe('#create()', function () {
         it('should be successful', function (done) {
-            request(sails.hooks.http.app).get('/fight/new').end(function(err, res) {
+            request(sails.hooks.http.app).get('/partials/fight/new').end(function(err, res) {
                 res.statusCode.should.be.exactly(302);
                 Fight.findOne({mj: 'test'}).exec(function(err, res) {
                     if (err) done(err);
@@ -39,7 +39,7 @@ describe('FightController', function() {
         it('should be successful as a gm', function (done) {
             Fight.findOne({mj: 'test'}).exec(function(err, fight) {
                 if (err) done(err);
-                request(sails.hooks.http.app).get('/fight/' + fight.shortid).end(function(err, res) {
+                request(sails.hooks.http.app).get('/partials/fight/show/' + fight.shortid).end(function(err, res) {
                     res.statusCode.should.be.exactly(200);
                     res.text.indexOf(fight.shortid).should.not.be.eql(-1);
                     res.text.indexOf('MjCtrl').should.not.be.eql(-1);
@@ -52,7 +52,7 @@ describe('FightController', function() {
             Fight.update({mj: 'test'}, {mj: 'test2'}).exec(function(err, fights) {
                 if (err) done(err);
                 var fight = fights[0];
-                request(sails.hooks.http.app).get('/fight/' + fight.shortid).end(function(err, res) {
+                request(sails.hooks.http.app).get('/partials/fight/show/' + fight.shortid).end(function(err, res) {
                     res.statusCode.should.be.exactly(200);
                     res.text.indexOf(fight.shortid).should.not.be.eql(-1);
                     res.text.indexOf('PjCtrl').should.not.be.eql(-1);
@@ -62,7 +62,7 @@ describe('FightController', function() {
         });
 
         it('should not find nonexistent fights', function (done) {
-            request(sails.hooks.http.app).get('/fight/abcd').expect(404, done);
+            request(sails.hooks.http.app).get('/partials/fight/show/abcd').expect(404, done);
         });
     });
 
@@ -268,8 +268,8 @@ describe('FightController', function() {
             Fight.findOne({mj: 'test'}).exec(function(err, fight) {
                 fight.time.hasStarted.should.be.true();
                 fight.time.isFinished.should.be.false();
-                request(sails.hooks.http.app).get('/fight/end/' + fight.id).end(function(err, res) {
-                    res.statusCode.should.be.exactly(302);
+                request(sails.hooks.http.app).post('/fight/end/').send({id: fight.id}).end(function(err, res) {
+                    res.statusCode.should.be.exactly(200);
                     Fight.findOne({mj: 'test'}).exec(function(err, fight) {
                         fight.time.isFinished.should.be.true();
                         done();
@@ -282,7 +282,7 @@ describe('FightController', function() {
             Fight.update({mj: 'test'}, {mj: 'test2'}).exec(function(err, results) {
                 if (err) done(err);
                 var fight = results[0];
-                request(sails.hooks.http.app).get('/fight/end/' + fight.id).end(function(err, res) {
+                request(sails.hooks.http.app).post('/fight/end/').send({id: fight.id}).end(function(err, res) {
                     res.statusCode.should.be.exactly(403);
                     Fight.update({mj: 'test2'}, {mj: 'test'}).exec(done);
                 });
@@ -294,8 +294,8 @@ describe('FightController', function() {
                 var fight = fights[0];
                 fight.time.hasStarted.should.be.false();
                 fight.time.isFinished.should.be.false();
-                request(sails.hooks.http.app).get('/fight/end/' + fight.id).end(function(err, res) {
-                    res.statusCode.should.be.exactly(302);
+                request(sails.hooks.http.app).post('/fight/end/').send({id: fight.id}).end(function(err, res) {
+                    res.statusCode.should.be.exactly(200);
                     Fight.find({mj: 'test'}).exec(function(err, fights) {
                         fights.length.should.be.eql(0);
                         done();

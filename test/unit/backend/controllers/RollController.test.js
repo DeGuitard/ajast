@@ -4,7 +4,7 @@ describe('RollController', function() {
 
     describe('#index()', function () {
         it('should be successful', function (done) {
-            request(sails.hooks.http.app).get('/rolls').expect(200).end(done);
+            request(sails.hooks.http.app).get('/partials/rolls').expect(200).end(done);
         });
     });
 

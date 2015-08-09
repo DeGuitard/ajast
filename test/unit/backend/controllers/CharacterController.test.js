@@ -15,13 +15,13 @@ describe('CharacterController', function() {
 
     describe('#list()', function () {
         it('should be successful', function (done) {
-            request(sails.hooks.http.app).get('/characters').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/characters').expect(200, done);
         });
     });
 
     describe('#new()', function() {
         it('should be successful', function(done) {
-            request(sails.hooks.http.app).get('/character/new').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/character/new').expect(200, done);
         });
     });
 
@@ -148,12 +148,12 @@ describe('CharacterController', function() {
         it('should be successful', function(done) {
             Character.find().limit(1).exec(function (err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).get('/character/show/' + result[0].fullName).expect(200, done);
+                request(sails.hooks.http.app).get('/partials/character/show/' + result[0].fullName).expect(200, done);
             });
         });
 
         it('should not find nonexistent characters', function(done) {
-            request(sails.hooks.http.app).get('/character/show/abc').expect(404, done);
+            request(sails.hooks.http.app).get('/partials/character/show/abc').expect(404, done);
         });
     });
 
@@ -161,18 +161,18 @@ describe('CharacterController', function() {
         it('should be successful', function(done) {
             Character.find().limit(1).exec(function (err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).get('/character/edit/' + result[0].id).expect(200, done);
+                request(sails.hooks.http.app).get('/partials/character/edit/' + result[0].id).expect(200, done);
             });
         });
 
         it('should not authorize to edit nonexistent characters', function(done) {
-            request(sails.hooks.http.app).get('/character/edit/abc').expect(404, done);
+            request(sails.hooks.http.app).get('/partials/character/edit/abc').expect(404, done);
         });
 
         it('should restrict edit access to owner', function(done) {
             Character.update({}, {user: 'test2'}).exec(function (err, result) {
                 if (err) return done(err);
-                request(sails.hooks.http.app).get('/character/edit/' + result[0].id).end(function(err, res) {
+                request(sails.hooks.http.app).get('/partials/character/edit/' + result[0].id).end(function(err, res) {
                     res.statusCode.should.be.exactly(403);
                     Character.update({}, {user: 'test'}).exec(done);
                 });

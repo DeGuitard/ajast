@@ -1,4 +1,4 @@
-var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flow', 'pascalprecht.translate']).config(["$mdThemingProvider", function($mdThemingProvider) {
+var app = angular.module('ajast', ['ngAnimate', 'ngMaterial', 'ngMessages', 'flow', 'pascalprecht.translate', 'ui.router']).config(["$mdThemingProvider", function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('deep-purple')
         .accentPalette('blue')

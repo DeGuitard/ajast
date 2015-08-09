@@ -1,5 +1,7 @@
 app.controller('RollCtrl', ['$scope', '$http', '$mdToast', '$translate', function($scope, $http, $mdToast, $translate) {
     $scope.page.title = 'rolls.titles.page';
+    $scope.contextualLinks.links = [];
+    $scope.contextualLinks.title = '';
     $scope.newRoll = {faces: 100};
 
     io.socket.on("roll", function(event) {

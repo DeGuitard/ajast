@@ -6,12 +6,12 @@ describe('ChatController', function() {
     describe('#index()', function () {
         it('should be successful when logged out', function (done) {
             sails.config.mockLogin = false;
-            request(sails.hooks.http.app).get('/chat').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/chat').expect(200, done);
         });
 
         it('should be successful when logged in', function (done) {
             sails.config.mockLogin = true;
-            request(sails.hooks.http.app).get('/chat').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/chat').expect(200, done);
         });
     });
 

@@ -13,7 +13,8 @@ module.exports = {
             res.view({
                 title: 'titles.chat',
                 metaDesc: 'Discutez avec la communauté RP de FFXIV, afin de faire connaissance avec d\'autres personnes.',
-                characters: characters
+                characters: characters,
+                layout: null
             });
         };
 
