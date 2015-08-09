@@ -5,6 +5,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'menu.link.rolls': 'Rolls',
         'menu.link.characters': 'Characters',
         'menu.link.freeCompanies': 'Free companies',
+        'menu.link.chat': 'Talk',
         'menu.link.login': 'Log in',
         'menu.link.logout': 'Log out',
         'menu.mainTitle': 'Browse',
@@ -34,6 +35,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'fights.buttons.update': 'Update',
         'fights.notices.noCurrentFights': 'There are no fights at the moment.',
         'fights.notices.emptyHistory': 'The history is empty.',
+        'fights.notices.error': 'Error!',
         'fights.placeholders.addPlayer': 'Add a character',
         'fights.actionTypes.offensive': 'Offensive',
         'fights.actionTypes.defensive': 'Defensive',
@@ -240,6 +242,16 @@ app.config(['$translateProvider', function ($translateProvider) {
         'rolls.notices.roll': 'A dice just has been rolled!',
         'rolls.roll.desc': 'Action\'s description',
         'rolls.buttons.roll': 'Roll',
+
+        // Chats page
+        'chat.titles.page': 'Chat',
+        'chat.titles.main': 'Talk',
+        'chat.labels.character': 'Pseudonym',
+        'chat.labels.text': 'Text',
+        'chat.labels.anonymous': 'Anonymous',
+        'chat.labels.admin': 'Administrator',
+        'chat.buttons.send': 'Send',
+        'chat.buttons.loadMore': 'Show more',
 
         // Log in page
         'login.titles.login': 'Log in',

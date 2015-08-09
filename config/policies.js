@@ -48,6 +48,10 @@ module.exports.policies = {
         '*': ['passport']
     },
 
+    ChatController: {
+        '*': ['passport']
+    },
+
     CharacterController: {
         'list': ['passport'],
         'show': ['passport']

@@ -1,0 +1,48 @@
+<div ng-init="characters = <%= JSON.stringify(characters) %>" flex>
+    <div layout="row" layout-margin layout-align="center center">
+        <md-whiteframe class="md-whiteframe-z1" flex>
+            <md-toolbar class="md-accent">
+                <span class="md-toolbar-tools">{{'chat.titles.main' | translate}}</span>
+            </md-toolbar>
+
+            <md-content class="md-padding">
+                <form name="form">
+                    <div layout="row" layout-sm="column">
+                        <md-input-container flex-gt-sm="15">
+                            <md-select ng-model="newMsg.character" flex-gt-sm="25" style="margin-top: 20px;">
+                                <md-option ng-value="">{{ 'chat.labels.anonymous' | translate }}</md-option>
+                                <md-option ng-value="character.id" ng-repeat="character in characters | orderBy:'fullName' track by character.id">{{character.fullName | translate}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>{{'chat.labels.text' | translate}}</label>
+                            <input ng-model="newMsg.text" name="desc" required minlength="2" md-maxlength="2048" />
+                            <div ng-messages="form.desc.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                                <div ng-message="md-maxlength">{{'forms.invalid.maxlength' | translate}}</div>
+                                <div ng-message="minlength">{{'forms.invalid.minlength' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                        <md-button class="md-accent" flex-gt-sm="15" ng-click="send()" ng-disabled="form.$invalid">{{'chat.buttons.send' | translate}}</md-button>
+                    </div>
+                </form>
+                <md-list>
+                    <md-list-item class="md-2-line height-transition" ng-repeat="msg in messages | orderBy:'-createdAt'">
+                        <img ng-src="/images/avatars/{{msg.avatar}}" class="md-avatar" alt="{{msg.username}}" />
+                        <div class="md-list-item-text">
+                            <h3>{{msg.username | translate}}</h3>
+                            <p style="text-align: justify" layout="row">
+                                <span flex-gt-sm="90">{{msg.text}}</span>
+                                <span hide-sm flex-gt-sm="10" style="float: right; padding-left: 20px;">{{formatDate(msg.createdAt)}}</span>
+                            </p>
+                        </div>
+                    </md-item>
+                </md-list>
+                <div layout="column" layout-align="center center">
+                    <md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+                    <md-button class="md-accent" flex ng-click="loadMore()" ng-hide="loading">{{'chat.buttons.loadMore' | translate}}</md-button>
+                </div>
+            </md-content>
+        </md-whiteframe>
+    </div>
+</div>

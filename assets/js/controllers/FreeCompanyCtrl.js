@@ -4,10 +4,10 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         $scope.servers = servers;
         $scope.search = {};
         $scope.page.title = 'fc.titles.list';
-        $scope.contextualLinks.title = 'fc.menu.list.title';
         $scope.contextualLinks.links = [];
 
         if (userId) {
+            $scope.contextualLinks.title = 'fc.menu.list.title';
             var ownCompanies = $scope.freeCompanies.filter(function (fc) {
                 return fc.users.indexOf(userId) != -1;
             });
@@ -15,27 +15,30 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
             if (ownCompanies.length > 0) {
                 for (var i = 0; i < ownCompanies.length; i++) {
                     $scope.contextualLinks.links.push({
-                        url: "/compagnie-libre/" + ownCompanies[i].name,
+                        state: 'freeCompanyShow',
+                        stateParams: {name: ownCompanies[i].name},
                         text: ownCompanies[i].name
                     });
                 }
             }
-        }
 
-        $scope.contextualLinks.links.push({
-            url: '/free-company/new',
-            text: 'fc.menu.new'
-        });
+            $scope.contextualLinks.links.push({
+                state: 'freeCompanyNew',
+                text: 'fc.menu.new'
+            });
+        } else {
+            $scope.contextualLinks.title = '';
+        }
     };
 
     $scope.initShowMode = function(freeCompany, userId) {
         $scope.freeCompany = freeCompany;
-        $translate('fc.titles.show', {name: freeCompany.name}).then(function (title) { $scope.page.title = title; });
+        $scope.page.title = $translate.instant('fc.titles.show', {name: freeCompany.name});
 
         if ($scope.freeCompany.users.indexOf(userId) != -1 || $scope.freeCompany.users.length == 0) {
             $scope.contextualLinks.title = 'fc.menu.title';
             $scope.contextualLinks.links = [
-                {url: '/free-company/edit/' + $scope.freeCompany.id, text: 'fc.menu.edit'},
+                {state: 'freeCompanyEdit', stateParams: {id: $scope.freeCompany.id}, text: 'fc.menu.edit'},
                 {text: 'fc.menu.delete', action: function() { $scope.delete(); }}
             ];
         }
@@ -49,11 +52,13 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
             $scope.page.title = 'fc.titles.edit';
             $scope.contextualLinks.title = 'fc.menu.title';
             $scope.contextualLinks.links = [
-                {url: '/compagnie-libre/' + $scope.freeCompany.name, text: 'fc.menu.show'},
+                {state: 'freeCompanyShow', stateParams: {name: $scope.freeCompany.name}, text: 'fc.menu.show'},
                 {text: 'fc.menu.delete', action: function () { $scope.delete(); }}
             ];
         } else {
             $scope.page.title = 'fc.titles.create';
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
         }
     };
 
@@ -62,10 +67,12 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
         for (var i = 0; i < allMembers.length; i++) {
             if (allMembers[i].id) excludeIds.push(allMembers[i].id);
         }
+        console.log('findchar');
         return charactersService.find(term, excludeIds);
     };
 
     $scope.addMember = function() {
+        console.log('addmember');
         if (!$scope.newMember || !$scope.newMember.id) return;
         var isFounder = $scope.membersTab.selectedIndex == 0;
 
@@ -116,7 +123,7 @@ app.controller('FreeCompanyCtrl', ['$scope', '$timeout', '$http', '$mdToast', '$
             .targetEvent(ev);
         $mdDialog.show(confirm).then(function() {
             $http.delete('/free-company/remove/' + $scope.freeCompany.id).success(function() {
-                window.location.href = '/free-companies';
+                $scope.to('freeCompanies');
             }).error(function(err) {
                 var error = $interpolate('{{err | translate}}')({err: err});
                 $mdToast.show(

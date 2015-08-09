@@ -1,9 +1,4 @@
-<% if (req.isAuthenticated()) { %>
-    <div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>, <%= servers %>, <%= JSON.stringify(req.user.id) %>); datacenters = <%= datacenters %>" flex>
-<% } else { %>
-    <div ng-controller="FreeCompanyCtrl" ng-init="initListMode(<%= freeCompanies %>, <%= servers %>); datacenters = <%= datacenters %>" flex>
-<% } %>
-
+<div ng-init="initListMode(<%= freeCompanies %>, <%= servers %><%= req.isAuthenticated() ? ', ' + JSON.stringify(req.user.id) : '' %>); datacenters = <%= datacenters %>" flex>
     <div layout="row" layout-margin>
         <md-whiteframe class="md-whiteframe-z1" flex>
             <md-toolbar class="md-accent">
@@ -33,7 +28,7 @@
             </md-toolbar>
             <md-content>
                 <md-list layout="column">
-                    <md-list-item ng-click="to('/compagnie-libre/' + fc.name)" ng-repeat="fc in results = (freeCompanies | filter:search)">
+                    <md-list-item ng-click="to('freeCompanyShow', {name: fc.name})" ng-repeat="fc in results = (freeCompanies | filter:search)">
                         <img class="company-logo" src="/images/fcicons/{{fc.icon}}" />
                         <span class="company-tag">[{{fc.tag}}]</span>
                         <div layout="column" layout-gt-sm="row" flex>

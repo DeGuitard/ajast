@@ -5,6 +5,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'menu.link.rolls': 'Dés',
         'menu.link.characters': 'Personnages',
         'menu.link.freeCompanies': 'Compagnies libres',
+        'menu.link.chat': 'Discuter',
         'menu.link.login': 'Connexion',
         'menu.link.logout': 'Déconnexion',
         'menu.mainTitle': 'Naviguer',
@@ -34,6 +35,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'fights.buttons.update': 'Mettre à jour',
         'fights.notices.noCurrentFights': "Il n'y a pas de combats en cours.",
         'fights.notices.emptyHistory': "L'historique est vide.",
+        'fights.notices.error': 'Erreur !',
         'fights.placeholders.addPlayer': 'Ajouter un personnage',
         'fights.actionTypes.offensive': 'Offensif',
         'fights.actionTypes.defensive': 'Défensif',
@@ -146,7 +148,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'characters.labels.age.aging': 'Vieillissant',
         'characters.labels.age.old': 'Vieux',
         'characters.labels.freeCompany': 'Compagnie libre',
-        'characters.labels.founder': 'Foundateur',
+        'characters.labels.founder': 'Fondateur',
         'characters.labels.member': 'Membre',
         'characters.labels.none': 'Aucune',
         'characters.labels.god': 'Divinité vénérée',
@@ -240,6 +242,16 @@ app.config(['$translateProvider', function ($translateProvider) {
         'rolls.notices.roll': 'Un dé vient d\'être lancé !',
         'rolls.roll.desc': 'Description de l\'action',
         'rolls.buttons.roll': 'Lancer',
+
+        // Chats page
+        'chat.titles.page': 'Chat',
+        'chat.titles.main': 'Discuter',
+        'chat.labels.character': 'Pseudonyme',
+        'chat.labels.text': 'Texte',
+        'chat.labels.anonymous': 'Anonyme',
+        'chat.labels.admin': 'Administrateur',
+        'chat.buttons.send': 'Envoyer',
+        'chat.buttons.loadMore': 'Voir plus',
 
         // Log in page
         'login.titles.login': 'Connexion',

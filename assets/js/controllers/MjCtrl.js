@@ -1,12 +1,22 @@
-app.controller('MjCtrl', ['$scope', '$mdDialog', 'timeService', 'playersService', '$translate', function($scope, $mdDialog, timeService, playersService, $translate) {
+app.controller('MjCtrl', ['$scope', '$mdDialog', 'timeService', 'playersService', '$translate', '$http', '$mdToast', function($scope, $mdDialog, timeService, playersService, $translate, $http, $mdToast) {
     $scope.init = function(archetypes, fight) {
         playersService.init(fight.groups, archetypes);
         timeService.init(fight);
         $scope.hasStarted = fight.time.hasStarted;
 
-        $translate('fights.titles.fight', {shortid: fight.shortid.toUpperCase()}).then(function (title) { $scope.page.title = title; });
+        $scope.page.title =  $translate.instant('fights.titles.fight', {shortid: fight.shortid.toUpperCase()});
 
         if (!timeService.isFinished()) {
+            $scope.endFight = function() {
+                var id = timeService.id();
+                $http.post('/fight/end', {id: id}).success(function() {
+                    $scope.to('fights');
+                }).error(function(err) {
+                    $mdToast.show(
+                        $mdToast.simple().content($translate.instant('fights.notices.error')).position('top right').hideDelay(5000)
+                    );
+                });
+            };
             $scope.contextualLinks.title = 'fights.menu.title';
             $scope.contextualLinks.links = [
                 {text: 'fights.menu.createNpc', action: function() {
@@ -15,8 +25,8 @@ app.controller('MjCtrl', ['$scope', '$mdDialog', 'timeService', 'playersService'
                         templateUrl: '/js/templates/ng-template-create-player.html'
                     });
                 }},
-                {text: 'fights.menu.cancel', url: '/fight/end/' + timeService.id(), hide: function() { return $scope.hasStarted; } },
-                {text: 'fights.menu.end', url: '/fight/end/' + timeService.id(), hide: function() { return !$scope.hasStarted; } }
+                {text: 'fights.menu.cancel', action: $scope.endFight, hide: function() { return $scope.hasStarted; } },
+                {text: 'fights.menu.end', action: $scope.endFight, hide: function() { return !$scope.hasStarted; } }
             ];
         }
     };

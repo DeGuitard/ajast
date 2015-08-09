@@ -1,9 +1,4 @@
-<% if (req.isAuthenticated()) { %>
-<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>, <%= JSON.stringify(req.user.id) %>); servers = <%= servers %>; datacenters = <%= datacenters %>" layout="column" layout-margin flex>
-<% } else { %>
-<main ng-controller="CharacterCtrl" ng-init="initListMode(<%= characters %>); servers = <%= servers %>; datacenters = <%= datacenters %>" layout="column" layout-margin flex>
-<% } %>
-
+<main ng-init="initListMode(<%= characters %> <%= req.isAuthenticated() ? ', ' + JSON.stringify(req.user.id) : '' %>); servers = <%= servers %>; datacenters = <%= datacenters %>" layout="column" layout-margin flex>
     <md-whiteframe class="md-whiteframe-z1" flex>
         <md-toolbar class="md-accent">
             <span class="md-toolbar-tools">{{'characters.titles.search' | translate}}</span>
@@ -32,7 +27,7 @@
                     md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="7"
                     md-row-height="1:1" md-gutter="8px" md-gutter-gt-sm="4px" >
                 <md-grid-tile ng-repeat="character in characters | orderBy:'-updatedAt' | filter:search" ng-style="{'background-image': 'url(/images/avatars/{{getAvatar(character)}})'}" class="character-tile">
-                    <a ng-href="/personnage/{{character.fullName}}">
+                    <a ui-sref="characterShow({name: character.fullName})" md-ink-ripple class="md-clickable">
                         <div class="effect-lily">
                             <h2>{{character.firstName}} <span>{{character.lastName}}</span></h2>
                             <p>

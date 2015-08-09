@@ -14,12 +14,12 @@ describe('AuthController', function() {
 
     describe('#login()', function () {
         it('should be successful', function (done) {
-            request(sails.hooks.http.app).get('/login').expect(200, done);
+            request(sails.hooks.http.app).get('/partials/login').expect(200, done);
         });
 
         it('should redirect logout users', function (done) {
             sails.config.mockLogin = true;
-            request(sails.hooks.http.app).get('/login').expect(302, done);
+            request(sails.hooks.http.app).get('/partials/login').expect(302, done);
         });
     });
 

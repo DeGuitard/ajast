@@ -42,7 +42,8 @@ module.exports = {
                 metaDesc: 'Retrouvez la liste des compagnies libres RP sur FFXIV ! Inscrivez la vôtre, cherchez votre future compagnie, trouvez des contacts, et plus encore.',
                 freeCompanies: JSON.stringify(data.freeCompanies),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
 
@@ -56,7 +57,8 @@ module.exports = {
             res.view('freeCompany/show', {
                 title: result.name,
                 metaDesc: 'Retrouvez tous les détails sur la CL ' + result.name + ' : ses membres, qui contacter, son adresse en jeu, où est leur forum/site et plus encore.',
-                freeCompany: result
+                freeCompany: result,
+                layout: null
             });
         });
     },
@@ -82,7 +84,8 @@ module.exports = {
                 metaDesc: '',
                 freeCompany: JSON.stringify({members: [], founders: [], users: [req.user.id], isRecruiting: true, icon: 'default.png'}),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
     },
@@ -115,7 +118,8 @@ module.exports = {
                 name: data.freeCompany.name,
                 freeCompany: JSON.stringify(data.freeCompany),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
     },

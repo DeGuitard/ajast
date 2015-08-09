@@ -1,29 +1,25 @@
 <% if (req.cookies.lang) { req.setLocale(req.cookies.lang); } %>
 <!DOCTYPE html>
-<html ng-app="ajast" ng-cloak>
+<html ng-app="ajast" ng-cloak ng-controller="MainCtrl">
 <head>
-    <title>
-        <% if(typeof name == 'undefined') { %>
-            <%= typeof title == 'undefined' ? '' : __(title) + ' - '%>
-        <% } else { %>
-            <%= typeof title == 'undefined' ? '' : __(title, name) + ' - '%>
-        <% }%>
-        XIVRP</title>
+    <title ng-bind="page.title ? (page.title | translate) + ' - XIVRP' : 'XIVRP'">XIVRP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="fragment" content="!">
     <meta name="language" content="fr-FR" />
+    <meta charset="UTF-8">
     <meta name="description" content="<%= typeof metaDesc == 'undefined' ? '' : '' %>">
+    <base href="/">
     <!--STYLES-->
-    <link rel="stylesheet" href="/min/v0.0.2c.min.css">
+    <link rel="stylesheet" href="/min/v0.0.2d.min.css">
     <!--STYLES END-->
     <!--SCRIPTS-->
-    <script src="/min/v0.0.2c.min.js"></script>
+    <script src="/min/v0.0.2d.min.js"></script>
     <!--SCRIPTS END-->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
 </head>
 
-<body layout='row' md-swipe-left="closeMenu()" md-swipe-right="openMenu()" ng-controller="MainCtrl">
+<body layout='row' md-swipe-left="closeMenu()" md-swipe-right="openMenu()">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 main-menu" md-component-id="menu" md-is-locked-open="$mdMedia('gt-lg')">
         <md-toolbar class="md-primary">
             <a href="/" class="logo-link">
@@ -36,20 +32,20 @@
         <md-content role="navigation" flex>
             <h3>{{'menu.mainTitle' | translate}}</h3>
             <md-list>
-                <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-hide="link.hide()" ng-repeat="link in links">
+                <md-list-item ng-click="link.action ? link.action() : to(link.state, link.stateParams)" ng-hide="link.hide()" ng-repeat="link in links">
                     {{link.text | translate}}
                     <md-divider></md-divider>
                 </md-list-item>
                 <% if (req.isAuthenticated()) { %>
-                    <md-list-item ng-click="to('/logout')">{{'menu.link.logout' | translate}}</md-list-item>
+                    <md-list-item ng-click="url('/logout')"><a ng-href="/logout">{{'menu.link.logout' | translate}}</a></md-list-item>
                 <% } else { %>
-                    <md-list-item ng-click="to('/login')">{{'menu.link.login' | translate}}</md-list-item>
+                    <md-list-item ng-click="to('login')">{{'menu.link.login' | translate}}</md-list-item>
                 <% } %>
             </md-list>
             <div class="contextual-links" ng-if="contextualLinks.links">
                 <h3>{{contextualLinks.title | translate}}</h3>
                 <md-list layout="column">
-                    <md-list-item ng-click="link.action ? link.action() : to(link.url)" ng-repeat="link in contextualLinks.links" ng-hide="link.hide()" flex>
+                    <md-list-item ng-click="link.action ? link.action() : to(link.state, link.stateParams)" ng-repeat="link in contextualLinks.links" ng-hide="link.hide()" flex>
                         {{link.text | translate}}
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>
@@ -72,7 +68,7 @@
             </div>
         </md-toolbar>
         <md-content class="main-content" flex>
-            <%- body %>
+            <div ui-view></div>
         </md-content>
     </div>
 <!--TEMPLATES-->

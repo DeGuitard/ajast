@@ -6,15 +6,21 @@
  */
 
 module.exports = {
-    search: function(req, res) {
-        var term = ".*" + req.param('term') + ".*";
-        // Native request to limit the fields... because Sails can't handle projection...
-        Character.native(function(err, Collection) {
-            Collection.find({
-                fullName: {$regex: term, $options: 'i'}
-            }, {trigram: 1, fullName: 1, fightType: 1, archetypes: 1, _id: 1}).toArray(function(err, result) {
-                res.send(result);
-            });
+    find: function(req, res) {
+        var query = {},
+            offset = req.param('offset', 0);
+
+        if (req.param('term')) query.fullName = {contains: req.param('term')};
+
+        Character.find(query, {
+            fields: {
+                fullName: 1, firstName: 1, lastName: 1, trigram: 1, avatar: 1,
+                fightType:1, archetypes: 1, user: 1, server: 1, updatedAt: 1, _id: 1
+            }
+        }).skip(offset).limit(15).exec(function(err, result) {
+            /* istanbul ignore if */
+            if (err) return res.serverError(err);
+            res.send(result);
         });
     },
 
@@ -40,7 +46,8 @@ module.exports = {
                 metaDesc: 'Retrouvez tous les personnages RP de Final Fantasy XIV. Vous aussi, créez votre fiche, et connectez-vous avec les autres rôlistes de FFXIV !',
                 characters: JSON.stringify(data.characters),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
     },
@@ -65,7 +72,8 @@ module.exports = {
                 title: data.character.fullName,
                 metaDesc: 'Profil de ' + data.character.fullName + ', un joueur qui fait du RP sur FFXIV. Retrouvez tous les détails dans son profil : âge, race, compétences, description physique…',
                 character: data.character,
-                archetypes: JSON.stringify(data.archetypes)
+                archetypes: JSON.stringify(data.archetypes),
+                layout: null
             });
         });
     },
@@ -117,7 +125,8 @@ module.exports = {
                 races: JSON.stringify(data.races),
                 regions: JSON.stringify(regions),
                 servers: JSON.stringify(data.servers),
-                datacenters: JSON.stringify(datacenters)
+                datacenters: JSON.stringify(datacenters),
+                layout: null
             });
         });
     },
@@ -175,7 +184,8 @@ module.exports = {
                 races: JSON.stringify(data.races),
                 regions: JSON.stringify(regions),
                 datacenters: JSON.stringify(datacenters),
-                servers: JSON.stringify(data.servers)
+                servers: JSON.stringify(data.servers),
+                layout: null
             });
         });
     },

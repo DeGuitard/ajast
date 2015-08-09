@@ -15,9 +15,9 @@
                             <md-option value="hybrid">{{'archetypes.fightStyle.hybrid' | translate}}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container ng-show="disabled" flex="85">
+                    <md-input-container class="md-input-has-value" ng-show="disabled" flex="85">
                         <label>{{'archetypes.fightStyle.title' | translate}}</label>
-                        <input ng-model="fightType | translate" ng-readonly="true" />
+                        <div class="md-input">{{fightType | translate}}</div>
                     </md-input-container>
                 </div>
                 <div ng-repeat="archetype in archetypes | orderBy:'trigram'" layout="row" ng-hide="disabled && character.archetypes[archetype.trigram] == 0">

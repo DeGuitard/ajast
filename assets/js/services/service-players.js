@@ -34,7 +34,7 @@ function PlayersService($http, $q, archetypes, groups, timeService) {
 
     this.find = function(term) {
         var q = $q.defer(), self = this;
-        $http.get('/character/find/' + term).success(function(data) {
+        $http.post('/api/character/find/', {term: term}).success(function(data) {
             // We add the NPCs.
             var tmpPlayers = groups.tmp.filter(function(item) {
                 return item.fullName.toUpperCase().indexOf(term.toUpperCase()) != -1;

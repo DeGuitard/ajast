@@ -8,6 +8,8 @@
  * For more information on configuration, check out:
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.http.html
  */
+var redis = require("redis"),
+    client = redis.createClient();
 
 module.exports.http = {
 
@@ -21,7 +23,19 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  // middleware: {
+    middleware: {
+
+        prerender: require('prerender-node')
+            .set('prerenderServiceUrl', 'http://localhost:3030/')
+            .set('beforeRender', function(req, done) {
+                client.get(req.url, done);
+            })
+            .set('afterRender', function(err, req, res) {
+                if (res.statusCode != 200) return;
+                client.set(req.url, res.body, function(err, reply) {
+                    client.expire(req.url, 3600 * 24); // 24 hours in seconds.
+                });
+            }),
 
   /***************************************************************************
   *                                                                          *
@@ -30,34 +44,23 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
-
-  /****************************************************************************
-  *                                                                           *
-  * Example custom middleware; logs each request to the console.              *
-  *                                                                           *
-  ****************************************************************************/
-
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+     order: [
+        'startRequestTimer',
+        'cookieParser',
+        'session',
+        'bodyParser',
+        'handleBodyParserError',
+        'prerender',
+        'compress',
+        'methodOverride',
+        'poweredBy',
+        '$custom',
+        'router',
+        'www',
+        'favicon',
+        '404',
+        '500'
+    ],
 
 
   /***************************************************************************
@@ -71,7 +74,7 @@ module.exports.http = {
 
     // bodyParser: require('skipper')
 
-  // },
+    },
 
   /***************************************************************************
   *                                                                          *

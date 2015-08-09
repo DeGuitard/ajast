@@ -1,18 +1,18 @@
-<div class="home-title-block">
+<div class="home-title-block" ng-init="page.title = '<%= __(title) %>'">
     <h1 class="home-title-text">XIV<span class="home-title-text-accent">RP</span></h1>
 </div>
 <md-content layout="row" layout-sm="column">
-    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/personnages')">
+    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('characters')">
         <span class="perk-icon"><img src="/images/icons/book.png" alt="Livre" /></span>
         <h3 class="perk-title">{{'home.perk.characters.title' | translate}}</h3>
         <span class="perk-desc">{{'home.perk.characters.subtitle' | translate}}</span>
     </div>
-    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/compagnies-libres')">
+    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('freeCompanies')">
         <span class="perk-icon"><img src="/images/icons/home.png" alt="Maison" /></span>
         <h3 class="perk-title">{{'home.perk.freeCompanies.title' | translate}}</h3>
         <span class="perk-desc">{{'home.perk.freeCompanies.subtitle' | translate}}</span>
     </div>
-    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('/combats')">
+    <div flex-gt-sm="33" class="home-perk" layout="column" ng-click="to('fights')">
         <span class="perk-icon"><img src="/images/icons/fight.png" alt="Bouclier" /></span>
         <h3 class="perk-title">{{'home.perk.fights.title' | translate}}</h3>
         <span class="perk-desc">{{'home.perk.fights.subtitle' | translate}}</span>
@@ -31,9 +31,9 @@
 <md-content layout="column" layout-align="center center">
     <div flex-gt-sm="50" flex-sm class="home-login">
         <% if (req.cookies.lang == 'fr' || (req.getLocale() == 'fr' && req.cookies.lang === undefined)) { %>
-            <md-button class="md-primary home-login-button" ng-href="/lang/en">{{'home.switch.en' | translate}}</md-button>
+            <md-button class="md-primary home-login-button" ng-click="url('/lang/en')">{{'home.switch.en' | translate}}</md-button>
         <% } else { %>
-            <md-button class="md-primary home-login-button" ng-href="/lang/fr">{{'home.switch.fr' | translate}}</md-button>
+            <md-button class="md-primary home-login-button" ng-click="url('/lang/fr')">{{'home.switch.fr' | translate}}</md-button>
         <% }%>
     </div>
 </md-content>

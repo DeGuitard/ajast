@@ -3,11 +3,14 @@ node_js:
   - "0.10"
 services:
   - mongodb
+  - redis-server
 addons:
   code_climate:
     repo_token: 61f494db87d95b7a6236aeddce767fabc1661098463847a38839bc915d18c9b7
 before_script:
-  - sleep 15
+  - sleep 10
+  - npm install -g bower
+  - bower install
   - mongo ajast-test --eval 'db.addUser("test", "test");'
 after_success:
   - npm install codeclimate-test-reporter

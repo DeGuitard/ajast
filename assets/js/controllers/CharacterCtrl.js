@@ -8,7 +8,6 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             }
         }
         if (!$scope.character.race) $scope.character.race = $scope.races[0];
-        else console.log($scope.character.race);
     };
 
     $scope.initListMode = function(characters, userId) {
@@ -27,24 +26,31 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             $scope.contextualLinks.links = [];
             for (var i = 0; i < userCharacters.length; i++) {
                 $scope.contextualLinks.links.push({
-                    url: '/personnage/' + userCharacters[i].fullName,
+                    state: 'characterShow',
+                    stateParams: {name: userCharacters[i].fullName},
                     text: userCharacters[i].fullName
                 });
             }
-            $scope.contextualLinks.links.push({url: '/character/new', text: 'characters.menu.list.new'});
+            $scope.contextualLinks.links.push({state: 'characterNew', text: 'characters.menu.list.new'});
+        } else {
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
         }
     };
 
     $scope.initShowMode = function(character, userId) {
-        $translate('characters.titles.show', {name: character.fullName}).then(function (title) { $scope.page.title = title; });
+        $scope.page.title = $translate.instant('characters.titles.show', {name: character.fullName});
         $scope.character = character;
         if (userId && ($scope.character.user == userId || $scope.character.user == undefined)) {
             $scope.isOwner = true;
             $scope.contextualLinks.title = 'characters.menu.show.title';
             $scope.contextualLinks.links = [
-                {url: '/character/edit/' + $scope.character.id, text: 'characters.menu.show.edit'},
+                {state: 'characterEdit', stateParams: {id: $scope.character.id}, text: 'characters.menu.show.edit'},
                 {text: 'characters.menu.show.delete', action: function() { $scope.delete(); }}
             ];
+        } else {
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
         }
     };
 
@@ -55,11 +61,13 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
             $scope.page.title = 'characters.titles.update';
             $scope.contextualLinks.title = 'characters.menu.update.title';
             $scope.contextualLinks.links = [
-                {url: '/personnage/' + $scope.character.fullName, text: 'characters.menu.update.show'},
+                {state: 'characterShow', stateParams: {name: $scope.character.fullName}, text: 'characters.menu.update.show'},
                 {text: 'characters.menu.update.delete', action: function () { $scope.delete(); }}
             ];
         } else {
             $scope.page.title = 'characters.titles.new';
+            $scope.contextualLinks.title = '';
+            $scope.contextualLinks.links = [];
             $scope.avatar = '/images/avatars/default.png';
         }
     };
@@ -75,7 +83,7 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     });
     $scope.$on('flow::fileAdded', function (event, flow, file) {
         if (file.size > 1024000) {
-            $scope.uploadError = $scope.noticesMsg.fileTooBig;
+            $scope.uploadError = $translate.instant('characters.notices.fileTooBig');
             event.preventDefault();
         } else {
             var fileReader = new FileReader();
@@ -97,31 +105,32 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
         $http.post('/character/save', {character: charToSave}).success(function(data) {
             $scope.character.id = (data.id) ? data.id : data[0].id;
             $mdToast.show(
-                $mdToast.simple().content($scope.noticesMsg.saveSuccess).position('top right').hideDelay(5000)
+                $mdToast.simple().content($translate.instant('characters.notices.saveSuccess')).position('top right').hideDelay(5000)
             );
         }).error(function(err) {
             var error = $interpolate('{{err | translate}}')({err: err});
             $mdToast.show(
-                $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + error).position('top right').hideDelay(5000)
+                $mdToast.simple().content($translate.instant('characters.notices.saveError') + ' ' + error).position('top right').hideDelay(5000)
             );
         })
     };
 
     $scope.delete = function(ev) {
-        // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
-            .title($scope.noticesMsg.deleteTitle)
-            .content($scope.noticesMsg.deleteMsg)
-            .ok($scope.noticesMsg.confirm)
-            .cancel($scope.noticesMsg.cancel)
+            .title($translate.instant('characters.notices.deleteTitle'))
+            .content($translate.instant('characters.notices.deleteMsg'))
+            .ok($translate.instant('forms.buttons.confirm'))
+            .cancel($translate.instant('forms.buttons.cancel'))
             .targetEvent(ev);
+
         $mdDialog.show(confirm).then(function() {
             $http.delete('/character/remove/' + $scope.character.id).success(function() {
-                window.location.href = '/characters';
+                $scope.to('characters');
             }).error(function(err) {
-                var error = $interpolate('{{err | translate}}')({err: err});
+                var error = $interpolate('{{err | translate}}')({err: err}),
+                    msg   = $translate.instant('characters.notices.saveError') + ' ' + error;
                 $mdToast.show(
-                    $mdToast.simple().content($scope.noticesMsg.saveError + ' ' + error).position('top right').hideDelay(5000)
+                    $mdToast.simple().content(msg).position('top right').hideDelay(5000)
                 );
             });
         });
@@ -135,60 +144,38 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
     };
 
     $scope.getAvatar = function(character) {
-        if (character.avatar) return character.avatar;
+        if (character && character.avatar) return character.avatar;
         else return 'default.png';
     };
 
     $scope.getAlignment = function(character) {
         // Specific alignments (extreme cases).
-        if (character.moral == 0 && character.ethics == 0) return $scope.align.demoniac;
-        if (character.moral == 80 && character.ethics == 0) return $scope.align.beatific;
-        if (character.moral == 0 && character.ethics == 80) return $scope.align.diabolic;
-        if (character.moral == 80 && character.ethics == 80) return $scope.align.saintly;
-        if (character.moral == 40 && character.ethics == 40) return $scope.align.neutralStrict;
+        if      (character.moral == 0  && character.ethics == 0)  return $translate.instant('characters.labels.align.demoniac');
+        else if (character.moral == 80 && character.ethics == 0)  return $translate.instant('characters.labels.align.beatific');
+        else if (character.moral == 0  && character.ethics == 80) return $translate.instant('characters.labels.align.diabolic');
+        else if (character.moral == 80 && character.ethics == 80) return $translate.instant('characters.labels.align.saintly');
+        else if (character.moral == 40 && character.ethics == 40) return $translate.instant('characters.labels.align.neutralStrict');
 
         // Generic alignments.
         var alignment = '';
-        if (character.ethics < 40) alignment = $scope.align.chaotic;
-        if (character.ethics > 40) alignment = $scope.align.lawful;
-        if (character.ethics == 40) alignment = $scope.align.neutral;
-        if (character.moral < 40) alignment += ' ' + $scope.align.bad.toLowerCase();
-        if (character.moral > 40) alignment += ' ' + $scope.align.good.toLowerCase();
-        if (character.moral == 40) alignment += ' ' + $scope.align.neutral.toLowerCase();
+        if      (character.ethics < 40)  alignment = $translate.instant('characters.labels.align.chaotic');
+        else if (character.ethics > 40)  alignment = $translate.instant('characters.labels.align.lawful');
+        else if (character.ethics == 40) alignment = $translate.instant('characters.labels.align.neutral');
+        if      (character.moral < 40)   alignment += ' ' + $translate.instant('characters.labels.align.bad').toLowerCase();
+        else if (character.moral > 40)   alignment += ' ' + $translate.instant('characters.labels.align.good').toLowerCase();
+        else if (character.moral == 40)  alignment += ' ' + $translate.instant('characters.labels.align.neutral').toLowerCase();
 
         return alignment;
     };
 
     $scope.getFreeCompanyName = function(character) {
-        if (character.membership) return character.membership.name + ' (' + $scope.noticesMsg.member + ')';
-        if (character.leadership) return character.leadership.name + ' (' + $scope.noticesMsg.founder + ')';
-        return $scope.noticesMsg.none;
+        if (character.membership) return character.membership.name + ' (' + $translate.instant('characters.labels.member') + ')';
+        if (character.leadership) return character.leadership.name + ' (' + $translate.instant('characters.labels.founder') + ')';
+        return $translate.instant('characters.labels.none');
     };
 
-    // Looking for translations
-    $scope.align = {}, $scope.noticesMsg = {};
-    $translate('characters.labels.align.chaotic')       .then(function (val) { $scope.align.chaotic = val;            });
-    $translate('characters.labels.align.lawful')        .then(function (val) { $scope.align.lawful = val;             });
-    $translate('characters.labels.align.good')          .then(function (val) { $scope.align.good = val;               });
-    $translate('characters.labels.align.bad')           .then(function (val) { $scope.align.bad = val;                });
-    $translate('characters.labels.align.neutral')       .then(function (val) { $scope.align.neutral = val;            });
-    $translate('characters.labels.align.saintly')       .then(function (val) { $scope.align.saintly = val;            });
-    $translate('characters.labels.align.beatific')      .then(function (val) { $scope.align.beatific = val;           });
-    $translate('characters.labels.align.demoniac')      .then(function (val) { $scope.align.demoniac = val;           });
-    $translate('characters.labels.align.diabolic')      .then(function (val) { $scope.align.diabolic = val;           });
-    $translate('characters.labels.align.neutralStrict') .then(function (val) { $scope.align.neutralStrict = val;      });
-    $translate('characters.labels.founder')             .then(function (val) { $scope.noticesMsg.founder = val;       });
-    $translate('characters.labels.member')              .then(function (val) { $scope.noticesMsg.member = val;        });
-    $translate('characters.labels.none')                .then(function (val) { $scope.noticesMsg.none = val;          });
-    $translate('characters.notices.fileTooBig')         .then(function (val) { $scope.noticesMsg.fileTooBig = val;    });
-    $translate('characters.notices.saveSuccess')        .then(function (val) { $scope.noticesMsg.saveSuccess = val;   });
-    $translate('characters.notices.saveError')          .then(function (val) { $scope.noticesMsg.saveError = val;     });
-    $translate('characters.notices.deleteTitle')        .then(function (val) { $scope.noticesMsg.deleteTitle = val;   });
-    $translate('characters.notices.deleteMsg')          .then(function (val) { $scope.noticesMsg.deleteMsg = val;     });
-    $translate('forms.buttons.confirm')                 .then(function (val) { $scope.noticesMsg.confirm = val;       });
-
-    $scope.townTranslated = function(val) { return $filter('translate')(val.name); }
-    $scope.regionTranslated = function(val) { return $filter('translate')(val.region); }
+    $scope.townTranslated = function(val) { return $translate.instant(val.name); };
+    $scope.regionTranslated = function(val) { return $translate.instant(val.region); };
 }]);
 
 // Just a small directive to be able to update the avatar with the preview of the new image.
