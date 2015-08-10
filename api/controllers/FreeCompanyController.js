@@ -223,8 +223,8 @@ module.exports = {
 
             async.series({
                 characters: function(callback) {
-                    var members = freeCompany.founders.concat(freeCompany.members);
-                    Character.update({id: members}, {leadership: undefined, membership: undefined, isInvited: false}).exec(callback);
+                    Character.update({or: [{leadership: freeCompany.id}, {membership: freeCompany.id}]},
+                    {leadership: undefined, membership: undefined, isInvited: false}).exec(callback);
                 },
                 notifications: function(callback) {
                     Notification.destroy({'data.freeCompany.id': freeCompany.id}).exec(callback);

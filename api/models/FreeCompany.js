@@ -51,7 +51,7 @@ module.exports = {
         } else {
             // We have actual objets, so we get the distinct users.
             for (var i = 0; i < founders.length; i++) {
-                if (users.indexOf(founders[i].user) == -1) {
+                if (users.indexOf(founders[i].user) == -1 && !founders[i].isInvited) {
                     users.push(founders[i].user);
                 }
             }
