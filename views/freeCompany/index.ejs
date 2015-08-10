@@ -33,7 +33,7 @@
                         <span class="company-tag">[{{fc.tag}}]</span>
                         <div layout="column" layout-gt-sm="row" flex>
                             <span flex layout-gt-sm="row" layout="column">
-                                <a class="company-name" href="/free-company/show/{{fc.name}}">{{fc.name}}</a>
+                                <a class="company-name" ui-sref="freeCompanyShow({name: fc.name})">{{fc.name}}</a>
                                 <span class="company-server">(sur {{fc.server}})</span>
                             </span>
                             <span class="company-size">{{fc.realPlayersCount}} joueur<span ng-show="fc.realPlayersCount > 1">s</span></span>

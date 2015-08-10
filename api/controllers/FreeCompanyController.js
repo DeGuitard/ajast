@@ -181,15 +181,12 @@ module.exports = {
                 else if (character.isInvited) return res.userError('fc.notices.alreadyInvited');
                 else if (character.leadership || character.membership) return res.userError('fc.notices.alreadyInside');
 
-                if (isFounder) freeCompany.founders.push(character.id);
-                else freeCompany.members.push(character.id);
-
                 async.series({
                     character: function(callback) {
-                        Character.update({id: character.id}, {isInvited: true}).exec(callback);
-                    },
-                    freeCompany: function(callback) {
-                        FreeCompany.update({id: freeCompany.id}, freeCompany).exec(callback);
+                        var toUpdate = {isInvited: true};
+                        if (isFounder) toUpdate.leadership = freeCompany.id;
+                        else toUpdate.membership = freeCompany.id;
+                        Character.update({id: character.id}, toUpdate).exec(callback);
                     },
                     invite: function(callback) {
                         var notif = {

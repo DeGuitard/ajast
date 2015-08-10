@@ -7,6 +7,8 @@
 
 module.exports = {
 
+    schema: true,
+
     attributes: {
         name: { type: 'string', required: true, size: 24 },
         desc: { type: 'string', required: true, size: 5000 },

@@ -1,3 +1,4 @@
+<% if (req.cookies.lang) { req.setLocale(req.cookies.lang); } %>
 <md-content ng-init="fights = <%= fights %>; myFights = <%= myFights %>; page.title = '<%= __(title) %>'" flex>
 
     <div layout="column" layout-margin >

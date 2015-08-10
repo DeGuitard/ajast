@@ -1,3 +1,4 @@
+<% if (req.cookies.lang) { req.setLocale(req.cookies.lang); } %>
 <div class="home-title-block" ng-init="page.title = '<%= __(title) %>'">
     <h1 class="home-title-text">XIV<span class="home-title-text-accent">RP</span></h1>
 </div>
