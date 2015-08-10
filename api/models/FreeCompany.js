@@ -45,18 +45,13 @@ module.exports = {
 
     getUsers: function(founders, callback) {
         var users = [];
-        if (founders.length == 0) {
-            // We won't unset the users list, to prevent the company from being un-editable.
-            callback(null, users);
-        } else {
-            // We have actual objets, so we get the distinct users.
-            for (var i = 0; i < founders.length; i++) {
-                if (users.indexOf(founders[i].user) == -1 && !founders[i].isInvited) {
-                    users.push(founders[i].user);
-                }
+        // We have actual objets, so we get the distinct users.
+        for (var i = 0; i < founders.length; i++) {
+            if (users.indexOf(founders[i].user) == -1 && !founders[i].isInvited) {
+                users.push(founders[i].user);
             }
-            callback(null, users);
         }
+        callback(null, users);
     },
 
     updatePlayersCount: function(id, cb) {
