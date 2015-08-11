@@ -36,7 +36,7 @@
                                 <a class="company-name" ui-sref="freeCompanyShow({name: fc.name})">{{fc.name}}</a>
                                 <span class="company-server">(sur {{fc.server}})</span>
                             </span>
-                            <span class="company-size">{{fc.realPlayersCount}} joueur<span ng-show="fc.realPlayersCount > 1">s</span></span>
+                            <span class="company-size">{{fc.realPlayersCount}} {{ 'fc.labels.player' | translate }}<span ng-show="fc.realPlayersCount > 1">s</span></span>
                         </div>
                         <md-divider ng-if="!$last"></md-divider>
                     </md-list-item>

@@ -140,6 +140,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'characters.labels.sex': 'Sexe',
         'characters.labels.sex.man': 'Homme',
         'characters.labels.sex.woman': 'Femme',
+        'characters.labels.years': 'ans',
         'characters.labels.age': 'Âge',
         'characters.labels.age.child': 'Enfant',
         'characters.labels.age.young': 'Jeune',
@@ -227,6 +228,7 @@ app.config(['$translateProvider', function ($translateProvider) {
         'fc.labels.house.ward': 'Secteur',
         'fc.labels.house.district': 'Quartier',
         'fc.labels.addCharacter': 'Ajouter un personnage',
+        'fc.labels.player': 'Joueur',
         'fc.buttons.icon': 'Changer l\'icône',
         'fc.buttons.save': 'Sauvegarder',
 
