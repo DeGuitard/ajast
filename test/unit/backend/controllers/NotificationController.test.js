@@ -283,7 +283,7 @@ describe('NotificationController', function() {
                         data.character.isInvited.should.be.false();
                         should.not.exist(data.character.leadership);
                         data.company.founders.length.should.be.eql(0);
-                        data.company.users.length.should.be.eql(1);
+                        data.company.users.length.should.be.eql(0);
                         data.company.realPlayersCount.should.be.eql(0);
                         data.notification.length.should.be.eql(0);
                         done();

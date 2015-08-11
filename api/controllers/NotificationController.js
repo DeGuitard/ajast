@@ -74,21 +74,15 @@ module.exports = {
             /* istanbul ignore if */
             if (err) return res.serverError(err);
 
-            var founderIndex = result.founders.indexOf(character.id.toString()),
-                memberIndex = result.members.indexOf(character.id.toString());
-
-            if (founderIndex != -1) result.founders.splice(founderIndex, 1);
-            if (memberIndex != -1) result.members.splice(memberIndex, 1);
-
             async.parallel({
-                freeCompany: function(callback) {
-                    FreeCompany.update({id: freeCompany.id}, {founders: result.founders, members: result.members}).exec(callback);
-                },
                 character: function(callback) {
-                    Character.update({id: character.id}, {isInvited: false}).exec(callback);
+                    Character.update({id: character.id}, {isInvited: false, membership: undefined, leadership: undefined}).exec(callback);
                 },
                 notification: function(callback) {
                     Notification.destroy({id: notification.id}).exec(callback);
+                },
+                company: function(callback) {
+                    FreeCompany.updatePlayersCount(freeCompany.id, callback);
                 }
             }, function(err, data) {
                 /* istanbul ignore if */

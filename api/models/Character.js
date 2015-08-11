@@ -7,6 +7,8 @@
 
 module.exports = {
 
+    schema: true,
+
     attributes: {
         firstName: { type: 'string', required: true, size: 24 },
         lastName: { type: 'string', required: true, size: 24 },

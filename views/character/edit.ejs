@@ -91,8 +91,8 @@
                             <span>{{'characters.labels.age' | translate}}</span>
                         </div>
                         <md-slider flex md-discrete ng-model="character.age" step="1" min="1" max="{{character.race.lifespan}}" aria-label="Âge"></md-slider>
-                        <div flex-sm flex-gt-sm="50" layout="row" layout-align="center center">
-                            {{character.age}} ans —&nbsp;
+                        <div flex-sm="50" flex="20" layout="row" layout-align="center center">
+                            {{character.age}} {{ 'characters.labels.years' | translate }} —&nbsp;
                             <span ng-if="character.age >= 5 && character.age < character.race.lifespan/6">{{'characters.labels.age.child' | translate}}</span>
                             <span ng-if="character.age > character.race.lifespan/6 && character.age <= character.race.lifespan/6*2">{{'characters.labels.age.young' | translate}}</span>
                             <span ng-if="character.age > character.race.lifespan/6*2 && character.age <= character.race.lifespan/6*3">{{'characters.labels.age.adult' | translate}}</span>

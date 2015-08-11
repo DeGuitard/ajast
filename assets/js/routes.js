@@ -1,4 +1,4 @@
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(true).hashPrefix('!');
     $urlRouterProvider.otherwise('/');
     $stateProvider
@@ -96,16 +96,19 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.when('/combats', '/fights');
     $urlRouterProvider.when('/des', '/roll');
 
-});
+}]);
 
-app.run(function($rootScope, $templateCache) {
-    $rootScope.$on('$viewContentLoaded', function() {
-        $templateCache.removeAll();
+app.run(['$rootScope', '$templateCache', function($rootScope, $templateCache) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        var url;
+        if (typeof fromState.templateUrl === "function") url = fromState.templateUrl(fromParams);
+        else url = fromState.templateUrl;
+        if (url !== undefined) $templateCache.remove(url);
     });
-});
+}]);
 
-var genericController = function($scope) {
+var genericController = ['$scope', function($scope) {
     $scope.contextualLinks.links = [];
     $scope.contextualLinks.title = '';
     $scope.page.title = '';
-};
+}];
