@@ -10,11 +10,14 @@
                     <div layout="row" layout-sm="column">
                         <md-input-container flex="50">
                             <label>{{'characters.labels.server' | translate}}</label>
-                            <md-select ng-model="character.server" flex required>
+                            <md-select ng-model="character.server" name="server" flex required>
                                 <md-optgroup label="{{datacenter | translate}}" ng-repeat="datacenter in datacenters | orderBy:'toString()'">
                                     <md-option ng-value="server.name" ng-repeat="server in servers | filter: {datacenter: datacenter} | orderBy:'name'">{{server.name}}</md-option>
                                 </md-optgroup>
                             </md-select>
+                            <div ng-messages="form.server.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex="50">
                             <label>{{'characters.labels.language' | translate}}</label>
@@ -22,6 +25,9 @@
                                 <md-option value="fr">{{'characters.labels.languages.fr' | translate}}</md-option>
                                 <md-option value="en">{{'characters.labels.languages.en' | translate}}</md-option>
                             </md-select>
+                            <div ng-messages="form.language.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                            </div>
                         </md-input-container>
                     </div>
                 </md-content>
@@ -68,22 +74,28 @@
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
                             <label>{{'characters.labels.race' | translate}}</label>
-                            <md-select ng-model="character.race" ng-change="raceChange()" placeholder="Race" flex required>
+                            <md-select ng-model="character.race" ng-change="raceChange()" flex required>
                                 <md-option ng-value="race" ng-repeat="race in races | orderBy:'name' track by race.id">{{race.name}}</md-option>
                             </md-select>
                         </md-input-container>
                         <md-input-container flex>
                             <label>{{'characters.labels.tribe' | translate}}</label>
-                            <md-select ng-model="character.tribe" placeholder="Ethnie" flex required>
+                            <md-select ng-model="character.tribe" name="tribe" flex required>
                                 <md-option ng-value="tribe" ng-repeat="tribe in character.race.tribes">{{tribe | translate}}</md-option>
                             </md-select>
+                            <div ng-messages="form.tribe.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex-gt-sm="25">
                             <label>{{'characters.labels.sex' | translate}}</label>
-                            <md-select ng-model="character.sex" name="sex" placeholder="Sexe" flex required>
+                            <md-select ng-model="character.sex" name="sex" flex required>
                                 <md-option value="F">{{'characters.labels.sex.woman' | translate}}</md-option>
                                 <md-option value="H">{{'characters.labels.sex.man' | translate}}</md-option>
                             </md-select>
+                            <div ng-messages="form.sex.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                            </div>
                         </md-input-container>
                     </div>
                     <div layout="row" style="margin-top: 20px;">
@@ -115,19 +127,25 @@
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
                             <label>{{'characters.labels.god' | translate}}</label>
-                            <md-select ng-model="character.god" placeholder="Divinité vénérée" flex style="margin-top: 0px;" required>
+                            <md-select ng-model="character.god" name="god" flex style="margin-top: 0px;" required>
                                 <md-option ng-value="god.id" ng-repeat="god in gods | orderBy:'name'">{{god.name | translate}}, {{god.desc | translate}}</md-option>
                             </md-select>
+                            <div ng-messages="form.god.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                            </div>
                         </md-input-container>
                     </div>
                     <div layout="row" layout-sm="column">
                         <md-input-container flex>
                             <label>{{'characters.labels.birthPlace' | translate}}</label>
-                            <md-select ng-model="character.birthPlace" placeholder="Lieu de naissance" flex required>
+                            <md-select ng-model="character.birthPlace" name="birthPlace" flex required>
                                 <md-optgroup label="{{region | translate}}" ng-repeat="region in regions | orderBy:regionTranslated">
                                     <md-option ng-value="town.id" ng-repeat="town in towns | filter: {region: region} | orderBy:townTranslated">{{town.name | translate}}</md-option>
                                 </md-optgroup>
                             </md-select>
+                            <div ng-messages="form.birthPlace.$error">
+                                <div ng-message="required">{{'forms.invalid.required' | translate}}</div>
+                            </div>
                         </md-input-container>
                     </div>
                     <md-input-container class="md-input-has-value">

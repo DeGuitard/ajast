@@ -154,16 +154,17 @@ app.controller('CharacterCtrl', ['$scope', '$http', '$mdToast', '$mdDialog', '$t
         else if (character.moral == 80 && character.ethics == 0)  return $translate.instant('characters.labels.align.beatific');
         else if (character.moral == 0  && character.ethics == 80) return $translate.instant('characters.labels.align.diabolic');
         else if (character.moral == 80 && character.ethics == 80) return $translate.instant('characters.labels.align.saintly');
-        else if (character.moral == 40 && character.ethics == 40) return $translate.instant('characters.labels.align.neutralStrict');
+        else if (character.moral > 36 && character.moral < 44
+            && character.ethics > 36 && character.ethics < 44)    return $translate.instant('characters.labels.align.neutralStrict');
 
         // Generic alignments.
         var alignment = '';
-        if      (character.ethics < 40)  alignment = $translate.instant('characters.labels.align.chaotic');
-        else if (character.ethics > 40)  alignment = $translate.instant('characters.labels.align.lawful');
-        else if (character.ethics == 40) alignment = $translate.instant('characters.labels.align.neutral');
-        if      (character.moral < 40)   alignment += ' ' + $translate.instant('characters.labels.align.bad').toLowerCase();
-        else if (character.moral > 40)   alignment += ' ' + $translate.instant('characters.labels.align.good').toLowerCase();
-        else if (character.moral == 40)  alignment += ' ' + $translate.instant('characters.labels.align.neutral').toLowerCase();
+        if      (character.ethics <= 36)  alignment = $translate.instant('characters.labels.align.chaotic');
+        else if (character.ethics >= 44)  alignment = $translate.instant('characters.labels.align.lawful');
+        else if (character.ethics > 36 && character.ethics < 44) alignment = $translate.instant('characters.labels.align.neutral');
+        if      (character.moral <= 36)   alignment += ' ' + $translate.instant('characters.labels.align.bad').toLowerCase();
+        else if (character.moral >= 44)   alignment += ' ' + $translate.instant('characters.labels.align.good').toLowerCase();
+        else if (character.moral > 36 && character.moral < 44)  alignment += ' ' + $translate.instant('characters.labels.align.neutral').toLowerCase();
 
         return alignment;
     };

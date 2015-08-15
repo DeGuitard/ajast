@@ -29,8 +29,8 @@ module.exports = {
         ethics: { type: 'integer', required: true },
         language: { type: 'string', required: true, size: 2 },
         server: { type: 'string', required: true, size: 24 },
-        physDesc: { type: 'string', required: true, size: 4000 },
-        mentDesc: { type: 'string', required: true, size: 4000 },
+        physDesc: { type: 'string', required: false, size: 4000 },
+        mentDesc: { type: 'string', required: false, size: 4000 },
 
         race: { model: 'race', required: true },
         god: { model: 'god', required: true },

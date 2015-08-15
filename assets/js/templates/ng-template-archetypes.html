@@ -9,11 +9,15 @@
                 <div layout="row" class="md-padding" layout-align="center center">
                     <md-input-container  flex="85" ng-hide="disabled">
                         <label>{{'archetypes.fightStyle.title' | translate}}</label>
-                        <md-select ng-model="character.fightType" required>
+                        <md-select ng-model="character.fightType" name="fightType" required>
                             <md-option value="offense">{{'archetypes.fightStyle.offensive' | translate}}</md-option>
                             <md-option value="defense">{{'archetypes.fightStyle.defensive' | translate}}</md-option>
                             <md-option value="hybrid">{{'archetypes.fightStyle.hybrid' | translate}}</md-option>
                         </md-select>
+                        <!-- custom error field... the angular way doesn't work here because of form encapsulation -->
+                        <div ng-show="!character.fightType" style="position: relative; order: 3; color: #F44336; font-size: 12px; line-height: 24px;">
+                            <div>{{'forms.invalid.required' | translate}}</div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-input-has-value" ng-show="disabled" flex="85">
                         <label>{{'archetypes.fightStyle.title' | translate}}</label>
